@@ -54,34 +54,35 @@ Dashboard_Page::headerTemplate('California', 'California');
                     <div class="card-content Texto">
                         <h6 class="Texto flow-text black-text">Categorias<br><br></h6>
                         <form method="post" id="search-form">
-                            <div class="input-field col s6 m4">
+                            <div class="input-field col s8 m8 l10">
                                 <i class="material-icons prefix">search</i>
-                                <input id="search" type="text" name="search" required />
-                                <label for="search">Buscador</label>
+                                <input placeholder="Buscar Noticia por Titular" id="search" type="text" name="search" class="validate" required>
+                                <label for="new-titulo">Buscar Categoría</label>                                
                             </div>
-                            <div class="input-field col s6 m4">
-                                <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Buscar"><i class="material-icons">check_circle</i></button>
+                            <div class="input-field col s4 m4 l2">
+                                <button type="submit" class="btn col s12 waves-effect black tooltipped" data-tooltip="Buscar">Buscar</button>
                             </div>
                         </form>
                         <div class="row">
                             <div class="col s12 m12 l12">
-
-                                <a href="#" onclick="openCreateDialog()" class="btn waves-effect waves-light col s12 black btn indigo tooltipped" data-tooltip="Crear">Añadir una nueva categoria<i class="material-icons">add_circle</i></a>
+                                <a href="#" onclick="openCreateDialog()"  data-tooltip="Crear" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
                             </div>
                         </div>
                         <div class="row">
-                            <table class="highlight">
-                                <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
-                                <thead>
-                                    <tr>
-                                        <th>Categoria</th>
-                                        <th class="actions-column">ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <!-- Cuerpo de la tabla para mostrar un registro por fila -->
-                                <tbody id="tbody-rows">
-                                </tbody>
-                            </table>
+                            <div class="col s12 m12 l12">
+                                <table class="striped white black-text">
+                                    <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
+                                    <thead>
+                                        <tr>
+                                            <th>N°</th>
+                                            <th>Categoria</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                                    <tbody id="tbody-rows">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

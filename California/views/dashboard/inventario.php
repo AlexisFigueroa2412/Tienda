@@ -31,17 +31,8 @@ Dashboard_Page::headerTemplate('California','California');
             <div class="col s4 m4 l4">
                 <!--Combobox Tipo del producto-->
                 <label class="Texto">Tipo del Producto</label>
-                <select class="browser-default Texto">
-                    <option class="Texto" value="" disabled selected>Todos</option>
-                    <optgroup class="Texto grey-text text-darken-1" label="Boards">
-                        <option id="comboSkt" class="black-text" value="1">Skateboards</option>
-                        <option id="comboLgb" class="black-text" value="2">Longboards</option>
-                    </optgroup>
-                    <optgroup class="Texto grey-text text-darken-1" label="Outfits">
-                        <option id="comboRp" class="black-text" value="3">Ropa</option>
-                        <option id="comboZp" class="black-text" value="4">Zapatillas</option>
-                        <option id="comboCmp" class="black-text" value="4">Complementos</option>
-                    </optgroup>
+                <select class="browser-default Texto" id="cmbtipo_producto" name="cmbtipo_producto">
+                
                 </select>
             </div>
         </div>

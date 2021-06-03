@@ -1,11 +1,12 @@
 // Constantes para establecer las rutas y parámetros de comunicación con la API.
 const API_PRODUCTOS = '../../app/api/dashboard/productos.php?action=';
-const ENDPOINT_TIPO_PRODUCTOS= '../../app/api/dashboard/tipo_producto.php?action=readAll';
+const ENDPOINT_TIPO_PRODUCTOS= '../../app/api/dashboard/categorias.php?action=readAll';
 
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
     readRows(API_PRODUCTOS);
+    fillSelect(ENDPOINT_TIPO_PRODUCTOS, 'cmbtipo_producto', null);
 });
 
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -105,7 +106,7 @@ function openCreateDialog() {
     // Se establece el campo de archivo como obligatorio.
     document.getElementById('foto').required = true;
     // Se llama a la función que llena el select del formulario. Se encuentra en el archivo components.js
-   //fillSelect(ENDPOINT_TIPO_PRODUCTOS, 'tipo_producto', null);
+   fillSelect(ENDPOINT_TIPO_PRODUCTOS, 'tipo_producto', null);
 }
 
 // Función para preparar el formulario al momento de modificar un registro.

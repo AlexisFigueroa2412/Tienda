@@ -16,7 +16,7 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'dba';
+        $database = 'dbPrueba';
         $username = 'postgres';
         $password = 'newpassword';
 

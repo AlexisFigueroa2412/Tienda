@@ -111,8 +111,8 @@ class Categorias extends Validator
     public function readAll()
     {
         $sql = 'SELECT id_categoria, categoria
-                FROM tbCategorias
-                ORDER BY nombre_categoria';
+                FROM public."tbCategorias"
+                ORDER BY id_categoria';
         $params = null;
         return Database::getRows($sql, $params);
     }

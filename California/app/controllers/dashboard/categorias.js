@@ -14,14 +14,13 @@ function fillTable(dataset) {
     dataset.map(function (row) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
-            <tr>
-                <td><img src="../../resources/img/categorias/${row.imagen_categoria}" class="materialboxed" height="100"></td>
-                <td>${row.nombre_categoria}</td>
-                <td>${row.descripcion_categoria}</td>
+            <tr>         
+                <td>${row.id_categoria}</td>                       
+                <td>${row.categoria}</td>
                 <td>
-                    <a href="#" onclick="openUpdateDialog(${row.id_categoria})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_categoria})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
-                    <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_categoria}" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de productos"><i class="material-icons">assignment</i></a>
+                    <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_categoria}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
+                    <a href="#" onclick="openUpdateDialog(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>                 
                 </td>
             </tr>
         `;
