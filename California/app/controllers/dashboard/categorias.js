@@ -19,8 +19,8 @@ function fillTable(dataset) {
                 <td>${row.categoria}</td>
                 <td>
                     <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_categoria}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
-                    <a href="#" onclick="openUpdateDialog(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>                 
+                    <a href="#" onclick="openDeleteDialogCat(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
+                    <a href="#" onclick="openUpdateDialogCat(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>                 
                 </td>
             </tr>
         `;
@@ -42,7 +42,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
 });
 
 // Función para preparar el formulario al momento de insertar un registro.
-function openCreateDialog() {
+function openCreateDialogCat() {
     // Se restauran los elementos del formulario.
     document.getElementById('save-form').reset();
     // Se abre la caja de dialogo (modal) que contiene el formulario.
@@ -50,12 +50,10 @@ function openCreateDialog() {
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Crear categoría';
-    // Se establece el campo de archivo como obligatorio.
-    document.getElementById('archivo_categoria').required = true;
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
-function openUpdateDialog(id) {
+function openUpdateDialogCat(id) {
     // Se restauran los elementos del formulario.
     document.getElementById('save-form').reset();
     // Se abre la caja de dialogo (modal) que contiene el formulario.
@@ -113,7 +111,7 @@ document.getElementById('save-form').addEventListener('submit', function (event)
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
-function openDeleteDialog(id) {
+function openDeleteDialogCat(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
     data.append('id_categoria', id);

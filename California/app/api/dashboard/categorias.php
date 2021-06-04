@@ -50,31 +50,15 @@ if (isset($_GET['action'])) {
                 break;
             case 'create':
                 $_POST = $categoria->validateForm($_POST);
-                if ($categoria->setNombre($_POST['nombre_categoria'])) {
-                    if ($categoria->setDescripcion($_POST['descripcion_categoria'])) {
-                        if (is_uploaded_file($_FILES['archivo_categoria']['tmp_name'])) {
-                            if ($categoria->setImagen($_FILES['archivo_categoria'])) {
-                                if ($categoria->createRow()) {
-                                    $result['status'] = 1;
-                                    if ($categoria->saveFile($_FILES['archivo_categoria'], $categoria->getRuta(), $categoria->getImagen())) {
-                                        $result['message'] = 'Categoría creada correctamente';
-                                    } else {
-                                        $result['message'] = 'Categoría creada pero no se guardó la imagen';
-                                    }
-                                } else {
-                                    $result['exception'] = Database::getException();
-                                }
-                            } else {
-                                $result['exception'] = $categoria->getImageError();
-                            }
-                        } else {
-                            $result['exception'] = 'Seleccione una imagen';
-                        }
+                if ($categoria->setNombre($_POST['categoria'])) { 
+                    if ($categoria->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Categoría creada correctamente';                        
                     } else {
-                        $result['exception'] = 'Descripción incorrecta';
+                        $result['exception'] = Database::getException();
                     }
                 } else {
-                    $result['exception'] = 'Nombre incorrecto';
+                    $result['message'] = 'Error al guardar los datos';
                 }
                 break;
             case 'readOne':

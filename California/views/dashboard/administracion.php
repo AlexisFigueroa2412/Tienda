@@ -54,18 +54,18 @@ Dashboard_Page::headerTemplate('California', 'California');
                     <div class="card-content Texto">
                         <h6 class="Texto flow-text black-text">Categorias<br><br></h6>
                         <form method="post" id="search-form">
-                            <div class="input-field col s8 m8 l10">
+                            <div class="input-field col s8 m10 l10">
                                 <i class="material-icons prefix">search</i>
                                 <input placeholder="Buscar Noticia por Titular" id="search" type="text" name="search" class="validate" required>
                                 <label for="new-titulo">Buscar Categoría</label>                                
                             </div>
-                            <div class="input-field col s4 m4 l2">
+                            <div class="input-field col s4 m2 l2">
                                 <button type="submit" class="btn col s12 waves-effect black tooltipped" data-tooltip="Buscar">Buscar</button>
                             </div>
                         </form>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#" onclick="openCreateDialog()"  data-tooltip="Crear" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
+                                <a href="#" onclick="openCreateDialogCat()" data-tooltip="Crear" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
                             </div>
                         </div>
                         <div class="row">
@@ -249,27 +249,31 @@ Dashboard_Page::headerTemplate('California', 'California');
 
     <!--Categoria-->
     <!--Agregar-->
-    <div id="addcat" class="modal Texto rad">
+    <div id="save-modal" class="modal Texto rad">
         <div class="modal-content black-text">
             <h5>Agregar Categoría</h5>
             <br>
             <div class="row">
-                <form class="col s12">
-                    <div class="row valign-wrapper">
-                        <div class="col s12 m12 l12">
-                            <div class="input-field col s12 m12 l12">
-                                <input id="newcat" type="text" class="validate">
-                                <label for="newcat">Categoría</label>
+                <form method="POST" id="save-form" enctype="multipart/form-data">
+                    <div class="col s12">
+                        <div class="row valign-wrapper">
+                            <div class="col s12 m12 l12">
+                                <input class="hide" type="number" id="id_producto" name="id_producto" />
+                                <div class="input-field col s12 m12 l12">
+                                    <input id="categoria" type="text" name="categoria" class="validate" required>
+                                    <label for="categoria">Categoría</label>
+                                </div>
                             </div>
                         </div>
+                    </div>                    
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+                        <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
+        
     </div>
     <!--Agregar-->
     <div id="editcat" class="modal Texto rad">
@@ -305,8 +309,8 @@ Dashboard_Page::headerTemplate('California', 'California');
                 <form class="col s12">
                     <div class="row valign-wrapper">
                         <div class="input-field col s8 m8 l8">
-                            <input id="newcat" type="text" class="validate">
-                            <label for="newcat">Subcategoría</label>
+                            <input id="newsbcat" type="text" class="validate">
+                            <label for="newsbcat">Subcategoría</label>
                         </div>
                         <div class="col s4 m4 l4">
                             <label>Categorías</label><br>
@@ -335,8 +339,8 @@ Dashboard_Page::headerTemplate('California', 'California');
                 <form class="col s12">
                     <div class="row valign-wrapper">
                         <div class="input-field col s8 m8 l8">
-                            <input id="newcat" type="text" class="validate">
-                            <label for="newcat">Subcategoría</label>
+                            <input id="editsbcat" type="text" class="validate">
+                            <label for="editsbcat">Subcategoría</label>
                         </div>
                         <div class="col s4 m4 l4">
                             <label>Categorías</label><br>
@@ -456,30 +460,6 @@ Dashboard_Page::headerTemplate('California', 'California');
         <div class="modal-footer">
             <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
             <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
-    </div>
-    <!-- Componente Modal para mostrar una caja de dialogo -->
-    <div id="save-modal" class="modal">
-        <div class="modal-content">
-            <!-- Título para la caja de dialogo -->
-            <h4 id="modal-title" class="center-align"></h4>
-            <!-- Formulario para crear o actualizar un registro -->
-            <form method="post" id="save-form" enctype="multipart/form-data">
-                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                <input class="hide" type="number" id="id_producto" name="id_producto" />
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">note_add</i>
-                        <input id="nombre_producto" type="text" name="nombre_producto" class="validate" required />
-                        <label for="nombre_producto">Nombre de la categoria</label>
-                    </div>
-
-                </div>
-                <div class="row center-align">
-                    <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
-                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
-                </div>
-            </form>
         </div>
     </div>
 </section>
