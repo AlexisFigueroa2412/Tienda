@@ -76,7 +76,7 @@ function openUpdateDialogCat(id) {
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
                     document.getElementById('id_categoria').value = response.dataset.id_categoria;
-                    document.getElementById('txtcategoria').value = response.dataset.categoria;
+                    document.getElementById('txtCategoria').value = response.dataset.categoria;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {

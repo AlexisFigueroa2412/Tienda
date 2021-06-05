@@ -254,9 +254,9 @@ Dashboard_Page::headerTemplate('California', 'California');
         <div class="modal-content black-text">
             <h5 id="modal-title"></h5>
             <br>
-            <form method="post" id="save-form" enctype="multipart/form-data">
-            <input class="hide" type="number" id="id_categoria" name="id_categoria" />
+            <form method="post" id="save-form" enctype="multipart/form-data">            
                 <div class="row">
+                    <input class="hide" type="number" id="id_categoria" name="id_categoria" />
                     <div class="input-field col s12">
                   	    <input id="txtCategoria" type="text" name="txtCategoria" class="validate" required/>
                   	    <label for="txtCategoria">Categoria</label>
@@ -264,7 +264,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                 </div>
                 <div class="row">
                     <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-                    <button type="submit" class="btn-flat" data-tooltip="Guardar">Guardar</button>
+                    <button type="submit" class="btn-flat">Guardar</button>
                 </div>
             </form>
         </div>

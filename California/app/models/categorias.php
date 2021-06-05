@@ -82,7 +82,7 @@ class Categorias extends Validator
         return Database::getRow($sql, $params);
     }
 
-    public function updateRow($current_image)
+    public function updateRow()
     {        
         $sql = 'UPDATE public."tbCategorias"
                 SET categoria = ?

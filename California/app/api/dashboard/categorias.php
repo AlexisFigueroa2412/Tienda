@@ -62,7 +62,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if ($categoria->setId($_POST['id_categoria'])) {
+                if ($categoria->setIdCategoria($_POST['id_categoria'])) {
                     if ($result['dataset'] = $categoria->readOne()) {
                         $result['status'] = 1;
                     } else {
@@ -77,17 +77,20 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'update':
-                $_POST = $categoria->validateForm($_POST);
-                if ($categoria->setCategoria($_POST['txtCategoria'])) { 
-                    if ($categoria->updateRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Categoría editada correctamente';                        
+                if ($categoria->setIdCategoria($_POST['id_categoria'])) {
+                    if ($categoria->setCategoria($_POST['txtCategoria'])) { 
+                        if ($categoria->updateRow()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Categoría editada correctamente';                        
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
                     } else {
-                        $result['exception'] = Database::getException();
+                        $result['message'] = 'Error al guardar los datos';
                     }
                 } else {
-                    $result['message'] = 'Error al guardar los datos';
-                }
+                    $result['exception'] = 'Categoría incorrecta';
+                }       
                 break;
             case 'delete':
                 if ($categoria->setId($_POST['id_categoria'])) {
