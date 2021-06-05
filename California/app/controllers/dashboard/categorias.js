@@ -20,7 +20,7 @@ function fillTable(dataset) {
                 <td>
                     <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_categoria}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
                     <a href="#" onclick="openDeleteDialogCat(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
-                    <a href="#" onclick="openUpdateDialogCat(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>                 
+                    <a href="#" onclick="openUpdateDialogCat(${row.id_categoria})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Editar"><i class="material-icons black-text">mode_edit</i></a>                 
                 </td>
             </tr>
         `;
@@ -49,7 +49,6 @@ function openCreateDialogCat() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Crear categoría';
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -61,8 +60,6 @@ function openUpdateDialogCat(id) {
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Actualizar categoría';
-    // Se establece el campo de archivo como opcional.
-    document.getElementById('archivo_categoria').required = false;
 
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
@@ -79,8 +76,7 @@ function openUpdateDialogCat(id) {
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
                     document.getElementById('id_categoria').value = response.dataset.id_categoria;
-                    document.getElementById('nombre_categoria').value = response.dataset.nombre_categoria;
-                    document.getElementById('descripcion_categoria').value = response.dataset.descripcion_categoria;
+                    document.getElementById('categoria').value = response.dataset.categoria;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {

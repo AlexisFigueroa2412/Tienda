@@ -248,33 +248,28 @@ Dashboard_Page::headerTemplate('California', 'California');
     </div>
 
     <!--Categoria-->
-    <!--Agregar-->
+
+    <!-- Agregar  -->
     <div id="save-modal" class="modal Texto rad">
         <div class="modal-content black-text">
-            <h5>Agregar Categoría</h5>
+            <h5 id="modal-title"></h5>
             <br>
-            <div class="row">
-                <form method="POST" id="save-form" enctype="multipart/form-data">
-                    <div class="col s12">
-                        <div class="row valign-wrapper">
-                            <div class="col s12 m12 l12">
-                                <input class="hide" type="number" id="id_producto" name="id_producto" />
-                                <div class="input-field col s12 m12 l12">
-                                    <input id="categoria" type="text" name="categoria" class="validate" required>
-                                    <label for="categoria">Categoría</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-                        <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-                    </div>
-                </form>
-            </div>
+            <form method="post" id="save-form" enctype="multipart/form-data">
+            <input class="hide" type="number" id="id_categoria" name="id_categoria" />
+                <div class="row">
+                    <div class="input-field col s12">
+                  	    <input id="txtCategoria" type="text" name="txtCategoria" class="validate" required/>
+                  	    <label for="txtCategoria">Categoria</label>
+                    </div>    
+                </div>
+                <div class="row">
+                    <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+                    <button type="submit" class="btn-flat" data-tooltip="Guardar">Guardar</button>
+                </div>
+            </form>
         </div>
-        
     </div>
+
     <!--Agregar-->
     <div id="editcat" class="modal Texto rad">
         <div class="modal-content black-text">
@@ -388,8 +383,8 @@ Dashboard_Page::headerTemplate('California', 'California');
                             <label for="addnewtitulo">Titular</label>
                         </div>
                         <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewresumen" class="materialize-textarea"></textarea>
-                            <label for="addnewresumen">Resumen</label>
+                            <textarea id="addnewresumen2" class="materialize-textarea"></textarea>
+                            <label for="addnewresumen2">Resumen</label>
                         </div>
                     </div>
                     <div class="row">
@@ -434,8 +429,8 @@ Dashboard_Page::headerTemplate('California', 'California');
                             </form>
                         </div>
                         <div class="input-field col s12 m12 l12">
-                            <input id="addnewtitulo" type="text" class="validate">
-                            <label for="addnewtitulo">Titular</label>
+                            <input id="addnewtitulo2" type="text" class="validate">
+                            <label for="addnewtitulo2">Titular</label>
                         </div>
                         <div class="input-field col s12 m12 l12">
                             <textarea id="addnewresumen" class="materialize-textarea"></textarea>

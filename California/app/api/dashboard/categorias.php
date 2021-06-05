@@ -50,7 +50,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'create':
                 $_POST = $categoria->validateForm($_POST);
-                if ($categoria->setNombre($_POST['categoria'])) { 
+                if ($categoria->setCategoria($_POST['txtCategoria'])) { 
                     if ($categoria->createRow()) {
                         $result['status'] = 1;
                         $result['message'] = 'Categoría creada correctamente';                        
@@ -78,44 +78,15 @@ if (isset($_GET['action'])) {
                 break;
             case 'update':
                 $_POST = $categoria->validateForm($_POST);
-                if ($categoria->setId($_POST['id_categoria'])) {
-                    if ($data = $categoria->readOne()) {
-                        if ($categoria->setNombre($_POST['nombre_categoria'])) {
-                            if ($categoria->setDescripcion($_POST['descripcion_categoria'])) {
-                                if (is_uploaded_file($_FILES['archivo_categoria']['tmp_name'])) {
-                                    if ($categoria->setImagen($_FILES['archivo_categoria'])) {
-                                        if ($categoria->updateRow($data['imagen_categoria'])) {
-                                            $result['status'] = 1;
-                                            if ($categoria->saveFile($_FILES['archivo_categoria'], $categoria->getRuta(), $categoria->getImagen())) {
-                                                $result['message'] = 'Categoría modificada correctamente';
-                                            } else {
-                                                $result['message'] = 'Categoría modificada pero no se guardó la imagen';
-                                            }
-                                        } else {
-                                            $result['exception'] = Database::getException();
-                                        }
-                                    } else {
-                                        $result['exception'] = $categoria->getImageError();
-                                    }
-                                } else {
-                                    if ($categoria->updateRow($data['imagen_categoria'])) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Categoría modificada correctamente';
-                                    } else {
-                                        $result['exception'] = Database::getException();
-                                    }
-                                }
-                            } else {
-                                $result['exception'] = 'Descripción incorrecta';
-                            }
-                        } else {
-                            $result['exception'] = 'Nombre incorrecto';
-                        }
+                if ($categoria->setCategoria($_POST['txtCategoria'])) { 
+                    if ($categoria->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Categoría editada correctamente';                        
                     } else {
-                        $result['exception'] = 'Categoría inexistente';
+                        $result['exception'] = Database::getException();
                     }
                 } else {
-                    $result['exception'] = 'Categoría incorrecta';
+                    $result['message'] = 'Error al guardar los datos';
                 }
                 break;
             case 'delete':
