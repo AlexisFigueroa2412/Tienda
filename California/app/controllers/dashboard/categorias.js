@@ -48,6 +48,7 @@ function openCreateDialogCat() {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
+    document.getElementById('modal-title').textContent = 'Agregar nueva categoría';
     // Se asigna el título para la caja de dialogo (modal).
 }
 

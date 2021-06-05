@@ -15,6 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            //Leer datos de las categorias
             case 'readAll':
                 if ($result['dataset'] = $categoria->readAll()) {
                     $result['status'] = 1;
@@ -26,6 +27,7 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            //Busqueda filtrada de la busqueda
             case 'search':
                 $_POST = $categoria->validateForm($_POST);
                 if ($_POST['search'] != '') {
@@ -48,6 +50,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Ingrese un valor para buscar';
                 }
                 break;
+            //Crear categoria
             case 'create':
                 $_POST = $categoria->validateForm($_POST);
                 if ($categoria->setCategoria($_POST['txtCategoria'])) { 
@@ -61,6 +64,7 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Error al guardar los datos';
                 }
                 break;
+            //Llamar categoria en especifico
             case 'readOne':
                 if ($categoria->setIdCategoria($_POST['id_categoria'])) {
                     if ($result['dataset'] = $categoria->readOne()) {
@@ -76,6 +80,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Categoría incorrecta';
                 }
                 break;
+            //Editar categoria
             case 'update':
                 if ($categoria->setIdCategoria($_POST['id_categoria'])) {
                     if ($categoria->setCategoria($_POST['txtCategoria'])) { 
@@ -92,16 +97,13 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Categoría incorrecta';
                 }       
                 break;
+            //Eliminar categoria
             case 'delete':
-                if ($categoria->setId($_POST['id_categoria'])) {
+                if ($categoria->setIdCategoria($_POST['id_categoria'])) {
                     if ($data = $categoria->readOne()) {
                         if ($categoria->deleteRow()) {
                             $result['status'] = 1;
-                            if ($categoria->deleteFile($categoria->getRuta(), $data['imagen_categoria'])) {
-                                $result['message'] = 'Categoría eliminada correctamente';
-                            } else {
-                                $result['message'] = 'Categoría eliminada pero no se borró la imagen';
-                            }
+                            $result['message'] = 'Categoría eliminada correctamente';
                         } else {
                             $result['exception'] = Database::getException();
                         }
