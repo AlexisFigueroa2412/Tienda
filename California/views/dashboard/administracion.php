@@ -56,16 +56,16 @@ Dashboard_Page::headerTemplate('California', 'California');
                         <form method="post" id="search-form">
                             <div class="input-field col s8 m10 l10">
                                 <i class="material-icons prefix">search</i>
-                                <input placeholder="Buscar Noticia por Titular" id="search" type="text" name="search" class="validate" required>
-                                <label for="new-titulo">Buscar Categoría</label>                                
+                                <input placeholder="Buscar Categoria por nombre" id="search" type="text" name="search" class="validate" required>
+                                <label for="search">Buscar Categoría</label>                                
                             </div>
                             <div class="input-field col s4 m2 l2">
-                                <button type="submit" class="btn col s12 waves-effect black tooltipped" data-tooltip="Buscar">Buscar</button>
+                                <button type="submit" class="btn col s12 waves-effect black">Buscar</button>
                             </div>
                         </form>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#" onclick="openCreateDialogCat()" data-tooltip="Crear" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
+                                <a href="#" onclick="openCreateDialogCat()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
                             </div>
                         </div>
                         <div class="row">
@@ -92,24 +92,20 @@ Dashboard_Page::headerTemplate('California', 'California');
                     <div class="card-content Texto">
                         <h6 class="Texto flow-text black-text">Subcategorías<br><br></h6>
                         <div class="row">
-                            <div class="input-field col s8 m8 l8">
-                                <i class="material-icons prefix">search</i>
-                                <input placeholder="Subcategoría" id="first_name" type="text" class="validate">
-                                <label for="first_name">Buscar por nombre</label>
-                            </div>
-                            <div class="col s4 m4 l4">
-                                <label>Categorías</label><br>
-                                <select class="browser-default">
-                                    <option value="1" selected>Categoría</option>
-                                    <option value="2">Tabla</option>
-                                    <option value="3">Outfit</option>
-                                    <option value="4">Utilidad</option>
-                                </select>
-                            </div>
+                            <form method="post" id="search-form-2">
+                                <div class="input-field col s8 m10 l10">
+                                    <i class="material-icons prefix">search</i>
+                                    <input placeholder="Buscar Categoria por nombre" id="searchsub" type="text" name="searchsub" class="validate" required>
+                                    <label for="new-titulo">Buscar Subcategoría</label>                                
+                                </div>
+                                <div class="input-field col s4 m2 l2">
+                                    <button type="submit" class="btn col s12 waves-effect black">Buscar</button>
+                                </div>
+                            </form>
                         </div>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#addsubcat" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Subcategoría</a>
+                                <a href="#" onclick="openCreateDialogSub()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Subcategoría</a>
                             </div>
                         </div>
                         <div class="row">
@@ -122,52 +118,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                                             <th>Subcategoría</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Tablas</td>
-                                            <td>Skateboard</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownsubcategoria' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Tablas</td>
-                                            <td>Longboard</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownsubcategoria' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Outfits</td>
-                                            <td>Ropa</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownsubcategoria' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Outfits</td>
-                                            <td>Zapatillas</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownsubcategoria' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Utilidad</td>
-                                            <td>Complementos</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownsubcategoria' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
+                                    <tbody id="tbody-rows-sub">
                                     </tbody>
                                 </table>
                             </form>
@@ -249,7 +200,6 @@ Dashboard_Page::headerTemplate('California', 'California');
 
     <!--Categoria-->
 
-    <!-- Agregar  -->
     <div id="save-modal" class="modal Texto rad">
         <div class="modal-content black-text">
             <h5 id="modal-title"></h5>
@@ -270,91 +220,37 @@ Dashboard_Page::headerTemplate('California', 'California');
         </div>
     </div>
 
-    <!--Agregar-->
-    <div id="editcat" class="modal Texto rad">
+    <!--Subcategoria-->
+    
+    <div id="save-modal-sub" class="modal Texto rad">
         <div class="modal-content black-text">
-            <h5>Editar Categoría</h5>
+            <h5 id="modal-title-sub"></h5>
             <br>
             <div class="row">
-                <form class="col s12">
-                    <div class="row valign-wrapper">
-                        <div class="col s12 m12 l12">
-                            <div class="input-field col s12 m12 l12">
-                                <input id="newcat" type="text" class="validate">
-                                <label for="newcat">Categoría</label>
+                <form method="post" id="save-form-sub" enctype="multipart/form-data">
+                    <div class="col s12">
+                        <input class="hide" type="number" id="id_tipo_producto" name="id_tipo_producto" />
+                        <div class="row valign-wrapper">
+                            <div class="input-field col s8 m8 l8">
+                                <input id="txtTipo" name="txtTipo" type="text" class="validate">
+                                <label for="txtTipo">Subcategoría</label>
+                            </div>
+                            <div class="col s4 m4 l4">
+                                <label>Categorías</label><br>
+                                <select class="browser-default" id="cmbCategoria" name="cmbCategoria">
+                                </select>
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+                            <button type="submit" class="btn-flat">Guardar</button>
+                        </div>
+                    </div>                    
                 </form>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
     </div>
-
-    <!--Subcategoria-->
-    <!--Agregar-->
-    <div id="addsubcat" class="modal Texto rad">
-        <div class="modal-content black-text">
-            <h5>Agregar Subcategoría</h5>
-            <br>
-            <div class="row">
-                <form class="col s12">
-                    <div class="row valign-wrapper">
-                        <div class="input-field col s8 m8 l8">
-                            <input id="newsbcat" type="text" class="validate">
-                            <label for="newsbcat">Subcategoría</label>
-                        </div>
-                        <div class="col s4 m4 l4">
-                            <label>Categorías</label><br>
-                            <select class="browser-default">
-                                <option value="1" selected>Categoría</option>
-                                <option value="2">Tabla</option>
-                                <option value="3">Outfit</option>
-                                <option value="4">Utilidad</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
-    </div>
-    <!--Agregar-->
-    <div id="editsubcat" class="modal Texto rad">
-        <div class="modal-content black-text">
-            <h5>Editar Subcategoría</h5>
-            <br>
-            <div class="row">
-                <form class="col s12">
-                    <div class="row valign-wrapper">
-                        <div class="input-field col s8 m8 l8">
-                            <input id="editsbcat" type="text" class="validate">
-                            <label for="editsbcat">Subcategoría</label>
-                        </div>
-                        <div class="col s4 m4 l4">
-                            <label>Categorías</label><br>
-                            <select class="browser-default">
-                                <option value="1" selected>Categoría</option>
-                                <option value="2">Tabla</option>
-                                <option value="3">Outfit</option>
-                                <option value="4">Utilidad</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
-    </div>
+    
 
     <!--Noticias-->
     <!--Agregar-->
