@@ -220,6 +220,9 @@ if (isset($_GET['action'])) {
                 }       
                 break;    
 
+
+            //---------Busquedas específica
+
             //Eliminar categoria
             case 'delete':
                 if ($categoria->setIdCategoria($_POST['id_categoria'])) {
@@ -235,6 +238,23 @@ if (isset($_GET['action'])) {
                     }
                 } else {
                     $result['exception'] = 'Categoría incorrecta';
+                }
+                break;
+                //Eliminar categoria
+            case 'deleteSub':
+                if ($Subcategoria->setIdSub($_POST['id_tipo_producto'])) {
+                    if ($data = $Subcategoria->readOne()) {
+                        if ($Subcategoria->deleteRow()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Categoría eliminada correctamente';
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    } else {
+                        $result['exception'] = 'Subcategoría inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Subcategoría incorrecta';
                 }
                 break;
             default:

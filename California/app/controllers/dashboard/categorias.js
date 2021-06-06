@@ -282,5 +282,5 @@ function openDeleteDialogSub(id) {
     const data = new FormData();
     data.append('id_tipo_producto', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_ADMIN, data);
+    confirmDelete2(API_ADMIN, data);
 }
