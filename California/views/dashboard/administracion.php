@@ -15,40 +15,6 @@ Dashboard_Page::headerTemplate('California', 'California');
     <br><br>
     <div class="container Texto">
         <div class="row">
-
-            <!-- Dropdown Structure -->
-            <ul id='dropdowncategoria' class='dropdown-content center'>
-                <!--Boton de editar-->
-                <li><a class="black-text Texto modal-trigger" href="#editcat">
-                        <i class="material-icons center">edit</i>Editar</a></li>
-                <!--Boton de archivar-->
-                <li><a class="black-text Texto modal-trigger" href="#modal3">
-                        <i class="material-icons center">delete</i>Archivar</a></li>
-            </ul>
-
-            <!-- Dropdown Structure -->
-            <ul id='dropdownsubcategoria' class='dropdown-content center'>
-                <!--Boton de editar-->
-                <li><a class="black-text Texto modal-trigger" href="#editsubcat">
-                        <i class="material-icons center">edit</i>Editar</a></li>
-                <!--Boton de archivar-->
-                <li><a class="black-text Texto modal-trigger" href="#modal3">
-                        <i class="material-icons center">delete</i>Archivar</a></li>
-            </ul>
-
-            <!-- Dropdown Structure -->
-            <ul id='dropdownnoticia' class='dropdown-content center'>
-                <!--Boton de ver-->
-                <li><a class="black-text Texto modal-trigger" href="noticia.php">
-                        <i class="material-icons center">call_made</i>Ver</a></li>
-                <!--Boton de editar-->
-                <li><a class="black-text Texto modal-trigger" href="#editnew">
-                        <i class="material-icons center">edit</i>Editar</a></li>
-                <!--Boton de archivar-->
-                <li><a class="black-text Texto modal-trigger" href="#modal3">
-                        <i class="material-icons center">delete</i>Archivar</a></li>
-            </ul>
-
             <div class="col s12 m12 l12">
                 <div class="card rad">
                     <div class="card-content Texto">
@@ -65,7 +31,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                         </form>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#" onclick="openCreateDialogCat()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
+                                <a  onclick="openCreateDialogCat()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
                             </div>
                         </div>
                         <div class="row">
@@ -105,7 +71,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                         </div>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#" onclick="openCreateDialogSub()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Subcategoría</a>
+                                <a onclick="openCreateDialogSub()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Subcategoría</a>
                             </div>
                         </div>
                         <div class="row">
@@ -143,7 +109,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                         </div>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a href="#addnew" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Noticia</a>
+                                <a onclick="openCreateDialogNew()" class="modal-trigger waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir nueva Noticia</a>
                             </div>
                         </div>
                         <div class="row">
@@ -157,37 +123,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                                             <th>Fecha Publicación</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Vans</td>
-                                            <td>Steve Caballero</td>
-                                            <td>Viernes</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownnoticia' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Element</td>
-                                            <td>Mauricio</td>
-                                            <td>Viernes</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownnoticia' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>California</td>
-                                            <td>Sergio Perez</td>
-                                            <td>Ayer</td>
-                                            <td>
-                                                <a href='#' data-target='dropdownnoticia' class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0">
-                                                    <i class="large material-icons black-text hoverable">more_vert</i></a>
-                                            </td>
-                                        </tr>
+                                    <tbody id="tbody-rows-new">
                                     </tbody>
                                 </table>
                             </form>
@@ -232,12 +168,12 @@ Dashboard_Page::headerTemplate('California', 'California');
                         <input class="hide" type="number" id="id_tipo_producto" name="id_tipo_producto" />
                         <div class="row valign-wrapper">
                             <div class="input-field col s8 m8 l8">
-                                <input id="txtTipo" name="txtTipo" type="text" class="validate">
+                                <input id="txtTipo" name="txtTipo" type="text" class="validate" required>
                                 <label for="txtTipo">Subcategoría</label>
                             </div>
                             <div class="col s4 m4 l4">
                                 <label>Categorías</label><br>
-                                <select class="browser-default" id="cmbCategoria" name="cmbCategoria">
+                                <select class="browser-default" id="cmbCategoria" name="cmbCategoria" required>
                                 </select>
                             </div>
                         </div>
@@ -254,103 +190,43 @@ Dashboard_Page::headerTemplate('California', 'California');
 
     <!--Noticias-->
     <!--Agregar-->
-    <div id="addnew" class="modal Texto rad">
+    <div id="save-modal-new" class="modal Texto rad">
         <div class="modal-content black-text">
-            <h5>Redactar Noticia</h5>
+            <h5 id="modal-title-new"></h5>
             <br>
             <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <form action="#">
-                                <div class="file-field input-field">
-                                    <div class="btn black">
-                                        <span><i class="large material-icons">add_a_photo</i></span>
-                                        <input type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input placeholder="Imagen del encabezado" class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                            </form>
+                <form method="post" id="save-form-new" enctype="multipart/form-data">
+                    <div class="col s12">
+                        <input class="hide" type="number" id="id_noticia" name="id_noticia" />
+                        <div class="row">                            
+                            <div class="input-field col s12 m12 l12">
+                                <input id="titular" name="titular" type="text" class="validate">
+                                <label for="titular">Titular</label>
+                            </div>
+                            <div class="input-field col s12 m12 l12">
+                                <textarea id="resumen" name="resumen" class="materialize-textarea"></textarea>
+                                <label for="resumen">Resumen</label>
+                            </div>
                         </div>
-                        <div class="input-field col s12 m12 l12">
-                            <input id="addnewtitulo" type="text" class="validate">
-                            <label for="addnewtitulo">Titular</label>
+                        <div class="row">
+                            <div class="input-field col s12 m12 l12">
+                                <textarea id="cuerpo" name="cuerpo" class="materialize-textarea"></textarea>
+                                <label for="cuerpo">Cuerpo</label>
+                            </div>
                         </div>
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewresumen2" class="materialize-textarea"></textarea>
-                            <label for="addnewresumen2">Resumen</label>
+                        <div class="row">
+                            <div class="input-field col s12 m12 l12">
+                                <textarea id="link" name="link" class="materialize-textarea"></textarea>
+                                <label for="link">Referencia</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewcuerpo" class="materialize-textarea"></textarea>
-                            <label for="addnewcuerpo">Cuerpo</label>
+                        <div class="row">
+                            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+                            <button type="submit" class="btn-flat">Guardar</button>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewlink" class="materialize-textarea"></textarea>
-                            <label for="addnewlink">Link</label>
-                        </div>
-                    </div>
+                    </div>                    
                 </form>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
-        </div>
-    </div>
-    <!--Actualizar-->
-    <div id="editnew" class="modal Texto rad">
-        <div class="modal-content black-text">
-            <h5>Editar Noticia</h5>
-            <br>
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <form action="#">
-                                <div class="file-field input-field">
-                                    <div class="btn black">
-                                        <span><i class="large material-icons">add_a_photo</i></span>
-                                        <input type="file">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input placeholder="Imagen del encabezado" class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="input-field col s12 m12 l12">
-                            <input id="addnewtitulo2" type="text" class="validate">
-                            <label for="addnewtitulo2">Titular</label>
-                        </div>
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewresumen" class="materialize-textarea"></textarea>
-                            <label for="addnewresumen">Resumen</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewcuerpo" class="materialize-textarea"></textarea>
-                            <label for="addnewcuerpo">Cuerpo</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 m12 l12">
-                            <textarea id="addnewlink" class="materialize-textarea"></textarea>
-                            <label for="addnewlink">Link</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-            <a class="btn-flat modal-close" type="submit" name="action">Agregar</a>
         </div>
     </div>
 </section>

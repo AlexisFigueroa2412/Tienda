@@ -11,6 +11,8 @@ if (isset($_GET['action'])) {
     $categoria = new Categorias;
     // Se instancia la clase correspondiente.
     $Subcategoria = new SubCategorias;
+    // Se instancia la clase correspondiente.
+    $new = new Noticias;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -46,6 +48,19 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            //Leer datos de las Noticias
+            case 'readAllNew':
+                if ($result['dataset'] = $new->readAll()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay Subcategorías registradas';
+                    }
+                }
+                break;
+                
             
 
 

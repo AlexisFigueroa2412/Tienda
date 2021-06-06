@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
     readRows(API_ADMIN);
     readRows2(ENDPOINT_SUB);
+    readRows3(ENDPOINT_NEW);
 });
 
 
@@ -66,6 +67,36 @@ function fillTable2(dataset) {
     });
     // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
     document.getElementById('tbody-rows-sub').innerHTML = content;
+    // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
+    M.Materialbox.init(document.querySelectorAll('.materialboxed'));
+    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
+    M.Tooltip.init(document.querySelectorAll('.tooltipped'));
+}
+
+    //--------Noticias
+
+// Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().    
+function fillTable3(dataset) {
+    let content = '';
+    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+    dataset.map(function (row) {
+        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        content += `
+            <tr>         
+                <td>${row.id_noticia}</td> 
+                <td>${row.titular}</td>
+                <td>${row.nick_usuario}</td>
+                <td>${row.fecha_publicacion}</td>
+                <td>
+                    <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_noticia}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
+                    <a href="#" onclick="openDeleteDialogSub(${row.id_noticia})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
+                    <a href="#" onclick="openUpdateDialogSub(${row.id_noticia})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Editar"><i class="material-icons black-text">mode_edit</i></a>                 
+                </td>
+            </tr>
+        `;
+    });
+    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
+    document.getElementById('tbody-rows-new').innerHTML = content;
     // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
     M.Materialbox.init(document.querySelectorAll('.materialboxed'));
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
@@ -134,6 +165,19 @@ function openCreateDialogSub() {
     document.getElementById('modal-title-sub').textContent = 'Agregar nueva Subcategoría';
     //Se llena el select categorias
     fillSelect(ENDPOINT_CATEGORIA , 'cmbCategoria', null);
+}
+
+    //--------Noticias
+
+// Función para preparar el formulario al momento de insertar un registro.
+function openCreateDialogNew() {
+    // Se restauran los elementos del formulario.
+    document.getElementById('save-form-new').reset();
+    // Se abre la caja de dialogo (modal) que contiene el formulario.
+    let instance = M.Modal.getInstance(document.getElementById('save-modal-new'));
+    instance.open();
+    // Se asigna el título para la caja de dialogo (modal).
+    document.getElementById('modal-title-new').textContent = 'Redactar Noticia';
 }
 
 
