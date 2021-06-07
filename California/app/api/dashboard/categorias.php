@@ -175,7 +175,6 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Categoría incorrecta';
                 }
                 break;
-
             //Llamar Subcategoria en especifico
             case 'readOneSub':
                 if ($Subcategoria->setIdSub($_POST['id_tipo_producto'])) {
@@ -185,13 +184,30 @@ if (isset($_GET['action'])) {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Categoría inexistente';
+                            $result['exception'] = 'Subcategoría inexistente';
                         }
                     }
                 } else {
-                    $result['exception'] = 'Categoría incorrecta';
+                    $result['exception'] = 'Subcategoría incorrecta';
                 }
                 break;
+            //Llamar Subcategoria en especifico
+            case 'readOneNew':
+                if ($new->setIdNew($_POST['id_noticia'])) {
+                    if ($result['dataset'] = $new->readOne()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Noticia inexistente';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Noticia incorrecta';
+                }
+                break;    
+
             //Editar categoria
             case 'update':
                 if ($categoria->setIdCategoria($_POST['id_categoria'])) {
