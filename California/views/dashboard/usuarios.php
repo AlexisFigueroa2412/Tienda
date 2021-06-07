@@ -105,12 +105,9 @@ Dashboard_Page::headerTemplate('California','California');
                         <label for="dui_usuario">DUI</label>
                     </div>
                     <div class="input-field col s12 m6">
-                        <select id="tipo_usuario" name="tipo_usuario">
-                            <option value="" disabled selected>Elegir una opción</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Repartidor</option>
-                        </select>
-                        <label>Tipo de Usuario</label>
+                        <i class="material-icons prefix">apps</i>
+                        <input id="tipo_usuario" type="text" name="tipo_usuario" class="validate" required />
+                        <label for="tipo_usuario">Tipo de usuario</label>
                     </div>
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">border_color</i>
@@ -123,7 +120,7 @@ Dashboard_Page::headerTemplate('California','California');
                             <span>Estado:</span>
                             <label>
                                 <i class="material-icons">cancel</i>
-                                <input id="estado_usuario" type="checkbox" name="estado_usuario" checked />
+                                <input id="estado_usuario" type="checkbox" name="estado_usuario" class="validate" checked />
                                 <span class="lever"></span>
                                 <i class="material-icons">check_box</i>
                             </label>
@@ -132,10 +129,8 @@ Dashboard_Page::headerTemplate('California','California');
                     </div>
                 </div>
                 <div class="row center-align">
-                    <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i
-                            class="material-icons">cancel</i></a>
-                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i
-                            class="material-icons">save</i></button>
+                    <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
                 </div>
             </form>
         </div>

@@ -60,38 +60,40 @@ if (isset($_GET['action'])) {
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->setNombres($_POST['nombre_usuario'])) {
                     if ($usuario->setApellidos($_POST['apellido_usuario'])) {
-                        if ($usuario->setCorreo($_POST['email_usuario'])) {
-                            if ($usuario->setAlias($_POST['nick_usuario'])) {
-                                if($usuario->setDui($_POST['dui'])){
-                                    if($usuario->setDireccion($_POST['direccion_usuario'])){
-                                        if($usuario->setTipo(isset($_POST['tipo_usuario']) ? 1 : 2)){
-                                            if($usuario->setEstado(isset($_POST['estado']) ? 1 : 0)){
-                                                if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
-                                                    if ($usuario->setClave($_POST['clave_usuario'])) {
-                                                        if ($usuario->createRow()) {
+                        if ($usuario->setCorreo($_POST['correo_usuario'])) {
+                            if ($usuario->setAlias($_POST['alias_usuario'])) {         
+                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
+                                     if ($usuario->setClave($_POST['clave_usuario'])) {
+                                        if($usuario->setDui($POST['dui_usuario'])){
+                                            if($usuario->setTipo($_POST['tipo_usuario'])){
+                                                if($usuario->setDireccion($POST['direccion_usuario'])){
+                                                    if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
+                                                            if ($usuario->createRow()) {
                                                             $result['status'] = 1;
                                                             $result['message'] = 'Usuario creado correctamente';
-                                                        } else {
-                                                            $result['exception'] = Database::getException();
+                                                            } else {
+                                                                $result
+                                                            ['exception'] = Database::getException();
                                                         }
                                                     } else {
-                                                        $result['exception'] = $usuario->getPasswordError();
-                                                    }
+                                                    $result['exception'] = 'EStado incorrecto';
+                                                    } 
                                                 } else {
-                                                    $result['exception'] = 'Claves diferentes';
-                                                }
-                                            }else{
-                                                $result['exception'] = 'Estado incorrecto';
+                                                    $result['exception'] = 'Direccion incorrecta';
+                                                }    
+                                            } else {
+                                                $result['exception'] = 'Tipo de usuario incorrecto';
                                             }
-                                        }else{
-                                            $result['exception'] = 'Tipo de usuario incorrecto';
+                                        } else{
+                                            $result['exception'] = 'dui incorrecto';
                                         }
-                                    }else{
-                                        $result['exception'] = 'Direccion incorrecta';
+
+                                    } else {
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
-                                }else{
-                                    $result['exception'] = 'DUI incorrecto';
-                                }
+                                } else {
+                                    $result['exception'] = 'Claves diferentes';
+                                } 
                             } else {
                                 $result['exception'] = 'Alias incorrecto';
                             }
