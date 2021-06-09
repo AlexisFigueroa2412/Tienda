@@ -172,5 +172,5 @@ Public_Page::headerTemplate('california');
 
 <?php
   //Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
-  Public_Page::footerTemplate();
+  Public_Page::footerTemplate("productos.js");
 ?>

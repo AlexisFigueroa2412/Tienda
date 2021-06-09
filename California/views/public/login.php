@@ -20,8 +20,8 @@
 		<section>
       		<div class="container z-depth-1 hide-on-small-only" id="container">
 				<div class="form-container sign-up-container">
-					<form action="#" style="overflow: scroll;">
-						<h3 class="Titulos black-text">Crear Cuenta</h3>
+					<form method>
+						<h5 class="Titulos black-text">Crear Cuenta</h5>
 						<span>Completa tus datos</span>
 						<input type="text" placeholder="Nombre" class="validate col s6"/>
 						<input type="text" placeholder="Apellidos" class="validate"/>
