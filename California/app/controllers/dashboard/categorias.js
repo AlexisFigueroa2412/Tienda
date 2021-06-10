@@ -8,8 +8,6 @@ const ENDPOINT_NEW = '../../app/api/dashboard/categorias.php?action=readAllNew';
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
     readRows(API_ADMIN);
-    readRows2(ENDPOINT_SUB);
-    readRows3(ENDPOINT_NEW);
 });
 
 
@@ -44,65 +42,6 @@ function fillTable(dataset) {
     M.Tooltip.init(document.querySelectorAll('.tooltipped'));
 }
 
-    //--------Subcategorías
-
-// Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().    
-function fillTable2(dataset) {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    dataset.map(function (row) {
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
-            <tr>         
-                <td>${row.id_tipo_producto}</td> 
-                <td>${row.categoria}</td>
-                <td>${row.tipo_producto}</td>
-                <td>
-                    <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_tipo_producto}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
-                    <a href="#" onclick="openDeleteDialogSub(${row.id_tipo_producto})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
-                    <a href="#" onclick="openUpdateDialogSub(${row.id_tipo_producto})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Editar"><i class="material-icons black-text">mode_edit</i></a>                 
-                </td>
-            </tr>
-        `;
-    });
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    document.getElementById('tbody-rows-sub').innerHTML = content;
-    // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
-    M.Materialbox.init(document.querySelectorAll('.materialboxed'));
-    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
-    M.Tooltip.init(document.querySelectorAll('.tooltipped'));
-}
-
-    //--------Noticias
-
-// Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().    
-function fillTable3(dataset) {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    dataset.map(function (row) {
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
-            <tr>         
-                <td>${row.id_noticia}</td> 
-                <td>${row.titular}</td>
-                <td>${row.nick_usuario}</td>
-                <td>${row.fecha_publicacion}</td>
-                <td>
-                    <a href="../../app/reports/dashboard/productos_categoria.php?id=${row.id_noticia}" target="_blank" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Reporte de productos"><i class="material-icons black-text">assignment</i></a>
-                    <a href="#" onclick="openDeleteDialogNew(${row.id_noticia})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
-                    <a href="#" onclick="openUpdateDialogNew(${row.id_noticia})" class="dropdown-trigger right btn-floating btn-large waves-effect waves-dark transparent z-depth-0 tooltipped" data-tooltip="Editar"><i class="material-icons black-text">mode_edit</i></a>                 
-                </td>
-            </tr>
-        `;
-    });
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    document.getElementById('tbody-rows-new').innerHTML = content;
-    // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
-    M.Materialbox.init(document.querySelectorAll('.materialboxed'));
-    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
-    M.Tooltip.init(document.querySelectorAll('.tooltipped'));
-}
-
 
 //---------------------------- Formularios de Busqueda ------------------------------------
 
@@ -116,26 +55,6 @@ document.getElementById('search-form').addEventListener('submit', function (even
     searchRows(API_ADMIN, 'search-form');
 });
 
-    //--------Categorías
-    
-// Método manejador de eventos que se ejecuta cuando se envía el formulario de buscar.
-document.getElementById('search-form-2').addEventListener('submit', function (event) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_ADMIN, 'search-form-2');
-});
-
-    //--------Noticias
-    /*
-// Método manejador de eventos que se ejecuta cuando se envía el formulario de buscar.
-document.getElementById('search-form-3').addEventListener('submit', function (event) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_ADMIN, 'search-form-3');
-});
-*/
 
 //---------------------------- Modal crear ------------------------------------
 
@@ -150,34 +69,6 @@ function openCreateDialogCat() {
     instance.open();
     document.getElementById('modal-title').textContent = 'Agregar nueva categoría';
     // Se asigna el título para la caja de dialogo (modal).
-}
-
-    //--------Subcategorías
-
-// Función para preparar el formulario al momento de insertar un registro.
-function openCreateDialogSub() {
-    // Se restauran los elementos del formulario.
-    document.getElementById('save-form-sub').reset();
-    // Se abre la caja de dialogo (modal) que contiene el formulario.
-    let instance = M.Modal.getInstance(document.getElementById('save-modal-sub'));
-    instance.open();
-    // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title-sub').textContent = 'Agregar nueva Subcategoría';
-    //Se llena el select categorias
-    fillSelect(ENDPOINT_CATEGORIA , 'cmbCategoria', null);
-}
-
-    //--------Noticias
-
-// Función para preparar el formulario al momento de insertar un registro.
-function openCreateDialogNew() {
-    // Se restauran los elementos del formulario.
-    document.getElementById('save-form-new').reset();
-    // Se abre la caja de dialogo (modal) que contiene el formulario.
-    let instance = M.Modal.getInstance(document.getElementById('save-modal-new'));
-    instance.open();
-    // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title-new').textContent = 'Redactar Noticia';
 }
 
 
@@ -225,94 +116,6 @@ function openUpdateDialogCat(id) {
     });
 }
 
-    //--------Subcategorías
-
-// Función para preparar el formulario al momento de modificar un registro.
-function openUpdateDialogSub(id) {
-    // Se restauran los elementos del formulario.
-    document.getElementById('save-form-sub').reset();
-    // Se abre la caja de dialogo (modal) que contiene el formulario.
-    let instance = M.Modal.getInstance(document.getElementById('save-modal-sub'));
-    instance.open();
-    // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title-sub').textContent = 'Actualizar categoría';
-
-    // Se define un objeto con los datos del registro seleccionado.
-    const data = new FormData();
-    data.append('id_tipo_producto', id);
-
-    fetch(API_ADMIN + 'readOneSub', {
-        method: 'post',
-        body: data
-    }).then(function (request) {
-        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-        if (request.ok) {
-            request.json().then(function (response) {
-                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-                if (response.status) {
-                    // Se inicializan los campos del formulario con los datos del registro seleccionado.
-                    document.getElementById('id_tipo_producto').value = response.dataset.id_tipo_producto;
-                    document.getElementById('txtTipo').value = response.dataset.tipo_producto;
-                    fillSelect(ENDPOINT_CATEGORIA , 'cmbCategoria', response.dataset.id_categoria);
-                    // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
-                    M.updateTextFields();
-                } else {
-                    sweetAlert(2, response.exception, null);
-                }
-            });
-        } else {
-            console.log(request.status + ' ' + request.statusText);
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
-}
-
-    //--------Noticias
-
-// Función para preparar el formulario al momento de modificar un registro.
-function openUpdateDialogNew(id) {
-    // Se restauran los elementos del formulario.
-    document.getElementById('save-form-new').reset();
-    // Se abre la caja de dialogo (modal) que contiene el formulario.
-    let instance = M.Modal.getInstance(document.getElementById('save-modal-new'));
-    instance.open();
-    // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title-new').textContent = 'Actualizar noticia';
-
-    // Se define un objeto con los datos del registro seleccionado.
-    const data = new FormData();
-    data.append('id_noticia', id);
-
-    fetch(API_ADMIN + 'readOneNew', {
-        method: 'post',
-        body: data
-    }).then(function (request) {
-        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-        if (request.ok) {
-            request.json().then(function (response) {
-                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-                if (response.status) {
-                    // Se inicializan los campos del formulario con los datos del registro seleccionado.
-                    document.getElementById('id_noticia').value = response.dataset.id_noticia;
-                    document.getElementById('titular').value = response.dataset.titular;
-                    document.getElementById('resumen').value = response.dataset.resumen;
-                    document.getElementById('cuerpo').value = response.dataset.cuerpo;
-                    document.getElementById('link').value = response.dataset.link;
-                    // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
-                    M.updateTextFields();
-                } else {
-                    sweetAlert(2, response.exception, null);
-                }
-            });
-        } else {
-            console.log(request.status + ' ' + request.statusText);
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
-}
-
 //---------------------------- Ejecucción de Formularios ------------------------------------
 
     //--------Categorías
@@ -332,40 +135,6 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     saveRow(API_ADMIN, action, 'save-form', 'save-modal');
 });
 
-    //--------Subcategorías
-
-// Método manejador de eventos que se ejecuta cuando se envía el formulario de guardar.
-document.getElementById('save-form-sub').addEventListener('submit', function (event) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se define una variable para establecer la acción a realizar en la API.
-    let action = '';
-    // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    if (document.getElementById('id_tipo_producto').value) {
-        action = 'updateSub';
-    } else {
-        action = 'createSub';
-    }
-    saveRow2(API_ADMIN, action, 'save-form-sub', 'save-modal-sub', ENDPOINT_SUB);
-});
-
-    //--------Noticias
-
-// Método manejador de eventos que se ejecuta cuando se envía el formulario de guardar.
-document.getElementById('save-form-new').addEventListener('submit', function (event) {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se define una variable para establecer la acción a realizar en la API.
-    let action = '';
-    // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    if (document.getElementById('id_noticia').value) {
-        action = 'updateNew';
-    } else {
-        action = 'createNew';
-    }
-    saveRow3(API_ADMIN, action, 'save-form-new', 'save-modal-new', ENDPOINT_NEW);
-});
-
 
 //---------------------------- Borrar Registro ------------------------------------
 
@@ -378,15 +147,4 @@ function openDeleteDialogCat(id) {
     data.append('id_categoria', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_ADMIN, data);
-}
-
-    //--------Subcategoria
-
-// Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
-function openDeleteDialogSub(id) {
-    // Se define un objeto con los datos del registro seleccionado.
-    const data = new FormData();
-    data.append('id_tipo_producto', id);
-    // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete2(API_ADMIN, data);
 }

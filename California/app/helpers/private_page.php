@@ -58,8 +58,6 @@ class Dashboard_Page {
                                 
                             <li><a href="pedidos.php" class="pad-nav Subtitulos black-text">Pedidos</a></li>
                                 
-                            <li><a href="reportes.php" class="pad-nav Subtitulos black-text"> Reportes</a></li>
-
                             <li><a href="#!" class="pad-nav Subtitulos black-text dropdown-trigger" data-target="DropdownUser">Usuarios</a></li>
                                 
                             <li><a href="../public/index.php" class="pad-nav Subtitulos black-text">Cerrar Sesión<i class="right valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -91,8 +89,6 @@ class Dashboard_Page {
                             
                     <li><a href="pedidos.php" class="pad-nav Subtitulos black-text">Pedidos</a></li>
                             
-                    <li><a href="reportes.php" class="pad-nav Subtitulos black-text"> Reportes</a></li>
-
                     <li><a href="clientes.php" class="pad-nav Subtitulos black-text"> Usuarios</a></li>
                     
                     <li><a href="../public/index.php" class="Subtitulos black-text">Cerrar Sesión<i class="left valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"

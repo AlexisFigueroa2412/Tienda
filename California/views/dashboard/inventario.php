@@ -50,7 +50,7 @@ Dashboard_Page::headerTemplate('California','California');
             <h5 id="modal-title"></h5>
             <br>
             <div class="row">
-                <form method="POST" id="save-form" enctype="multipart/form-data" class="col s12">
+                <form method="post" id="save-form" enctype="multipart/form-data" class="col s12">
                 <input class="hide" type="number" id="id_producto" name="id_producto"/>
                     <div class="row">
                         <div class="input-field col s12 m12 l12">
@@ -72,11 +72,6 @@ Dashboard_Page::headerTemplate('California','California');
                         </div>
                         <div class="input-field col s6 m6 l6">
                             <select id="tipo_producto" name="tipo_producto">
-                                <option value="1">Skateboard</option>
-                                <option value="2">Longboard</option>
-                                <option value="3">Ropa</option>
-                                <option value="4">Zapatos</option>
-                                <option value="5">Complementos</option>
                             </select>
                             <label>Tipo</label>
                         </div>                                
@@ -84,7 +79,7 @@ Dashboard_Page::headerTemplate('California','California');
                             <textarea id="decripcion" name="decripcion" class="materialize-textarea" required></textarea>
                             <label for="decripcion">Descripcion</label>
                         </div>
-                        <div class="input-field col s6 m6 l6">
+                        <div class="input-field col s12 m12 l12">
                             <input id="marca" name="marca" type="text" class="validate" required>
                             <label for="marca">Marca</label>
                         </div><div class="input-field col s6 m6 l6">
@@ -94,10 +89,6 @@ Dashboard_Page::headerTemplate('California','California');
                         <div class="input-field col s12 m6 l6">
                             <input id="precio" name="precio" type="number" min="1" max="90" step="any" class="validate" required>
                             <label for="precio">Precio $</label>
-                        </div>
-                        <div class="input-field col s12 m6 l6">
-                            <input id="descuento" name="descuento" type="number" min="1" max="90" class="validate">
-                            <label for="descuento">Descuento %</label>
                         </div>
                         <div class="input-field col s12 m12 l12">
                         <div class="file-field input-field">

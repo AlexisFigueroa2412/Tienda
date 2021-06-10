@@ -79,38 +79,34 @@ if (isset($_GET['action'])) {
                 if ($producto->setNombre($_POST['nombre'])) {
                     if ($producto->setEstado($_POST['estado'] ? 1 : 0)) {
                         if ($producto->setDescripcion($_POST['decripcion'])) {
-                            if ($producto->setPrecio($_POST['precio_producto'])) {
+                            if ($producto->setPrecio($_POST['precio'])) {
                                 if ($producto->setCantidad($_POST['cantidad_total'])) {
                                     if ($producto->setMarca($_POST['marca'])) {
-                                        if ($producto->setDescuento($_POST['descuento'])) {
-                                            if (isset($_POST['tipo_producto'])) {
-                                                if ($producto->setTipo($_POST['tipo_producto'])) {     
-                                                    if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
-                                                        if ($producto->setImagen($_FILES['archivo_producto'])) {
-                                                            if ($producto->createRow()) {
-                                                                $result['status'] = 1;
-                                                                if ($producto->saveFile($_FILES['archivo_producto'], $producto->getRuta(), $producto->getImagen())) {
-                                                                    $result['message'] = 'Producto creado correctamente';
-                                                                } else {
-                                                                    $result['message'] = 'Producto creado pero no se guardó la imagen';
-                                                                }
+                                        if (isset($_POST['tipo_producto'])) {
+                                            if ($producto->setTipo($_POST['tipo_producto'])) {     
+                                                if (is_uploaded_file($_FILES['foto']['tmp_name'])) {
+                                                    if ($producto->setImagen($_FILES['foto'])) {
+                                                        if ($producto->createRow()) {
+                                                            $result['status'] = 1;
+                                                            if ($producto->saveFile($_FILES['foto'], $producto->getRuta(), $producto->getImagen())) {
+                                                                $result['message'] = 'Producto creado correctamente';
                                                             } else {
-                                                                $result['exception'] = Database::getException();;
+                                                                $result['message'] = 'Producto creado pero no se guardó la imagen';
                                                             }
                                                         } else {
-                                                            $result['exception'] = $producto->getImageError();
+                                                            $result['exception'] = Database::getException();;
                                                         }
                                                     } else {
-                                                        $result['exception'] = 'Seleccione una imagen';
+                                                        $result['exception'] = $producto->getImageError();
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Categoría incorrecta';
+                                                    $result['exception'] = 'Seleccione una imagen';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Seleccione una categoría';
+                                                $result['exception'] = 'Categoría incorrecta';
                                             }
                                         } else {
-                                            $result['exception'] = 'Cantidad incorrecta';
+                                            $result['exception'] = 'Seleccione una categoría';
                                         }
                                     } else {
                                         $result['exception'] = 'Marca incorrecta';
