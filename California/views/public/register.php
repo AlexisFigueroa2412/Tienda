@@ -18,25 +18,23 @@
 		  	
 		<!--Login y registro-->
 		<div class="container">
-			<div class="container">
-				<center>
-					<h5 class="Titulos black-text">Crear Cuenta</h5>
-					<span>Completa tus datos</span>
-					<form method="post" id="register-form">
-						<input id="nombre" name="nombre" type="text" placeholder="Nombre" class="validate col s6"/ required>
-						<input id="apellido" name="apellido" type="text" placeholder="Apellidos" class="validate"/ required>
-						<input id="email" name="email" type="email" placeholder="Email" class="validate"/ required>
-						<input id="telefono" name="telefono" type="tel" placeholder="Teléfono" class="validate"/ required>
-						<input id="clave" name="clave" type="password" placeholder="Contraseña" class="validate"/ required>	
-						<input id="clave2" name="clave2" type="password" placeholder="Confirmar Clave" class="validate"/ required>	<br>		
-						<button class="btn botonRegistro" type="submit">Registrarse
-                    		<i class="material-icons right">person_add</i>
-                		</button><br>			
-						<a href="#!" class="link modal-trigger" data-target="terminos">Al registrarte estas aceptando los terminos y condiciones</a>
-						<a href="login.php" class="link"><b>Regresar al login</b></a>
-					</form>
-					<br>
-				</center>		
+			<div class="container center-aling">
+				<h5 class="Titulos black-text">Crear Cuenta</h5>
+				<span>Completa tus datos</span>
+				<form method="post" id="register-form">
+					<input id="nombre" name="nombre" type="text" placeholder="Nombre" class="validate col s6" required>
+					<input id="apellido" name="apellido" type="text" placeholder="Apellidos" class="validate" required>
+					<input id="email" name="email" type="email" placeholder="Email" class="validate" required>
+					<input id="telefono" name="telefono" type="tel" placeholder="Teléfono" class="validate" required>
+					<input id="clave" name="clave" type="password" placeholder="Contraseña" class="validate" required>	
+					<input id="clave2" name="clave2" type="password" placeholder="Confirmar Clave" class="validate" required>	<br>		
+					<button class="btn botonRegistro" type="submit">Registrarse
+                		<i class="material-icons right">person_add</i>
+                	</button><br>			
+					<a href="#!" class="link modal-trigger" data-target="terminos">Al registrarte estas aceptando los terminos y condiciones</a>
+					<a href="login.php" class="link"><b>Regresar al login</b></a>
+				</form>
+				<br>	
 			</div>
 		</div>
 
@@ -46,4 +44,4 @@
 	  <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>                
 	  <script type="text/javascript" src="../../app/helpers/components.js"></script>
     </body>
-</html>  
+</html>

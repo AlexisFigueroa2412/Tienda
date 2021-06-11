@@ -64,7 +64,6 @@ Public_Page::headerTemplate('california','california');
 														<!--Btn Carrito-->
 														<a class="waves-effect waves-light black btn"><i class="material-icons left">add_shopping_cart</i>Llevar en el Carrito</a>
 													</div>
-													
 												</div>
 											</form>
 										</div>
