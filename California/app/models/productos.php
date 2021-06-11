@@ -15,6 +15,7 @@ class Productos extends Validator
     private $imagen = null;
     private $tipo = null;
     private $estado = null;
+    private $foto = null;
     private $ruta = '../../../resources/img/productos/';
 
     /*
@@ -72,8 +73,8 @@ class Productos extends Validator
 
     public function setMarca($value)
     {
-        if ($this->validateAplhanumeric($value)) {
-            $this->precio = $value;
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->marca = $value;
             return true;
         } else {
             return false;
@@ -93,7 +94,7 @@ class Productos extends Validator
     public function setImagen($file)
     {
         if ($this->validateImageFile($file, 500, 500)) {
-            $this->imagen = $this->getImageName();
+            $this->foto = $this->getImageName();
             return true;
         } else {
             return false;
@@ -112,7 +113,7 @@ class Productos extends Validator
 
     public function setEstado($value)
     {
-        if ($this->validateNaturalNumber($value)) {
+        if ($this->validateBoolean($value)) {
             $this->estado = $value;
             return true;
         } else {
@@ -160,12 +161,12 @@ class Productos extends Validator
 
     public function getImagen()
     {
-        return $this->imagen;
+        return $this->foto;
     }
 
     public function getTipo()
     {
-        return $this->Tipo;
+        return $this->tipo;
     }
 
     public function getEstado()
@@ -193,17 +194,17 @@ class Productos extends Validator
 
     public function createRow()
     {
-        $sql = 'INSERT INTO public."tbProductos"( id_tipo_producto, nombre, precio, decripcion, cantidad_total, estado, marca, descuento, foto)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->precio, $this->descripcion, $this->cantidad, $this->estado, $this->marca, $this->descuento, $this->foto);
+        $sql = 'INSERT INTO public."tbProductos"(nombre_producto, id_categoria, precio_producto, descripcion_producto, cantidad_total, estado_producto, marca_producto, foto)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->nombre,$this->tipo, $this->precio, $this->descripcion, $this->cantidad, $this->estado, $this->marca, $this->foto);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT "idProductos", foto, nombre, decripcion, precio, tipo_producto, estado, cantidad_total
-                FROM public."tbProductos" INNER JOIN public."tbTipo_producto" USING(id_tipo_producto)
-                ORDER BY nombre';
+        $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
+                FROM public."tbProductos" INNER JOIN public."tbCategorias" USING(id_categoria)
+                ORDER BY nombre_producto ';
         $params = null;
         return Database::getRows($sql, $params);
     }
