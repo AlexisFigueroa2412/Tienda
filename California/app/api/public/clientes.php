@@ -88,6 +88,7 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
+<<<<<<< HEAD
                         if ($cliente->setNombres($_POST['nombre'])) {
                             if ($cliente->setApellidos($_POST['apellido'])) {
                                 if ($cliente->setCorreo($_POST['email'])) {
@@ -97,6 +98,59 @@ if (isset($_GET['action'])) {
                                                 if ($cliente->register()) {
                                                     $result['status'] = 1;
                                                     $result['message'] = 'Registro exitoso';
+=======
+                // Se sanea el valor del token para evitar datos maliciosos.
+                $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
+                if ($token) {
+                    $secretKey = '6LdBzLQUAAAAAL6oP4xpgMao-SmEkmRCpoLBLri-';
+                    $ip = $_SERVER['REMOTE_ADDR'];
+
+                    $data = array(
+                        'secret' => $secretKey,
+                        'response' => $token,
+                        'remoteip' => $ip
+                    );
+
+                    $options = array(
+                        'http' => array(
+                            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                            'method'  => 'POST',
+                            'content' => http_build_query($data)
+                        ),
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false
+                        )
+                    );
+
+                    $url = 'https://www.google.com/recaptcha/api/siteverify';
+                    $context  = stream_context_create($options);
+                    $response = file_get_contents($url, false, $context);
+                    $captcha = json_decode($response, true);
+
+                    if ($captcha['success']) {
+                        if ($cliente->setNombres($_POST['nombres_cliente'])) {
+                            if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
+                                if ($cliente->setCorreo($_POST['correo_cliente'])) {
+                                    if ($cliente->setDireccion($_POST['direccion_cliente'])) {
+                                        if ($cliente->setDUI($_POST['dui_cliente'])) {
+                                            if ($cliente->setNacimiento($_POST['nacimiento_cliente'])) {
+                                                if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+                                                    if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
+                                                        if ($cliente->setClave($_POST['clave_cliente'])) {
+                                                            if ($cliente->createRow()) {
+                                                                $result['status'] = 1;
+                                                                $result['message'] = 'Cliente registrado correctamente';
+                                                            } else {
+                                                                $result['exception'] = Database::getException();
+                                                            }
+                                                        } else {
+                                                            $result['exception'] = $cliente->getPasswordError();
+                                                        }
+                                                    } else {
+                                                        $result['exception'] = 'Claves diferentes';
+                                                    }
+>>>>>>> 3ca8e65318d062eec0dcb5c7ab2cf9dce1c7320a
                                                 } else {
                                                     $result['exception'] = Database::getException();
                                                 }
@@ -104,7 +158,11 @@ if (isset($_GET['action'])) {
                                                 $result['exception'] = $cliente->getPasswordError();
                                             }
                                         } else {
+<<<<<<< HEAD
                                             $result['exception'] = 'Claves diferentes';
+=======
+                                            $result['exception'] = 'DUI incorrecto';
+>>>>>>> 3ca8e65318d062eec0dcb5c7ab2cf9dce1c7320a
                                         }
                                     } else {
                                         $result['exception'] = 'Teléfono incorrecto';

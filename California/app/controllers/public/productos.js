@@ -25,7 +25,7 @@ function fillTable(dataset) {
                 <!--Imagen del producto-->
                 <div class="card-image">
                 <img src="../../resources/img/productos/${row.foto}">
-                <a href="producto.php?id=${row.id_producto}" class="btn-floating halfway-fab waves-effect waves-light black hoverable transition-appear down"><i class="material-icons">call_made</i></a>
+                <a href="producto.php?id=${row.id_producto}" class="btn-floating halfway-fab waves-effect waves-light black hoverable"><i class="material-icons">call_made</i></a>
                 </div>
                 <div class="card-content">
                 <!--Precio del producto-->

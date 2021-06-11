@@ -34,9 +34,12 @@ function readRows(api) {
     });
 }
 
-function readRows2(apiend) {
+function readRows2(apiend, prod) {
+    const data = new FormData();
+    data.append('id_producto', prod);
     fetch(apiend, {
-        method: 'get'
+        method: 'post',
+        body: data
     }).then(function (request) {
         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
         if (request.ok) {
