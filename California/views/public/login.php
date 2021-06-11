@@ -51,7 +51,7 @@
 						</div>
 						<div class="overlay-panel overlay-right">
 							<h5 class="Subtitulos">¿Eres nuevo por acá?</h5>
-							<a class="btn white black-text waves-effect waves-light hoverable" id="signUp">Registrate</a>
+							<a class="btn white black-text waves-effect waves-light hoverable modal-trigger" href="register.php" id="signUp">Registrate</a>
 						</div>
 					</div>
 				</div>
@@ -66,7 +66,23 @@
 						<a href="#!" class="modal-close waves-effect waves-green btn-flat">Ok</a>
 					</div>
 		    </div>
+<<<<<<< HEAD
+		</section> 
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+			<div class="modal-content">
+			<h4>Modal Header</h4>
+			<p>A bunch of text</p>
+			</div>
+			<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+			</div>
+		</div>
+
+=======
 		</section>
+>>>>>>> 3ca8e65318d062eec0dcb5c7ab2cf9dce1c7320a
 			
 			<!--Login Telefonos-->
 
@@ -150,8 +166,9 @@
 		</section>
 
       <!--JavaScript at end of body for optimized loading-->
-      <script type="text/javascript" src="../../resources/js/materialize.min.js"></script> 
-      <script type="text/javascript" src="../../app/init/california.js"></script> 
-      <script type="text/javascript" src="../../app/init/login.js"></script> 
+	  <script type="text/javascript" src="../../resources/js/materialize.min.js"></script> 
+      <script type="text/javascript" src="../../app/controllers/public/login.js"></script> 
+	  <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>                
+	  <script type="text/javascript" src="../../app/helpers/components.js"></script>
     </body>
 </html>  

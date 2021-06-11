@@ -12,6 +12,7 @@ class Clientes extends Validator
     private $telefono = null;
     private $dui = null;
     private $nacimiento = null;
+    private $alias = null;
     private $direccion = null;
     private $clave = null;
     private $estado = null; // Valor por defecto en la base de datos: true
@@ -33,6 +34,16 @@ class Clientes extends Validator
     {
         if ($this->validateAlphabetic($value, 1, 50)) {
             $this->nombres = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setAlias($value)
+    {
+        if ($this->validateAlphabetic($value, 1, 50)) {
+            $this->alias = $value;
             return true;
         } else {
             return false;
@@ -132,6 +143,11 @@ class Clientes extends Validator
         return $this->nombres;
     }
 
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
     public function getApellidos()
     {
         return $this->apellidos;
@@ -172,16 +188,31 @@ class Clientes extends Validator
         return $this->estado;
     }
 
+
+    public function register()
+    {
+        // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'INSERT INTO public."tbClientes"(
+            id_cliente, nombre_cliente, apellido_cliente, telefono_cliente, correo_cliente, clave_cliente, estado_cliente)
+            VALUES (default, ?, ?, ?, ?, ?, true);';
+        $params = array($this->nombres, $this->apellidos, $this->telefono, $this->correo, $hash);
+        return Database::executeRow($sql, $params);
+    }
+
     /*
     *   Métodos para gestionar la cuenta del cliente.
     */
     public function checkUser($correo)
     {
+<<<<<<< HEAD
+        $sql = 'SELECT "id_cliente" FROM "tbClientes" WHERE "correo_cliente" = ?';
+=======
         $sql = 'SELECT id_cliente, estado_cliente FROM clientes WHERE correo_cliente = ?';
+>>>>>>> 3ca8e65318d062eec0dcb5c7ab2cf9dce1c7320a
         $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
             $this->id = $data['id_cliente'];
-            $this->estado = $data['estado_cliente'];
             $this->correo = $correo;
             return true;
         } else {
@@ -191,7 +222,11 @@ class Clientes extends Validator
 
     public function checkPassword($password)
     {
+<<<<<<< HEAD
+        $sql = 'SELECT "clave_cliente" FROM "tbClientes" WHERE "id_cliente" = ?';
+=======
         $sql = 'SELECT clave_cliente FROM clientes WHERE id_cliente = ?';
+>>>>>>> 3ca8e65318d062eec0dcb5c7ab2cf9dce1c7320a
         $params = array($this->id);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_cliente'])) {
@@ -231,6 +266,10 @@ class Clientes extends Validator
         return Database::getRows($sql, $params);
     }
 
+    
+
+    
+    
     public function createRow()
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
