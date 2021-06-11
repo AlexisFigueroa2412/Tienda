@@ -220,10 +220,39 @@ class Productos extends Validator
 
     public function readOne()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, precio_producto, foto, id_categoria, estado_producto
-                FROM public."tbProductos"
+        $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
+        FROM public."tbProductos" INNER JOIN public."tbCategorias" USING(id_categoria)
                 WHERE id_producto = ?';
         $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function averageOne()
+    {
+        $sql = 'SELECT avg(calificacion) 
+        FROM public."tbValoracion";
+                WHERE id_producto = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function readComents()
+    {
+        $sql = 'SELECT comentario
+        FROM public."tbValoracion" 
+	    inner join public."tbClientes" using(id_cliente) 
+                WHERE id_producto = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function verify()
+    {
+        $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
+        FROM public."tbDetalle_pedido"
+        inner join public."tbPedidos" p using(id_pedido) 
+        where id_producto = ? and p.id_cliente = ? ';
+        $params = array($this->id, $_SESSION['id_usuario']);
         return Database::getRow($sql, $params);
     }
 
