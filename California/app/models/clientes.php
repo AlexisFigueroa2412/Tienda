@@ -10,7 +10,6 @@ class Clientes extends Validator
     private $apellidos = null;
     private $correo = null;
     private $telefono = null;
-    private $dui = null;
     private $nacimiento = null;
     private $direccion = null;
     private $clave = null;
@@ -63,16 +62,6 @@ class Clientes extends Validator
     {
         if ($this->validatePhone($value)) {
             $this->telefono = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function setDUI($value)
-    {
-        if ($this->validateDUI($value)) {
-            $this->dui = $value;
             return true;
         } else {
             return false;
@@ -147,11 +136,6 @@ class Clientes extends Validator
         return $this->telefono;
     }
 
-    public function getDUI()
-    {
-        return $this->dui;
-    }
-
     public function getNacimiento()
     {
         return $this->nacimiento;
@@ -177,7 +161,7 @@ class Clientes extends Validator
     */
     public function checkUser($correo)
     {
-        $sql = 'SELECT id_cliente, estado_cliente FROM clientes WHERE correo_cliente = ?';
+        $sql = 'SELECT id_cliente, estado_cliente FROM tbClientes WHERE correo_cliente = ?';
         $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
             $this->id = $data['id_cliente'];
@@ -191,7 +175,7 @@ class Clientes extends Validator
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT clave_cliente FROM clientes WHERE id_cliente = ?';
+        $sql = 'SELECT clave_cliente FROM tbClientes WHERE id_cliente = ?';
         $params = array($this->id);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_cliente'])) {
@@ -204,17 +188,17 @@ class Clientes extends Validator
     public function changePassword()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE clientes SET clave_cliente = ? WHERE id_cliente = ?';
+        $sql = 'UPDATE tbClientes SET clave_cliente = ? WHERE id_cliente = ?';
         $params = array($hash, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function editProfile()
     {
-        $sql = 'UPDATE clientes
-                SET nombres_cliente = ?, apellidos_cliente = ?, correo_cliente = ?, dui_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
+        $sql = 'UPDATE tbClientes
+                SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
                 WHERE id_cliente = ?';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -223,10 +207,10 @@ class Clientes extends Validator
     */
     public function searchRows($value)
     {
-        $sql = 'SELECT id_cliente, nombres_cliente, apellidos_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM clientes
-                WHERE apellidos_cliente ILIKE ? OR nombres_cliente ILIKE ?
-                ORDER BY apellidos_cliente';
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
+                FROM tbClientes
+                WHERE apellido_cliente ILIKE ? OR nombre_cliente ILIKE ?
+                ORDER BY apellido_cliente';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
     }
@@ -235,25 +219,25 @@ class Clientes extends Validator
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO clientes(nombres_cliente, apellidos_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, clave_cliente)
+        $sql = 'INSERT INTO tbClientes(nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, clave_cliente)
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $hash);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $this->nacimiento, $this->direccion, $hash);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_cliente, nombres_cliente, apellidos_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM clientes
-                ORDER BY apellidos_cliente';
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
+                FROM tbClientes
+                ORDER BY apellido_cliente';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_cliente, nombres_cliente, apellidos_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM clientes
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
+                FROM tbClientes
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -261,7 +245,7 @@ class Clientes extends Validator
 
     public function updateState()
     {
-        $sql = 'UPDATE clientes
+        $sql = 'UPDATE tbClientes
                 SET estado_cliente = ?
                 WHERE id_cliente = ?';
         $params = array($this->id);
@@ -270,7 +254,7 @@ class Clientes extends Validator
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM clientes
+        $sql = 'DELETE FROM tbClientes
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);

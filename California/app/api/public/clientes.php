@@ -61,11 +61,10 @@ if (isset($_GET['action'])) {
                     $captcha = json_decode($response, true);
 
                     if ($captcha['success']) {
-                        if ($cliente->setNombres($_POST['nombres_cliente'])) {
-                            if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
+                        if ($cliente->setNombres($_POST['nombre_cliente'])) {
+                            if ($cliente->setApellidos($_POST['apellido_cliente'])) {
                                 if ($cliente->setCorreo($_POST['correo_cliente'])) {
                                     if ($cliente->setDireccion($_POST['direccion_cliente'])) {
-                                        if ($cliente->setDUI($_POST['dui_cliente'])) {
                                             if ($cliente->setNacimiento($_POST['nacimiento_cliente'])) {
                                                 if ($cliente->setTelefono($_POST['telefono_cliente'])) {
                                                     if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
@@ -88,9 +87,6 @@ if (isset($_GET['action'])) {
                                             } else {
                                                 $result['exception'] = 'Fecha de nacimiento incorrecta';
                                             }
-                                        } else {
-                                            $result['exception'] = 'DUI incorrecto';
-                                        }
                                     } else {
                                         $result['exception'] = 'Dirección incorrecta';
                                     }
