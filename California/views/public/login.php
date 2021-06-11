@@ -23,12 +23,11 @@
 					<form method>
 						<h5 class="Titulos black-text">Crear Cuenta</h5>
 						<span>Completa tus datos</span>
-						<input type="text" placeholder="Nombre" class="validate col s6"/>
+						<input type="text" placeholder="Nombre" class="validate col"/>
 						<input type="text" placeholder="Apellidos" class="validate"/>
 						<input type="email" placeholder="Email" class="validate"/>
 						<input type="tel" placeholder="Teléfono" class="validate"/>
-						<input type="password" placeholder="Contraseña" class="validate"/>		
-						<input type="text" placeholder="Nombre" class="validate col s6"/>
+						<input type="password" placeholder="Contraseña" class="validate"/>
 						<input type="password" placeholder="Contraseña" class="validate"/>							
 						<a href="#!" class="link modal-trigger" data-target="terminos">Al registrarte estas aceptando los terminos y condiciones</a>
 						<a class="btn black waves-effect waves-light hoverable" href="#!">Registrarme</a>

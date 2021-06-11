@@ -1,6 +1,6 @@
 <?php
 include("../../app/helpers/public_page.php");
-Public_Page::headerTemplate('california');
+Public_Page::headerTemplate('california','california');
 ?>
   <section> 
     <!--Banner del Index-->    
@@ -167,79 +167,9 @@ Public_Page::headerTemplate('california');
       </div>
     </div>
   </section>
-  <section>
-    <div>
-      <br><br>
-      <h2 class="pad-nav Texto center">Esto es lo que opinan de nosotros...</h2>
-      <br><br><br>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col s4 m4 l4">
-          <!-- Modal Trigger -->
-          <a class="waves-effect waves-light black btn modal-trigger" data-target="modal1">Agregar Comentario</a>
-                   
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 m12 l12">
-          <!--Comentarios-->
-          <ul class="collection Texto">
-            <li class="collection-item avatar">
-              <img src="../../resources/multimedia/perfil1.jpg" alt="" class="circle">
-              <span class="title">Steve Caballero</span>
-              <p>Skater <br>
-                California es más que una tienda, es una puerta para la cultura.
-              </p>
-              <a href="#!" class="secondary-content"><i class="material-icons yellow-text">grade</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="../../resources/multimedia/perfil.jpg" alt="" class="circle">
-              <span class="title">Sergio Pérez</span>
-              <p>Podría ser Skater <br>
-                Si fuera Skater sin duda preferiria comprar en California.
-              </p>
-              <a href="#!" class="secondary-content"><i class="material-icons yellow-text">grade</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="../../resources/multimedia/perfil.jfif" alt="" class="circle">
-              <span class="title">Tony Hawk</span>
-              <p>Leyenda del Skate <br>
-                Nunca vi en mi carrera una iniciativa tan prometedora como esta.
-              </p>
-              <a href="#!" class="secondary-content"><i class="material-icons yellow-text">grade</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="../../resources/multimedia/pefil2.jpg" alt="" class="circle">
-              <span class="title">Mauricio</span>
-              <p>Leyenda de la plaza <br>
-                De no ser por los implementos de California, no hubiera hecho historia en Red Bull 2019.
-              </p>
-              <a href="#!" class="secondary-content"><i class="material-icons yellow-text">grade</i></a>
-            </li>
-          </ul>          
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Structure --> 
-    <div id="modal1" class="modal rad">
-      <div class="modal-content">
-        <h4 class="Titulos">Agregar Comentario</h4>
-        <p class="Texto">Ingresa tu comentario</p>
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
-      </div>
-    </div>
-  </section>
   
 <?php
   //Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
-  Public_Page::footerTemplate('index.js');
+  Public_Page::footerTemplate('index.js','california');
 ?>
 
