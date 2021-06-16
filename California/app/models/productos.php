@@ -236,7 +236,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
-    public function readComents()
+    public function Coments()
     {
         $sql = 'SELECT comentario
         FROM public."tbValoracion" 
@@ -252,7 +252,7 @@ class Productos extends Validator
         FROM public."tbDetalle_pedido"
         inner join public."tbPedidos" p using(id_pedido) 
         where id_producto = ? and p.id_cliente = ? ';
-        $params = array($this->id, $_SESSION['id_usuario']);
+        $params = array($this->id, $_SESSION['id_cliente']);
         return Database::getRow($sql, $params);
     }
 

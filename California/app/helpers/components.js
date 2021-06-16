@@ -96,7 +96,7 @@ function readRows3(apiend) {
 *   Retorno: ninguno.
 */
 function searchRows(api, form) {
-    if (form ==  'search-form-2') {
+if (form ==  'search-form-2') {
         fetch(api + 'searchSub', {
             method: 'post',
             body: new FormData(document.getElementById(form))
@@ -166,6 +166,33 @@ function searchRows(api, form) {
             console.log(error);
         });   
     }
+}
+function searchRow2(api, id){
+    const data = new FormData();
+    data.append('id_producto', id);
+    fetch(api, {
+        method: 'post',
+        body: data
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                let data = [];
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                if (response.status) {
+                    data = response.dataset;
+                } else {
+                    sweetAlert(4, response.exception, null);
+                }
+                // Se envían los datos a la función del controlador para que llene la tabla en la vista.
+                fillTable(data);
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
 /*

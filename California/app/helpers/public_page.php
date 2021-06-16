@@ -44,14 +44,7 @@ class Public_Page
             if ($filename != 'login.php' && $filename != 'signin.php') {
                 print('
                 <!-- Dropdown de los Productos -->
-                <ul id="DropdownProducts" class="dropdown-content">
-                  <li><a href="productos.php" class="Texto grey-text text-darken-4">Skateboards</a></li>
-                  <li><a href="productos.php" class="Texto grey-text text-darken-4">Longboards</a></li>
-                  <li class="divider"></li>
-                  <li><a href="productos.php" class="Texto grey-text text-darken-4">Ropa</a></li>
-                  <li><a href="productos.php" class="Texto grey-text text-darken-4">Zapatillas</a></li>
-                  <li><a href="productos.php" class="Texto grey-text text-darken-4">Complementos</a></li>
-                </ul>
+                
           
                 <!--Navbar fijo-->
                 <div class="navbar-fixed">
@@ -63,13 +56,8 @@ class Public_Page
                       <ul class="right hide-on-med-and-down">
                         <!-- Dropdown Trigger -->
           
-                        <li><a class="Subtitulos black-text dropdown-trigger" href="#!" data-target="DropdownProducts"> Productos<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a class="Subtitulos black-text" href="productos.php"> Productos<i class="material-icons right">arrow_drop_down</i></a></li>
           
-                        <li><a href="noticias.php" class="pad-nav Subtitulos black-text">Noticias<!--<i class="right valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                          width="20" height="20"
-                          viewBox="0 0 172 172"
-                          style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M156.4461,4.42094c-10.47136,10.2856 -25.93782,19.93389 -37.54438,22.54141l-60.47547,13.58531c0.0126,-0.33049 0.05375,-0.65413 0.05375,-0.98765c0,-14.22784 -11.57216,-25.8 -25.8,-25.8c-14.22784,0 -25.8,11.57216 -25.8,25.8c0,14.22784 11.57216,25.8 25.8,25.8c11.30498,0 20.91021,-7.3163 24.38906,-17.45531l12.85969,-2.88906c-0.1286,0.4063 -0.29991,0.79643 -0.38969,1.21609l-7.11516,29.3475c-2.37704,-0.33368 -5.10587,-0.69332 -7.98859,-1.06828c-5.15656,-0.6708 -11.00322,-1.42502 -16.25266,-2.2575c-10.18584,-1.00792 -18.25355,1.51204 -23.89859,7.51828c-7.8604,8.35576 -7.97655,20.14169 -7.34359,24.05985l11.46219,61.28844h7.00094l-11.69062,-62.46422c-0.5504,-3.4056 0.08976,-12.32998 5.57656,-18.16078c4.1108,-4.36536 10.24217,-6.17211 18.00625,-5.41531c5.1428,0.82216 11.04449,1.58654 16.25265,2.26422c4.18648,0.54352 8.03805,1.04076 10.94485,1.49828c1.77848,0.28552 3.4536,-0.84608 3.87672,-2.58672l7.86765,-32.47844c0.38528,-1.79568 1.45544,-3.336 2.99656,-4.3336c1.54112,-0.99416 3.37416,-1.32934 5.18015,-0.94062c3.70832,0.79808 6.07542,4.46657 5.28766,8.10953l-10.0311,42.54312c-0.05848,0.17544 -0.12357,0.39958 -0.15453,0.55094l-0.44344,2.365c-0.93568,3.80808 -4.91076,7.7213 -8.80828,7.22938l-28.56812,-3.51391c-1.94016,-0.28208 -3.60265,1.11144 -3.82969,2.99656c-0.23048,1.88512 1.10473,3.59921 2.98985,3.82969l14.64688,1.80062l7.39734,56.70625h6.94047l-7.28984,-55.83953l6.87328,0.84656c3.54079,0.45586 6.9036,-0.74767 9.69515,-2.80844v57.17656l30.55687,-19.39703l31.36313,19.29625v-131.98984c7.71355,0.57996 15.77094,2.31185 22.94453,5.58328zM32.68,20.64c10.43008,0 18.92,8.48648 18.92,18.92c0,0.87174 -0.08013,1.72582 -0.19485,2.56656l-6.06031,1.3639c-1.85072,0.41624 -3.0164,2.25772 -2.60016,4.11188c0.41624,1.85072 2.251,3.01639 4.10516,2.60015l1.69984,-0.38297c-3.37557,5.20193 -9.22183,8.66047 -15.86969,8.66047c-10.43008,0 -18.92,-8.48648 -18.92,-18.92c0,-10.43352 8.48992,-18.92 18.92,-18.92zM134.16,32.21641v119.86922l-24.53687,-15.10375l-23.62313,15.00297v-55.54391l0.23515,-1.22953c0.03784,-0.12384 0.08014,-0.25665 0.10078,-0.34265l10.07813,-42.7514c0.98388,-4.57166 -0.44861,-9.1032 -3.41985,-12.2886l27.41922,-6.16109c3.98257,-0.89472 8.71148,-1.39356 13.74656,-1.45125z"></path></g></g></svg></i>--></a></li>
-                          
                         <li><a href="sobre_nosotros.php" class="pad-nav Subtitulos black-text"><!--<i class="right valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                           width="20" height="20"
                           viewBox="0 0 172 172"
@@ -94,27 +82,12 @@ class Public_Page
                   </nav>  
                 </div>
           
-                <!-- Dropdown de los Productos Navbar Hamburguesa (no funciona ocupar el mismo dropdown dos veces)-->
-                <ul id="DropdownProductsBurger" class="dropdown-content">
-                  <li><a href="Productos.php" class="Texto grey-text text-darken-4">Skateboards</a></li>
-                  <li><a href="Productos.php" class="Texto grey-text text-darken-4">Longboards</a></li>
-                  <li class="divider"></li>
-                  <li><a href="Productos.php" class="Texto grey-text text-darken-4">Ropa</a></li>
-                  <li><a href="Productos.php" class="Texto grey-text text-darken-4">Zapatillas</a></li>
-                  <li><a href="Productos.php" class="Texto grey-text text-darken-4">Complementos</a></li>
-                </ul>
-                
                 <!--Navbar "Hamburguesa"-->
                 <ul class="sidenav" id="mobile-demo">
                   <!-- Dropdown Trigger -->
           
-                  <li><a class="Subtitulos black-text" href="Productos.php" h>Productos<i class="material-icons left">arrow_drop_down</i></a></li>
+                  <li><a class="Subtitulos black-text" href="Productos.php">Productos<i class="material-icons left">arrow_drop_down</i></a></li>
           
-                  <li><a href="noticia.php" class="Subtitulos black-text">Noticias<i class="left valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                    width="20" height="20"
-                    viewBox="0 0 172 172"
-                    style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M156.4461,4.42094c-10.47136,10.2856 -25.93782,19.93389 -37.54438,22.54141l-60.47547,13.58531c0.0126,-0.33049 0.05375,-0.65413 0.05375,-0.98765c0,-14.22784 -11.57216,-25.8 -25.8,-25.8c-14.22784,0 -25.8,11.57216 -25.8,25.8c0,14.22784 11.57216,25.8 25.8,25.8c11.30498,0 20.91021,-7.3163 24.38906,-17.45531l12.85969,-2.88906c-0.1286,0.4063 -0.29991,0.79643 -0.38969,1.21609l-7.11516,29.3475c-2.37704,-0.33368 -5.10587,-0.69332 -7.98859,-1.06828c-5.15656,-0.6708 -11.00322,-1.42502 -16.25266,-2.2575c-10.18584,-1.00792 -18.25355,1.51204 -23.89859,7.51828c-7.8604,8.35576 -7.97655,20.14169 -7.34359,24.05985l11.46219,61.28844h7.00094l-11.69062,-62.46422c-0.5504,-3.4056 0.08976,-12.32998 5.57656,-18.16078c4.1108,-4.36536 10.24217,-6.17211 18.00625,-5.41531c5.1428,0.82216 11.04449,1.58654 16.25265,2.26422c4.18648,0.54352 8.03805,1.04076 10.94485,1.49828c1.77848,0.28552 3.4536,-0.84608 3.87672,-2.58672l7.86765,-32.47844c0.38528,-1.79568 1.45544,-3.336 2.99656,-4.3336c1.54112,-0.99416 3.37416,-1.32934 5.18015,-0.94062c3.70832,0.79808 6.07542,4.46657 5.28766,8.10953l-10.0311,42.54312c-0.05848,0.17544 -0.12357,0.39958 -0.15453,0.55094l-0.44344,2.365c-0.93568,3.80808 -4.91076,7.7213 -8.80828,7.22938l-28.56812,-3.51391c-1.94016,-0.28208 -3.60265,1.11144 -3.82969,2.99656c-0.23048,1.88512 1.10473,3.59921 2.98985,3.82969l14.64688,1.80062l7.39734,56.70625h6.94047l-7.28984,-55.83953l6.87328,0.84656c3.54079,0.45586 6.9036,-0.74767 9.69515,-2.80844v57.17656l30.55687,-19.39703l31.36313,19.29625v-131.98984c7.71355,0.57996 15.77094,2.31185 22.94453,5.58328zM32.68,20.64c10.43008,0 18.92,8.48648 18.92,18.92c0,0.87174 -0.08013,1.72582 -0.19485,2.56656l-6.06031,1.3639c-1.85072,0.41624 -3.0164,2.25772 -2.60016,4.11188c0.41624,1.85072 2.251,3.01639 4.10516,2.60015l1.69984,-0.38297c-3.37557,5.20193 -9.22183,8.66047 -15.86969,8.66047c-10.43008,0 -18.92,-8.48648 -18.92,-18.92c0,-10.43352 8.48992,-18.92 18.92,-18.92zM134.16,32.21641v119.86922l-24.53687,-15.10375l-23.62313,15.00297v-55.54391l0.23515,-1.22953c0.03784,-0.12384 0.08014,-0.25665 0.10078,-0.34265l10.07813,-42.7514c0.98388,-4.57166 -0.44861,-9.1032 -3.41985,-12.2886l27.41922,-6.16109c3.98257,-0.89472 8.71148,-1.39356 13.74656,-1.45125z"></path></g></g></svg></i></a></li>
-                    
                   <li><a href="sobre_nosotros.php" class="Subtitulos black-text"><i class="left valign-wrapper"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                     width="20" height="20"
                     viewBox="0 0 172 172"
@@ -261,7 +234,6 @@ class Public_Page
               <h6 class="white-text Subtitulos">Menú</h6>
               <ul>
                 <li><a class="grey-text text-lighten-3" href="index.php">Inicio</a></li>
-                <li><a class="grey-text text-lighten-3" href="noticias.php">Noticias</a></li>
                 <li><a class="grey-text text-lighten-3" href="sobre_nosotros.php">Sobre Nosotros</a></li>
                 <li><a class="grey-text text-lighten-3" href="contacto.php">Contactanos</a></li>
               </ul>

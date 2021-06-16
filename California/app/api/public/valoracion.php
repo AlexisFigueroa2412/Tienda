@@ -16,7 +16,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) { 
             //Llamar categoria en especifico
-            case 'verify':
+            case 'averageOne':
                 if ($producto->setId($_POST['id_producto'])) {
                     if ($result['dataset'] = $producto->averageOne()) {
                         $result['status'] = 1;
@@ -24,14 +24,14 @@ if (isset($_GET['action'])) {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Categoría inexistente';
+                            $result['exception'] = 'No hay valoraciones';
                         }
                     }
                 } else {
-                    $result['exception'] = 'Categoría incorrecta';
+                    $result['exception'] = 'Acción incorrecta';
                 }
                 break;
-            case 'readOne':
+            case 'verify':
                 if ($producto->setId($_POST['id_producto'])) {
                     if ($result['dataset'] = $producto->verify()) {
                         $result['status'] = 1;
@@ -39,16 +39,16 @@ if (isset($_GET['action'])) {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Categoría inexistente';
+                            $result['exception'] = 'No puedes comentar';
                         }
                     }
                 } else {
-                    $result['exception'] = 'Categoría incorrecta';
+                    $result['exception'] = 'Acción incorrecta';
                 }
                 break;
-            case 'readComents':
+            case 'Coments':
                 if ($producto->setId($_POST['id_producto'])) {
-                    if ($result['dataset'] = $producto->readComents()) {
+                    if ($result['dataset'] = $producto->Coments()) {
                         $result['status'] = 1;
                     } else {
                         if (Database::getException()) {
@@ -58,7 +58,7 @@ if (isset($_GET['action'])) {
                         }
                     }
                 } else {
-                    $result['exception'] = 'Categoría incorrecta';
+                    $result['exception'] = 'Acción incorrecta';
                 }
                 break;    
             default:

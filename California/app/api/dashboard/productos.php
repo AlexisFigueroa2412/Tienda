@@ -227,6 +227,57 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            case 'averageOne':
+                if ($producto->setId($_POST['id_producto'])) {
+                    if ($result['dataset'] = $producto->averageOne()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay valoraciones';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Acción incorrecta';
+                }
+                break;    
+            case 'Coments':
+                if ($producto->setId($_POST['id_producto'])) {
+                    if ($result['dataset'] = $producto->Coments()) {
+                        $result['status'] = 1;
+                        $rows = count($result['dataset']);
+                        if ($rows > 1) {
+                            $result['message'] = 'Se encontraron ' . $rows . ' coincidencias';
+                        } else {
+                            $result['message'] = 'Solo existe una coincidencia';
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                             $result['exception'] = 'No hay comentarios de este producto';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Acción incorrecta';
+                }
+                break;       
+            case 'verify':
+                if ($producto->setId($_POST['id_producto'])) {
+                    if ($result['dataset'] = $producto->verify()) {
+                        $result['status'] = 1;
+                       } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                         } else {
+                            $result['exception'] = 'No puedes comentar';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Acción incorrecta';
+                }
+                break;     
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }
