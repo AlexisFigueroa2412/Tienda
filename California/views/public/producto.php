@@ -30,8 +30,6 @@ Public_Page::headerTemplate('california','california');
 				<div class="container">
 					<div class="row">
 						<div class="col s12 m12 l12">
-							<!--Id-->
-							<input class="hide" type="number" id="id_producto" name="id_producto" />
 							<!--Precio-->
 							<h4 class="Titulos" id="precio"></h4>
 							<!--Nombre-->
@@ -53,16 +51,18 @@ Public_Page::headerTemplate('california','california');
 								<div class="row">
 									<div class="col s12 m12 l12">
 										<div class="row">
-											<form class="col s12 m12 l12">
+											<form method="post" id="shopping-form" class="col s12 m12 l12">
 												<div class="row">
 													<!--Text Box Cantidad-->
+													<input type="number" id="id_producto" name="id_producto" class="hide"/>
+                        							<input type="number" id="precio_producto" name="precio_producto" class="hide"/>
 													<div class="input-field col s12 m12 l12" id="cant">
-														<input aria-disabled="true" id="cantidad" name="cantidad" type="number" min="1" class="validate" required>
-														<label for="cantidad">Cantidad</label>
+														<input aria-disabled="true" id="cantidad_producto" name="cantidad_producto" type="number" min="1" class="validate" required>
+														<label for="cantidad_producto">Cantidad</label>
 													</div>
 													<div class="col s12 m12 l12">
 														<!--Btn Carrito-->
-														<a class="waves-effect waves-light black btn"><i class="material-icons left">add_shopping_cart</i>Llevar en el Carrito</a>
+														<button type="submit" class="waves-effect waves-light black btn"><i class="material-icons left">add_shopping_cart</i>Llevar en el Carrito</button>
 													</div>
 												</div>
 											</form>

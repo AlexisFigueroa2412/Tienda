@@ -85,7 +85,7 @@ class Pedidos extends Validator
 
     public function setEstado($value)
     {
-        if ($this->validateNaturalNumber($value)) {
+        if ($this->validateAlphanumeric($value, 1, 1)) {
             $this->estado = $value;
             return true;
         } else {
@@ -108,14 +108,14 @@ class Pedidos extends Validator
     public function readOrder()
     {
         $sql = 'SELECT id_pedido
-                FROM pedidos
+                FROM public."tbPedidos"
                 WHERE estado_pedido = 0 AND id_cliente = ?';
         $params = array($this->cliente);
         if ($data = Database::getRow($sql, $params)) {
             $this->id_pedido = $data['id_pedido'];
             return true;
         } else {
-            $sql = 'INSERT INTO pedidos(id_cliente)
+            $sql = 'INSERT INTO public."tbPedidos"(id_cliente)
                     VALUES(?)';
             $params = array($this->cliente);
             // Se obtiene el ultimo valor insertado en la llave primaria de la tabla pedidos.
@@ -130,7 +130,7 @@ class Pedidos extends Validator
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        $sql = 'INSERT INTO detalle_pedido(id_producto, precio_producto, cantidad_producto, id_pedido)
+        $sql = 'INSERT INTO public."tbDetalle_pedido"(id_producto, precio_producto, cantidad_producto, id_pedido)
                 VALUES(?, ?, ?, ?)';
         $params = array($this->producto, $this->precio, $this->cantidad, $this->id_pedido);
         return Database::executeRow($sql, $params);
@@ -140,7 +140,7 @@ class Pedidos extends Validator
     public function readCart()
     {
         $sql = 'SELECT id_detalle, nombre_producto, detalle_pedido.precio_producto, detalle_pedido.cantidad_producto
-                FROM pedidos INNER JOIN detalle_pedido USING(id_pedido) INNER JOIN productos USING(id_producto)
+                FROM public."tbPedidos" INNER JOIN public."tbDetalle_pedido" USING(id_pedido) INNER JOIN public."tbPedidos" USING(id_producto)
                 WHERE id_pedido = ?';
         $params = array($this->id_pedido);
         return Database::getRows($sql, $params);
@@ -151,17 +151,17 @@ class Pedidos extends Validator
     {
         date_default_timezone_set('America/El_Salvador');
         $date = date('Y-m-d');
-        $sql = 'UPDATE pedidos
+        $sql = 'UPDATE public."tbPedidos"
                 SET estado_pedido = ?, fecha_pedido = ?
                 WHERE id_pedido = ?';
-        $params = array(1, $date, $this->id_pedido);
+        $params = array('1', $date, $this->id_pedido);
         return Database::executeRow($sql, $params);
     }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
     {
-        $sql = 'UPDATE detalle_pedido
+        $sql = 'UPDATE public."tbDetalle_pedido"
                 SET cantidad_producto = ?
                 WHERE id_pedido = ? AND id_detalle = ?';
         $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
@@ -171,7 +171,7 @@ class Pedidos extends Validator
     // Método para eliminar un producto que se encuentra en el carrito de compras.
     public function deleteDetail()
     {
-        $sql = 'DELETE FROM detalle_pedido
+        $sql = 'DELETE FROM public."tbDetalle_pedido"
                 WHERE id_pedido = ? AND id_detalle = ?';
         $params = array($this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);

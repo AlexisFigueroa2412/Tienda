@@ -1,6 +1,6 @@
 <?php
 include("../../app/helpers/public_page.php");
-Public_Page::headerTemplate('california');
+Public_Page::headerTemplate('california','california');
 ?>
 
 <section>
@@ -90,8 +90,7 @@ Public_Page::headerTemplate('california');
   </div>
 </section>
 
-
 <?php
   //Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
-  Public_Page::footerTemplate();
+  Public_Page::footerTemplate("cart.js",null);
 ?>
