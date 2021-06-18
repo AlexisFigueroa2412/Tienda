@@ -2,26 +2,15 @@
 include("../../app/helpers/public_page.php");
 Public_Page::headerTemplate('california','california');
 ?>
-<div class="container Texto">
-    <div class="row">
-        <div class="col s12 m12 l12">
-            <div class="row">
-                <form method="post" id="search-form">
-                    <div class="input-field col s8 m10 l10">
-                        <i class="material-icons prefix">search</i>
-                        <input placeholder="Buscar Categoria por nombre" id="search" type="text" name="search"
-                            class="validate" required>
-                        <label for="search">Buscar Categoría</label>
-                    </div>
-                    <div class="input-field col s4 m2 l2">
-                        <button type="submit" class="btn col s12 waves-effect black">Buscar</button>
-                    </div>
-                </form>
-            </div>
+<head class="Texto">
+    <div class="container">
+        <div class="row">
+            <h1>Catálogo</h1><br><br>
+            <h5>Da un vistazo a nuestros productos</h5><br><br>
         </div>
     </div>
-</div>
-
+</head>
+<!-- Aca se cargan todos los productos -->
 <section>
     <div class="container Texto">
         <div class="row">

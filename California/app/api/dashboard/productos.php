@@ -15,6 +15,8 @@ if (isset($_GET['action'])) {
   
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+
+            //Esta accion sirve para leer todos los productos
             case 'readAll':
                 if ($result['dataset'] = $producto->readAll()) {
                     $result['status'] = 1;
@@ -26,17 +28,8 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
-            case 'readCombo':
-                if ($result['dataset'] = $tipo_producto->readCombo()) {
-                        $result['status'] = 1;
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'No hay Tipos de producto';
-                    }
-                }
-                break;    
+
+            //Esta accion lee los productos por categoria     
             case 'readProductosCategoria':
                 if ($categoria->setId($_POST['id_categoria'])) {
                     if ($result['dataset'] = $categoria->readProductosCategoria()) {
@@ -52,11 +45,16 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Categoría incorrecta';
                 }
                 break;
+            //Esta accion busca en los productos
             case 'search':
+                //Se valida el formulario
                 $_POST = $producto->validateForm($_POST);
+                //Se verifica que el campo no este vacio
                 if ($_POST['search'] != '') {
+                    //Se envia el dato y se ejecuta la accion
                     if ($result['dataset'] = $producto->searchRows($_POST['search'])) {
                         $result['status'] = 1;
+                        //se cuentan los resultados obtenidos
                         $rows = count($result['dataset']);
                         if ($rows > 1) {
                             $result['message'] = 'Se encontraron ' . $rows . ' coincidencias';
@@ -74,6 +72,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Ingrese un valor para buscar';
                 }
                 break;
+                //Se crea el producto
             case 'create':
                 $_POST = $producto->validateForm($_POST);
                 if ($producto->setNombre($_POST['nombre'])) {
@@ -278,10 +277,38 @@ if (isset($_GET['action'])) {
                    } else {
                           $result['exception'] = 'Acción incorrecta';
                    }
-               } else {
-                   $result['exception'] = 'Cliente incorrecto';
-               }
-               break;       
+                } else {
+                    $result['exception'] = 'Cliente incorrecto';
+                }
+               break;   
+            case 'createComent':
+                $_POST = $producto->validateForm($_POST);
+                if ($producto->setCliente($_SESSION['id_cliente'])) {
+                    if ($producto->setId($_POST['id_producto_coment'])) {
+                        if ($producto->setComentario($_POST['comentario'])) {
+                            if ($producto->setValor($_POST['calificacion'])) {
+                                if ($result['dataset'] = $producto->createComent()) {
+                                    $result['status'] = 1;
+                                } else {
+                                     if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No puedes comentar';
+                                    }
+                                }
+                            } else {
+                                   $result['exception'] = 'Acción incorrecta';
+                            }
+                        } else {
+                               $result['exception'] = 'Acción incorrecta';
+                        }
+                    } else {
+                           $result['exception'] = 'Acción incorrecta';
+                    }
+                } else {
+                    $result['exception'] = 'Cliente incorrecto';
+                }
+                break;       
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }

@@ -178,7 +178,7 @@ class Pedidos extends Validator
         $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
-
+    //Se restan los productos del inventario cuando se crea un detalle
     public function restarCatalogo()
     {
         $sql = 'UPDATE public."tbProductos"
@@ -187,17 +187,20 @@ class Pedidos extends Validator
         $params = array($this->producto, $this->cantidad, $this->producto);
         return Database::executeRow($sql, $params);
     }
+    //Movimientos de productos en el carrito
     public function cambioCatalogo()
-    {
+    {   //Si se aumento el numero de productos a llevar se restan del inventario
         if ($this->cantidad > $this->anterior) {
+            //Se resta la cantidad a enviar
             $tomar = $this->cantidad - $this->anterior;
             $sql1 = 'UPDATE public."tbProductos"
             SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) - ?)
             WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
             $params1 = array($this->id_detalle, $tomar , $this->id_detalle);
             return Database::executeRow($sql1, $params1);
-
+        //Si el numero de productos se redujo se a;aden al inventario de nuevo
         }elseif ($this->cantidad < $this->anterior) {
+            //se suma la cantidad a enviar
             $devolver = $this->anterior- $this->cantidad;
             $sql = 'UPDATE public."tbProductos"
             SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) + ?)
@@ -206,6 +209,7 @@ class Pedidos extends Validator
             return Database::executeRow($sql, $params);
         }
     }
+    //Se devuelve a la hora de eliminar un detalle
     public function devolverCatalogo()
     {
         $sql = 'UPDATE public."tbProductos"

@@ -16,14 +16,18 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+            //Accion para crear el detalle
             case 'createDetail':
+                //Se envian los datos
                 if ($pedido->setCliente($_SESSION['id_cliente'])) {
                     if ($pedido->readOrder()) {
                         $_POST = $pedido->validateForm($_POST);
                         if ($pedido->setProducto($_POST['id_producto'])) {
                             if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                                 if ($pedido->setPrecio($_POST['precio_producto'])) {
+                                    //Se ejecuta el crear
                                     if ($pedido->createDetail()) {
+                                        //Se resta la cantidad en inventario
                                         if ($pedido->restarCatalogo()) {
                                             $result['status'] = 1;
                                             $result['message'] = 'Producto agregado correctamente';
@@ -49,6 +53,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
+            //Se lee el carrito    
             case 'readCart':
                 if ($pedido->setCliente($_SESSION['id_cliente'])) {
                     if ($pedido->readOrder()) {
@@ -69,14 +74,18 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
+             //Se actualiza el detalle   
             case 'updateDetail':
+                //Se envian los datos
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     $_POST = $pedido->validateForm($_POST);
                     if ($pedido->setIdDetalle($_POST['id_detalle'])) {
                         if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                             if ($pedido->setAnterior($_POST['anterior'])) {
+                                //Se actualiza
                                 if ($pedido->updateDetail()) {
                                     $result['message'] = 'Cantidad modificada correctamente';
+                                    //Se modifica la cantidad en el inventario
                                     if ($pedido->cambioCatalogo()) {
                                         $result['status'] = 1;
                                         $result['message'] = 'Cantidad en inventario modificada correctamente';
@@ -99,11 +108,14 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Pedido incorrecto';
                 }
                 break;
+            //Borrar detalle    
             case 'deleteDetail':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     if ($pedido->setIdDetalle($_POST['id_detalle'])) {
+                        //Se devuelven los productos al inventario
                         if ($pedido->devolverCatalogo()) {
                             $result['message'] = 'Producto devuelto correctamente';
+                            //Se borra el detalle
                             if ($pedido->deleteDetail()) {
                                 $result['status'] = 1;
                                 $result['message'] = 'Producto removido correctamente';
@@ -120,6 +132,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Pedido incorrecto';
                 }
                 break;
+            //Finaliza la orden    
             case 'finishOrder':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     if ($pedido->finishOrder()) {

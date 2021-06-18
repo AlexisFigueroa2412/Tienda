@@ -8,6 +8,8 @@ class Productos extends Validator
     private $id = null;
     private $cliente = null;
     private $nombre = null;
+    private $comentario = null;
+    private $valor = null;
     private $descripcion = null;
     private $precio = null;
     private $cantidad = null;
@@ -46,6 +48,26 @@ class Productos extends Validator
     {
         if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->nombre = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setComentario($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->comentario = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setValor($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->valor = $value;
             return true;
         } else {
             return false;
@@ -193,16 +215,20 @@ class Productos extends Validator
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
+
+
+    //Buscar
     public function searchRows($value)
     {
-        $sql = 'SELECT "idProductos", foto, nombre, decripcion, precio, tipo_producto, estado, cantidad_total
-                FROM public."tbProductos" INNER JOIN public."tbTipo_producto" USING(id_tipo_producto)
-                WHERE nombre ILIKE ? OR descripcion ILIKE ?
-                ORDER BY nombre';
+        $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
+                FROM public."tbProductos" INNER JOIN public."tbCategorias" USING(id_categoria)
+                WHERE nombre_producto ILIKE ? OR descripcion_producto ILIKE ?
+                ORDER BY nombre_producto';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
     }
-
+    
+    //Crear Producto
     public function createRow()
     {
         $sql = 'INSERT INTO public."tbProductos"(nombre_producto, id_categoria, precio_producto, descripcion_producto, cantidad_total, estado_producto, marca_producto, foto)
@@ -211,6 +237,16 @@ class Productos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Crear comentario
+    public function createComent()
+    {
+        $sql = 'INSERT INTO public."tbValoracion"(id_cliente, id_producto, comentario, calificacion)
+                VALUES( ?, ?, ?, ?)';
+        $params = array($this->cliente,$this->id, $this->comentario, $this->valor);
+        return Database::executeRow($sql, $params);
+    }
+
+    //Ver todos los productos
     public function readAll()
     {
         $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
@@ -220,15 +256,7 @@ class Productos extends Validator
         return Database::getRows($sql, $params);
     }
 
-    public function readCombo()
-    {
-        $sql = 'SELECT id_tipo_producto, tipo_producto
-                FROM public."tbTipo_producto";
-                ORDER BY id_tipo_producto';
-        $params = null;
-        return Database::getRows($sql, $params);
-    }
-
+    //Leer solo un producto
     public function readOne()
     {
         $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
@@ -238,6 +266,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Promedio de las valoraciones
     public function averageOne()
     {
         $sql = 'SELECT avg(calificacion) 
@@ -247,6 +276,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Comentarios
     public function Coments()
     {
         $sql = 'SELECT comentario
@@ -257,6 +287,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
     
+    //Sirve para verificar si el usuario que comentara, compro antes el producto
     public function verify()
     {
         $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
@@ -267,6 +298,7 @@ class Productos extends Validator
         return Database::getRow($sql, $params);
     }
 
+    //Actualizar producto
     public function updateRow($current_image)
     {
         // Se verifica si existe una nueva imagen para borrar la actual, de lo contrario se mantiene la actual.
@@ -283,6 +315,7 @@ class Productos extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    //Borrar Producto
     public function deleteRow()
     {
         $sql = 'DELETE FROM public."tbProductos"

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que muestra el detalle del producto seleccionado previamente.
     readOneProducto(ID);
     verify(ID);
-    searchRow2(ENDPOINT_VALORACION, ID);
+    readRow2(ENDPOINT_VALORACION, ID);
 });
 
 // Función para obtener y mostrar los datos del producto seleccionado.
@@ -42,6 +42,7 @@ function readOneProducto(id) {
                     // Se asignan los valores a los campos ocultos del formulario.
                     document.getElementById('id_producto').value = response.dataset.id_producto;
                     document.getElementById('precio_producto').value = response.dataset.precio_producto;
+                    document.getElementById('id_producto_coment').value = response.dataset.id_producto;
                 } else {
                     // Se presenta un mensaje de error cuando no existen datos para mostrar.
                     document.getElementById('title').innerHTML = `<i class="material-icons small">cloud_off</i><span class="red-text">${response.exception}</span>`;
@@ -71,21 +72,21 @@ function verify(id){
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
-                    <a class="waves-effect waves-light black btn modal-trigger" data-target="modal1">Agregar Comentario</a>`;
+                    <a class="waves-effect waves-light black btn modal-trigger" data-target="save-modal">Agregar Comentario</a>`;
                 } else {
                     document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
-                    <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes haber comprado antes este producto" data-target="modal1">Agregar Comentario</a>`;
+                    <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes haber comprado antes este producto" data-target="save-modal">Agregar Comentario</a>`;
                 }
             });
         } else {
             console.log(request.status + ' ' + request.statusText);
             document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
-            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="modal1">Agregar Comentario</a>`;
+            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="save-modal">Agregar Comentario</a>`;
         }
     }).catch(function (error) {
         console.log(error);
         document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
-            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="modal1">Agregar Comentario</a>`;
+            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="save-modal">Agregar Comentario</a>`;
     });
 }
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -141,4 +142,15 @@ document.getElementById('shopping-form').addEventListener('submit', function (ev
     }).catch(function (error) {
         console.log(error);
     });
+});
+
+// Método manejador de eventos que se ejecuta cuando se envía el formulario de guardar.
+document.getElementById('save-form').addEventListener('submit', function (event) {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Se define una variable para establecer la acción a realizar en la API.
+    let action = '';
+    // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
+    action = 'createComent';
+    saveRow(API_PRODUCTOS, action, 'save-form', 'save-modal');
 });
