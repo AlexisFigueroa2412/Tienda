@@ -6,6 +6,7 @@ class Productos extends Validator
 {
     // Declaración de atributos (propiedades).
     private $id = null;
+    private $cliente = null;
     private $nombre = null;
     private $descripcion = null;
     private $precio = null;
@@ -25,6 +26,16 @@ class Productos extends Validator
     {
         if ($this->validateNaturalNumber($value)) {
             $this->id = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setCliente($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->cliente = $value;
             return true;
         } else {
             return false;
@@ -245,14 +256,14 @@ class Productos extends Validator
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-
+    
     public function verify()
     {
         $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
         FROM public."tbDetalle_pedido"
         inner join public."tbPedidos" p using(id_pedido) 
-        where id_producto = ? and p.id_cliente = ? And p.estado_pedido not ? or p.estado_pedido not ?';
-        $params = array($this->id, $_SESSION['id_cliente'],'0','3');
+        where id_producto = ? and p.id_cliente = ? And p.estado_pedido = ? or p.estado_pedido = ?';
+        $params = array($this->id,$this->cliente,'1','2');
         return Database::getRow($sql, $params);
     }
 

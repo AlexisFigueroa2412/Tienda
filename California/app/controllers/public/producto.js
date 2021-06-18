@@ -84,6 +84,8 @@ function verify(id){
         }
     }).catch(function (error) {
         console.log(error);
+        document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
+            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="modal1">Agregar Comentario</a>`;
     });
 }
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().

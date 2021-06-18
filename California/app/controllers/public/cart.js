@@ -80,6 +80,7 @@ function openUpdateDialog(id, quantity,limite) {
     // Se inicializan los campos del formulario con los datos del registro seleccionado.
     document.getElementById('id_detalle').value = id;
     document.getElementById('cantidad_producto').value = quantity;
+    document.getElementById('anterior').value = quantity;
     document.getElementById('cantidad_producto').setAttribute('max', limite);
     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
     M.updateTextFields();

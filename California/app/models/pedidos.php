@@ -10,6 +10,7 @@ class Pedidos extends Validator
     private $cliente = null;
     private $producto = null;
     private $cantidad = null;
+    private $anterior = null;
     private $precio = null;
     private $estado = null; // Valor por defecto en la base de datos: 0
     /*
@@ -67,6 +68,16 @@ class Pedidos extends Validator
     {
         if ($this->validateNaturalNumber($value)) {
             $this->cantidad = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setAnterior($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->anterior = $value;
             return true;
         } else {
             return false;
@@ -175,6 +186,25 @@ class Pedidos extends Validator
                 WHERE id_producto = ? ';
         $params = array($this->producto, $this->cantidad, $this->producto);
         return Database::executeRow($sql, $params);
+    }
+    public function cambioCatalogo()
+    {
+        if ($this->cantidad > $this->anterior) {
+            $tomar = $this->cantidad - $this->anterior;
+            $sql1 = 'UPDATE public."tbProductos"
+            SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) - ?)
+            WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
+            $params1 = array($this->id_detalle, $tomar , $this->id_detalle);
+            return Database::executeRow($sql1, $params1);
+
+        }elseif ($this->cantidad < $this->anterior) {
+            $devolver = $this->anterior- $this->cantidad;
+            $sql = 'UPDATE public."tbProductos"
+            SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) + ?)
+            WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
+            $params = array($this->id_detalle, $devolver , $this->id_detalle);
+            return Database::executeRow($sql, $params);
+        }
     }
     public function devolverCatalogo()
     {

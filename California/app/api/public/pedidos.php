@@ -74,11 +74,20 @@ if (isset($_GET['action'])) {
                     $_POST = $pedido->validateForm($_POST);
                     if ($pedido->setIdDetalle($_POST['id_detalle'])) {
                         if ($pedido->setCantidad($_POST['cantidad_producto'])) {
-                            if ($pedido->updateDetail()) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Cantidad modificada correctamente';
+                            if ($pedido->setAnterior($_POST['anterior'])) {
+                                if ($pedido->updateDetail()) {
+                                    $result['message'] = 'Cantidad modificada correctamente';
+                                    if ($pedido->cambioCatalogo()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Cantidad en inventario modificada correctamente';
+                                    } else {
+                                        $result['exception'] = 'Ocurrió un problema al modificar la cantidad en inventario';
+                                    }
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al modificar la cantidad';
+                                }
                             } else {
-                                $result['exception'] = 'Ocurrió un problema al modificar la cantidad';
+                                $result['exception'] = 'Cantidad anterior incorrecta';
                             }
                         } else {
                             $result['exception'] = 'Cantidad incorrecta';

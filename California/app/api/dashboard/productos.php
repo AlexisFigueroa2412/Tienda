@@ -264,20 +264,24 @@ if (isset($_GET['action'])) {
                 }
                 break;       
             case 'verify':
-                if ($producto->setId($_POST['id_producto'])) {
-                    if ($result['dataset'] = $producto->verify()) {
-                        $result['status'] = 1;
+                if ($producto->setCliente($_SESSION['id_cliente'])) {
+                   if ($producto->setId($_POST['id_producto'])) {
+                       if ($result['dataset'] = $producto->verify()) {
+                           $result['status'] = 1;
                        } else {
-                        if (Database::getException()) {
-                            $result['exception'] = Database::getException();
-                         } else {
-                            $result['exception'] = 'No puedes comentar';
-                        }
-                    }
-                } else {
-                    $result['exception'] = 'Acción incorrecta';
-                }
-                break;     
+                            if (Database::getException()) {
+                               $result['exception'] = Database::getException();
+                           } else {
+                               $result['exception'] = 'No puedes comentar';
+                           }
+                       }
+                   } else {
+                          $result['exception'] = 'Acción incorrecta';
+                   }
+               } else {
+                   $result['exception'] = 'Cliente incorrecto';
+               }
+               break;       
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }

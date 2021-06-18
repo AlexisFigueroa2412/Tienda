@@ -44,6 +44,7 @@ Public_Page::headerTemplate('california','california');
           <form method="post" id="item-form">
               <!-- Campo oculto para asignar el id del registro al momento de modificar -->
               <input type="number" id="id_detalle" name="id_detalle" class="hide"/>
+              <input type="number" id="anterior" name="anterior" class="hide"/>              
               <div class="row">
                   <div class="input-field col s12 m12 l12">
                       <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" class="validate" required/>
