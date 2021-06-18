@@ -24,8 +24,12 @@ if (isset($_GET['action'])) {
                             if ($pedido->setCantidad($_POST['cantidad_producto'])) {
                                 if ($pedido->setPrecio($_POST['precio_producto'])) {
                                     if ($pedido->createDetail()) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Producto agregado correctamente';
+                                        if ($pedido->restarCatalogo()) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Producto agregado correctamente';
+                                        } else {
+                                            $result['exception'] = 'El producto se agregó correctamente pero no pudo restarse del inventario';
+                                        }
                                     } else {
                                         $result['exception'] = 'Ocurrió un problema al agregar el producto';
                                     }
@@ -89,9 +93,14 @@ if (isset($_GET['action'])) {
             case 'deleteDetail':
                 if ($pedido->setIdPedido($_SESSION['id_pedido'])) {
                     if ($pedido->setIdDetalle($_POST['id_detalle'])) {
-                        if ($pedido->deleteDetail()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Producto removido correctamente';
+                        if ($pedido->devolverCatalogo()) {
+                            $result['message'] = 'Producto devuelto correctamente';
+                            if ($pedido->deleteDetail()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Producto removido correctamente';
+                            } else {
+                                $result['exception'] = 'El producto se devolvió correctamente pero no pudo removerse su registro';
+                            }
                         } else {
                             $result['exception'] = 'Ocurrió un problema al remover el producto';
                         }

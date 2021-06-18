@@ -251,8 +251,8 @@ class Productos extends Validator
         $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
         FROM public."tbDetalle_pedido"
         inner join public."tbPedidos" p using(id_pedido) 
-        where id_producto = ? and p.id_cliente = ? ';
-        $params = array($this->id, $_SESSION['id_cliente']);
+        where id_producto = ? and p.id_cliente = ? And p.estado_pedido not ? or p.estado_pedido not ?';
+        $params = array($this->id, $_SESSION['id_cliente'],'0','3');
         return Database::getRow($sql, $params);
     }
 

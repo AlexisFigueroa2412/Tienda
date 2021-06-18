@@ -7,86 +7,55 @@ Public_Page::headerTemplate('california','california');
   <br><br>
   <div class="container">
     <div class="row">
-      <div class="col s12 m6 l6">
+      <div class="col s12 m8 l8">
           <div class="row">
-            <div class="col s12 m12 l12">                            
-              <div class="card horizontal appear-up">
-                <!--Imagen del producto-->
-                <div class="card-image">
-                  <img class="responsive-img" src="../../resources/multimedia/sb.jpg">                                    
+          <div id="tbody-rows">
+                <div>
                 </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <!--Titulo del producto-->
-                    <p class="Texto">Zapatos Canvas Nike SB</p><br>
-                    <!--Precio Unitario del producto-->
-                    <p class="Texto">$65 <span class="new badge Texto" data-badge-caption="Descuento">Sin</span></p><br>
-                    <!--Cantidad de productos-->
-                    <p class="Texto">Cantidad: 1</p> 
-                    <!--Precio total de los productos-->
-                    <p class="Texto">Subtotal: $65</p> 
-                    <a class="btn-floating halfway-fab waves-effect waves-light black right hoverable transition-scale scale-out scale-in-init"><i class="material-icons">remove</i></a>                                                                  
-                	</div>
-                </div>                               
-              </div>
-            </div>
-            <div class="col s12 m12 l12">                            
-              <div class="card horizontal appear-up">
-                <!--Imagen del producto-->
-                <div class="card-image">
-                  <img class="responsive-img" src="../../resources/multimedia/vans.jpg">                                    
-                </div>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <!--Titulo del producto-->
-                    <p class="Texto">Camisa Vans</p><br>
-                    <!--Precio Unitario del producto-->
-                    <p class="Texto">$20 <span class="new badge Texto" data-badge-caption="Descuento">Sin</span></p><br>
-                    <!--Cantidad de productos-->
-                    <p class="Texto">Cantidad: 1</p>
-                    <!--Precio total de los productos-->
-                    <p class="Texto">Subtotal: $65</p> 
-                    <a class="btn-floating halfway-fab waves-effect waves-light black right hoverable transition-scale scale-out scale-in-init"><i class="material-icons">remove</i></a>                                                                                                                  
-                  </div>
-                </div>                               
-              </div>
             </div>
           </div>
-                       
       </div>
-      <div class="col s12 m6 l5 right">
+      <div class="col s12 m4 l4 right">
           <div class="row">
             <div class="col s12 m12 l12">
-              <div class="card">
+              <div class="card rad z-depth-0">
                 <div class="card-content Texto">
                   <p class="center">Datos de la entrega</p><br><br>
-                  <h5 class="flow-text">Total: $85.75</h5>
-                  <p>Impuestos ya agregados</p>                  
+                  <h5 class="flow-text">Total: $<b id="pago"></b></h5>
+                  <p>Impuestos ya agregados</p><br><br>
                   <div class="row">
-										<div class="input-field col s12 m12 l12">
-											<input id="ciudad_entrega" type="text" class="validate">
-											<label for="ciudad_entrega">Ciudad</label>
-										</div>
-										<div class="input-field col s12 m12 l12">
-											<input id="direccion_entrega" type="text" class="validate">
-											<label for="direccion_entrega">Dirección</label>
-										</div>
-										<div class="input-field col s12 m12 l12">
-											<input type="text" id="dia_entrega" class="datepicker">
-											<label for="dia_entrega">Fecha de Entrega</label>
-										</div>
-                    <div class="input-field col s12 m12 l12">
-											<input type="text" id="hora_entrega" class="timepicker">
-											<label for="hora_entrega">Hora de Entrega</label>
-										</div>
-                	</div>
-                	<a class="btn black waves-effect waves-light hoverable" href="#!">Realizar pedido</a>
+                    <button type="button" onclick="finishOrder()" class="col s12 btn black waves-effect waves-light hoverable" href="#!">Realizar pedido</button>
+                    <p class="center"> ó </p>
+                    <a href="productos.php" class="col s12 btn white black-text waves-effect hoverable">Seguir Comprando</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
       </div>
     </div>
+  </div>
+  <!-- Componente Modal para mostrar una caja de dialogo -->
+  <div id="item-modal" class="modal Texto rad">
+      <div class="modal-content">
+          <!-- Título para la caja de dialogo -->
+          <h5 id="modal-title">Modificar Cantidad</h5>
+          <!-- Formulario para cambiar la cantidad de producto -->
+          <form method="post" id="item-form">
+              <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+              <input type="number" id="id_detalle" name="id_detalle" class="hide"/>
+              <div class="row">
+                  <div class="input-field col s12 m12 l12">
+                      <input type="number" id="cantidad_producto" name="cantidad_producto" min="1" class="validate" required/>
+                      <label for="cantidad_producto">Cantidad</label>
+                  </div>
+              </div>
+              <div class="row">
+                  <a href="#" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+                  <button type="submit" class="btn-flat modal-close">Guardar</button>
+              </div>
+          </form>
+      </div>
   </div>
 </section>
 

@@ -1,19 +1,19 @@
 <?php
 include("../../app/helpers/public_page.php");
-Public_Page::headerTemplate('california', 'california');
+Public_Page::headerTemplate('california','california');
 ?>
 
 <section>
-	<nav>
-		<div class="nav-wrapper black">
-			<div class="col s12 pad-nav">
-				<a href="index.php" class="breadcrumb">Inicio</a>
-				<a href="Productos.php" class="breadcrumb">Productos</a>
-				<!--Link del producto-->
-				<a href="#!" class="breadcrumb" id="bread"></a>
-			</div>
-		</div>
-	</nav>
+    <nav>
+        <div class="nav-wrapper black">
+          <div class="col s12 pad-nav">
+            <a href="index.php" class="breadcrumb">Inicio</a>
+            <a href="Productos.php" class="breadcrumb">Productos</a>
+						<!--Link del producto-->
+            <a href="#!" class="breadcrumb" id="bread"></a>
+          </div>
+        </div>
+      </nav>
 </section>
 
 <section>
@@ -54,8 +54,8 @@ Public_Page::headerTemplate('california', 'california');
 											<form method="post" id="shopping-form" class="col s12 m12 l12">
 												<div class="row">
 													<!--Text Box Cantidad-->
-													<input type="number" id="id_producto" name="id_producto" class="hide" />
-													<input type="number" id="precio_producto" name="precio_producto" class="hide" />
+													<input type="number" id="id_producto" name="id_producto" class="hide"/>
+                        							<input type="number" id="precio_producto" name="precio_producto" class="hide"/>
 													<div class="input-field col s12 m12 l12" id="cant">
 														<input aria-disabled="true" id="cantidad_producto" name="cantidad_producto" type="number" min="1" class="validate" required>
 														<label for="cantidad_producto">Cantidad</label>
@@ -72,7 +72,7 @@ Public_Page::headerTemplate('california', 'california');
 							</div>
 							<br>
 						</div>
-
+						
 					</div>
 				</div>
 			</div>
@@ -80,54 +80,45 @@ Public_Page::headerTemplate('california', 'california');
 	</div>
 </section>
 <section>
-	<div class="container">
-		<div class="row">
+  <div class="container">
+    <div class="row">
 			<div class="col s12 m12 l12">
 				<br><br><br>
 				<h5 class="pad-nav Texto center">Comentarios del producto</h5>
 				<br><br><br>
 			</div>
-			<div class="col s4 m4 l4" id="boton">
+      <div class="col s4 m4 l4" id="boton">
+                        
+    	</div>
+  	</div>
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <!--Comentarios-->
+		<p id="tem"></p>
+        <ul class="collection Texto" id="tbody-rows">
+        </ul>          
+      </div>
+    </div>
+  </div>
 
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12 m12 l12">
-				<!--Comentarios-->
-				<p id="tem"></p>
-				<ul class="collection Texto" id="tbody-rows">
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal Structure -->
-	<div id="modal1" class="modal rad">
-		<div class="modal-content">
-			<h4 class="Titulos">Agregar Comentario</h4>
-
-			<div class="row">
-				<div class="input-field col s6">
-					<input id="comentario" name="comentario" type="text" class="validate" required />
-					<label for="first_name">Comentario</label>
-				</div>
-				<div class="input-field col s6">
-					<input id="calificacion" name="calificacion" type="number" min="1" max="5" class="validate" required />
-					<label for="last_name">Calificacion</label>
-				</div>
-			</div>
-
-		</div>
-		<div class="modal-footer">
-			<div class="row">
-				<a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
-				<a href="#!" class="modal-close waves-effect waves-black btn-flat">Guardar</a>
-			</div>
-		</div>
-	</div>
+    <!-- Modal Structure --> 
+  <div id="modal1" class="modal rad">
+    <div class="modal-content">
+      <h4 class="Titulos">Agregar Comentario</h4>
+      <p class="Texto">Ingresa tu comentario</p>
+      <div class="input-field col s12">
+				<!--Textbox Comentario-->
+      	<textarea id="textarea1" class="materialize-textarea"></textarea>
+  		</div>
+  	</div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancelar</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
+    </div>
+  </div>
 </section>
 
 <?php
-//Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
-Public_Page::footerTemplate("producto.js", null);
+  //Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
+  Public_Page::footerTemplate("producto.js",null);
 ?>

@@ -73,12 +73,14 @@ function verify(id){
                     document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
                     <a class="waves-effect waves-light black btn modal-trigger" data-target="modal1">Agregar Comentario</a>`;
                 } else {
-                    // Se presenta un mensaje de error cuando no existen datos para mostrar.
-                    //document.getElementById('boton').innerHTML = `<i class="material-icons small">cloud_off</i><span class="red-text">${response.exception}</span>`;
+                    document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
+                    <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes haber comprado antes este producto" data-target="modal1">Agregar Comentario</a>`;
                 }
             });
         } else {
             console.log(request.status + ' ' + request.statusText);
+            document.getElementById('boton').innerHTML = `<!-- Modal Trigger -->
+            <a class="waves-effect waves-light black btn modal-trigger disabled tooltipped" data-tooltip="Debes Iniciar Sesión"  data-target="modal1">Agregar Comentario</a>`;
         }
     }).catch(function (error) {
         console.log(error);
@@ -136,131 +138,5 @@ document.getElementById('shopping-form').addEventListener('submit', function (ev
         }
     }).catch(function (error) {
         console.log(error);
-    });
-
-
-    
-    function openCommentary(id) {
-        // Se define un objeto con los datos del registro seleccionado.
-       
-        const data = new FormData();
-        data.append('id', id);
-    
-        fetch(API_COMENTARIO+ 'readComents', {
-            method: 'post',
-            body: data
-        }).then(function (request) {
-            // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-            if (request.ok) {
-                request.json().then(function (response) {
-                    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-                    let idCategoria = '';
-                    if (response.status) {
-                        let content = '';
-                        // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
-                        response.dataset.map(function (row) {
-                            // Se crean y concatenan las tarjetas con los datos de cada producto.
-                    
-                            content += `
-                            <li>
-                                <div class="collapsible-header"><i class="">${row.nombreCliente}</i>${row.fechaComentario}</div>
-                                <div class="collapsible-body"><span>${row.comentarioProducto}.</span></div>
-                            </li>                      
-                            `;                    
-                        });
-                        // Se agregan las tarjetas a la etiqueta div mediante su id para mostrar los productos.
-                        document.getElementById('comentary').innerHTML = content;
-    
-                        M.updateTextFields();                    
-                        // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.                    
-                    }else{
-                        let content = '';
-                        content += `
-                        <li>
-                           <h4>No hay comentarios</h4>
-                        </li>                      
-                        `;    
-                        document.getElementById('comentary').innerHTML = content;
-    
-                        M.updateTextFields();            
-                    }
-                });
-            } else {
-                console.log(request.status + ' ' + request.statusText);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
-    
-    
-    
-    // Método manejador de eventos que se ejecuta cuando se envía el formulario de agregar un producto al carrito.
-    document.getElementById('save-form').addEventListener('submit', function (event) {
-        // Se evita recargar la página web después de enviar el formulario.
-        event.preventDefault();
-    
-        fetch(API_PEDIDOS + 'createDetail', {
-            method: 'post',
-            body: new FormData(document.getElementById('save-form'))
-        }).then(function (request) {
-            // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-            if (request.ok) {
-                request.json().then(function (response) {
-                    // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
-                    if (response.status) {
-                        sweetAlert(1, response.message, 'carrito.php');
-                    } else {
-                        // Se verifica si el cliente ha iniciado sesión para mostrar la excepción, de lo contrario se direcciona para que se autentique. 
-                        if (response.session) {
-                            sweetAlert(2, response.exception, null);
-                        } else {
-                            sweetAlert(3, response.exception, 'login.php');
-                        }
-                    }
-                });
-            } else {
-                console.log(request.status + ' ' + request.statusText);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
-    });
-    
-    
-    
-    document.getElementById('coment-form').addEventListener('submit', function (event) {
-        // Se evita recargar la página web después de enviar el formulario.
-        event.preventDefault();
-    
-        fetch(API_COMENTARIO + 'createCommentary', {
-            method: 'post',
-            body: new FormData(document.getElementById('coment-form'))
-        }).then(function (request) {
-            // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-            if (request.ok) {
-                request.json().then(function (response) {
-                    // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
-                    if (response.status) {
-                        sweetAlert(1, response.message,null);
-                        document.getElementById("comentario").value = "";
-                        document.getElementById("calificacion").value = "";
-                    } else {
-                        // Se verifica si el cliente ha iniciado sesión para mostrar la excepción, de lo contrario se direcciona para que se autentique. 
-                        if (response.session) {
-                            sweetAlert(2, response.exception, null);
-                            document.getElementById("comentario").value = "";
-                            document.getElementById("calificacion").value = "";
-                        } else {
-                            sweetAlert(3, response.exception, 'login.php');
-                        }
-                    }
-                });
-            } else {
-                console.log(request.status + ' ' + request.statusText);
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
     });
 });

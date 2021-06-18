@@ -109,8 +109,8 @@ class Pedidos extends Validator
     {
         $sql = 'SELECT id_pedido
                 FROM public."tbPedidos"
-                WHERE estado_pedido = 0 AND id_cliente = ?';
-        $params = array($this->cliente);
+                WHERE estado_pedido = ? AND id_cliente = ?';
+        $params = array('0',$this->cliente);
         if ($data = Database::getRow($sql, $params)) {
             $this->id_pedido = $data['id_pedido'];
             return true;
@@ -139,9 +139,9 @@ class Pedidos extends Validator
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readCart()
     {
-        $sql = 'SELECT id_detalle, nombre_producto, detalle_pedido.precio_producto, detalle_pedido.cantidad_producto
-                FROM public."tbPedidos" INNER JOIN public."tbDetalle_pedido" USING(id_pedido) INNER JOIN public."tbPedidos" USING(id_producto)
-                WHERE id_pedido = ?';
+        $sql = 'SELECT id_detalle, id_producto, nombre_producto, foto, public."tbDetalle_pedido".precio_producto, public."tbDetalle_pedido".cantidad_producto, cantidad_total as limite
+        FROM public."tbPedidos" INNER JOIN public."tbDetalle_pedido" USING(id_pedido) INNER JOIN public."tbProductos" USING(id_producto)
+        WHERE id_pedido = ?';
         $params = array($this->id_pedido);
         return Database::getRows($sql, $params);
     }
@@ -165,6 +165,23 @@ class Pedidos extends Validator
                 SET cantidad_producto = ?
                 WHERE id_pedido = ? AND id_detalle = ?';
         $params = array($this->cantidad, $this->id_pedido, $this->id_detalle);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function restarCatalogo()
+    {
+        $sql = 'UPDATE public."tbProductos"
+                SET cantidad_total = (select cantidad_total from public."tbProductos" where id_producto=?)-?
+                WHERE id_producto = ? ';
+        $params = array($this->producto, $this->cantidad, $this->producto);
+        return Database::executeRow($sql, $params);
+    }
+    public function devolverCatalogo()
+    {
+        $sql = 'UPDATE public."tbProductos"
+        SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) +(select cantidad_producto from public."tbDetalle_pedido" where id_detalle = ?))
+        WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
+        $params = array($this->id_detalle, $this->id_detalle, $this->id_detalle);
         return Database::executeRow($sql, $params);
     }
 

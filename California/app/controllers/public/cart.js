@@ -29,16 +29,28 @@ function readCart() {
                         total += subtotal;
                         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
                         content += `
-                            <tr>
-                                <td>${row.nombre_producto}</td>
-                                <td>${row.precio_producto}</td>
-                                <td>${row.cantidad_producto}</td>
-                                <td>${subtotal.toFixed(2)}</td>
-                                <td>
-                                    <a href="#" onclick="openUpdateDialog(${row.id_detalle}, ${row.cantidad_producto})" class="btn waves-effect blue tooltipped" data-tooltip="Cambiar"><i class="material-icons">exposure</i></a>
-                                    <a href="#" onclick="openDeleteDialog(${row.id_detalle})" class="btn waves-effect red tooltipped" data-tooltip="Remover"><i class="material-icons">remove_shopping_cart</i></a>
-                                </td>
-                            </tr>
+                        <div class="col s12 m12 l12">                            
+                            <div class="card horizontal rad appear-up">
+                            <!--Imagen del producto-->
+                            <div class="card-image">
+                                <img class="responsive-img" src="../../resources/img/productos/${row.foto}" width="100" height="100">                                    
+                            </div>
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                <!--Titulo del producto-->
+                                <p class="Texto">${row.nombre_producto}</p><br>
+                                <!--Precio Unitario del producto-->
+                                <p class="Texto">$${row.precio_producto}<span class="new badge Texto" data-badge-caption="Unitario">Precio</span></p><br>
+                                <!--Cantidad de productos-->
+                                <p class="Texto">Cantidad: ${row.cantidad_producto}</p> 
+                                <!--Precio total de los productos-->
+                                <p class="Texto">Subtotal: ${subtotal.toFixed(2)}</p> 
+                                <a onclick="openUpdateDialog(${row.id_detalle}, ${row.cantidad_producto}, ${row.limite})" class="btn-floating waves-effect waves-light black right hoverable transition-scale scale-out scale-in-init"><i class="material-icons">exposure</i></a>       
+                                <a onclick="openDeleteDialog(${row.id_detalle})" class="btn-floating waves-effect waves-light black right hoverable transition-scale scale-out scale-in-init"><i class="material-icons">delete</i></a>                                                            
+                                </div>
+                            </div>                               
+                            </div>
+                        </div>
                         `;
                     });
                     // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
@@ -59,14 +71,16 @@ function readCart() {
     });
 }
 
+
 // Función para abrir una caja de dialogo (modal) con el formulario de cambiar cantidad de producto.
-function openUpdateDialog(id, quantity) {
+function openUpdateDialog(id, quantity,limite) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     let instance = M.Modal.getInstance(document.getElementById('item-modal'));
     instance.open();
     // Se inicializan los campos del formulario con los datos del registro seleccionado.
     document.getElementById('id_detalle').value = id;
     document.getElementById('cantidad_producto').value = quantity;
+    document.getElementById('cantidad_producto').setAttribute('max', limite);
     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
     M.updateTextFields();
 }
