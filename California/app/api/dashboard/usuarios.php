@@ -62,32 +62,19 @@ if (isset($_GET['action'])) {
                     if ($usuario->setApellidos($_POST['apellido_usuario'])) {
                         if ($usuario->setCorreo($_POST['correo_usuario'])) {
                             if ($usuario->setAlias($_POST['alias_usuario'])) {         
-                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
-                                     if ($usuario->setClave($_POST['clave_usuario'])) {
-                                        if($usuario->setDui($POST['dui_usuario'])){
-                                            if($usuario->setTipo($_POST['tipo_usuario'])){
-                                                if($usuario->setDireccion($POST['direccion_usuario'])){
-                                                    if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
-                                                            if ($usuario->createRow()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Usuario creado correctamente';
-                                                            } else {
-                                                                $result
-                                                            ['exception'] = Database::getException();
-                                                        }
-                                                    } else {
-                                                    $result['exception'] = 'EStado incorrecto';
-                                                    } 
-                                                } else {
-                                                    $result['exception'] = 'Direccion incorrecta';
-                                                }    
+                                if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
+                                    if ($usuario->setClave($_POST['clave_usuario'])) {
+                                        if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
+                                            if ($usuario->createRow()) {
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Usuario creado correctamente';
                                             } else {
-                                                $result['exception'] = 'Tipo de usuario incorrecto';
+                                                $result
+                                                ['exception'] = Database::getException();
                                             }
-                                        } else{
-                                            $result['exception'] = 'dui incorrecto';
-                                        }
-
+                                        } else {
+                                        $result['exception'] = 'EStado incorrecto';
+                                        } 
                                     } else {
                                         $result['exception'] = $usuario->getPasswordError();
                                     }
@@ -212,27 +199,11 @@ if (isset($_GET['action'])) {
                             if ($usuario->setAlias($_POST['alias'])) {
                                 if ($_POST['clave1'] == $_POST['clave2']) {
                                     if ($usuario->setClave($_POST['clave1'])) {
-                                        if($usuario->setDui($_POST['dui_us uario'])){
-                                            if($usuario->setDireccion($_POST['direccion_usuario'])){
-                                                if($usuario->setTipo($_POST['tipo_usuario'])){
-                                                    if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
-                                                        if ($usuario->createRow()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Usuario registrado correctamente';
-                                                        } else {
-                                                            $result['exception'] = Database::getException();
-                                                        }
-                                                    }else{
-                                                        $result['exception'] = 'Estado incorrecto';
-                                                    }
-                                                }else{
-                                                    $result['exception'] = 'Tipo de usuario incorrecto';
-                                                }
-                                            }else{
-                                                $result['exception'] = 'Direccion incorrecta';
-                                            }
-                                        }else{
-                                            $result['exception'] = 'DUI incorrecto';
+                                        if ($usuario->createRow()) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Usuario registrado correctamente';
+                                        } else {
+                                            $result['exception'] = Database::getException();
                                         }
                                     } else {
                                         $result['exception'] = $usuario->getPasswordError();

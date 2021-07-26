@@ -10,37 +10,37 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
     <div>
         <br>
     </div>
-    <div class="container z-depth-1 hide-on-small-only" id="container">        
+    <div class="container z-depth-0 hide-on-small-only" id="container">        
         <div class="container">
             <div class="row">
                 <div class="col s12 m12 l12 center">
-                    <form method="POST" id="register-form">
+                    <form method="post" id="register-form">
                         <div class="card-content Texto">
                             <h5 class="Titulos">Registrate</h5>
                             <p class="Texto">Ingresa tus datos.</p>
                             <div class="input-field col s12">
-                                <input id="nombres" type="text" class="validate" required>
+                                <input id="nombres" name="nombres" type="text" class="validate" required>
                                 <label for="nombres">Nombre</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="apellidos" type="text" class="validate" required>
+                                <input id="apellidos" name="apellidos" type="text" class="validate" required>
                                 <label for="apellidos">Apellidos</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="correo" type="email" class="validate" required>
+                                <input id="correo" name="correo" type="email" class="validate" required>
                                 <label for="correo">Correo</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="nombres" type="text" class="validate" required>
-                                <label for="">direccion</label>
+                                <input id="alias" name="alias" type="text" class="validate" required>
+                                <label for="alias">Nombre de Usuario</label>
                             </div>
-                            <div class="input-field col s12">
-                                <input id="tel_registro_mobile" type="tel" class="validate" required>
-                                <label for="tel_registro_mobile">Teléfono</label>
+                            <div class="input-field col s6">
+                                <input id="clave1" name="clave1" type="password" class="validate" required>
+                                <label for="clave1">Contraseña</label>
                             </div>
-                            <div class="input-field col s12">
-                                <input id="psw_registro_mobile" type="password" class="validate" required>
-                                <label for="psw_registro_mobile">Contraseña</label>
+                            <div class="input-field col s6">
+                                <input id="clave2" name="clave2" type="password" class="validate" required>
+                                <label for="clave2">Confirma tu Contraseña</label>
                             </div>
                             <div class="col s12 m12 l12 center">
                                 <a href="!#" class="link black-text modal-trigger" data-target="terminos">Al registrarte estas
@@ -89,43 +89,7 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
 <!--Login Telefonos-->
 
 <section class="hide-on-med-and-up">
-    <br><br>
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m6 l6">
-                <div class="card z-depth-0">
-                    <div class="card-content Texto">
-                        <h5 class="Titulos">Registrate</h5>
-                        <p class="Texto">Ingresa tus datos.</p>
-                        <div class="input-field col s12">
-                            <input id="nombre_registro_mobile" type="text" class="validate">
-                            <label for="nombre_registro_mobile">Nombre</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="apellidos_registro_mobile" type="text" class="validate">
-                            <label for="apellidos_registro_mobile">Apellidos</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="email_registro_mobile" type="email" class="validate">
-                            <label for="email_registro_mobile">Correo</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="tel_registro_mobile" type="tel" class="validate">
-                            <label for="tel_registro_mobile">Teléfono</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="psw_registro_mobile" type="password" class="validate">
-                            <label for="psw_registro_mobile">Contraseña</label>
-                        </div>
-                        <div class="col s12 m12 l12 center">
-                            <button type="submit" class="btn black waves-effect waves-light hoverable">Registrarme</button>
-                        </div>
-                    </div>
-                    <a class="Texto link" href="index.php">Sitio público</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Modal 2 -->
     <div id="modal2" class="modal rad">

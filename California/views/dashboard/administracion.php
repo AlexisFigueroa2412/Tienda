@@ -20,7 +20,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                     <div class="card-content Texto">
                         <h6 class="Texto flow-text black-text">Categorias<br><br></h6>
                         <form method="post" id="search-form">
-                            <div class="input-field col s8 m10 l10">
+                            <div class="input-field col s7 m9 l9">
                                 <i class="material-icons prefix">search</i>
                                 <input placeholder="Buscar Categoria por nombre" id="search" type="text" name="search" class="validate" required>
                                 <label for="search">Buscar Categoría</label>                                
@@ -28,10 +28,13 @@ Dashboard_Page::headerTemplate('California', 'California');
                             <div class="input-field col s4 m2 l2">
                                 <button type="submit" class="btn col s12 waves-effect black">Buscar</button>
                             </div>
+                            <div class="input-field col s1 m1 l1">
+                                <a href="../../app/reports/dashboard/categorias.php" target="_blank"  class="btn waves-effect black tooltiped" data-tooltip="Imprimir reporte"><i class="material-icons">assignment</i></a>
+                            </div>
                         </form>
                         <div class="row">
                             <div class="col s12 m12 l12">
-                                <a  onclick="openCreateDialogCat()" class="waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
+                                <a onclick="openCreateDialogCat()" class="waves-effect waves-light col s12 black btn"><i class="material-icons left">add_box</i>Añadir una nueva categoria</a>
                             </div>
                         </div>
                         <div class="row">

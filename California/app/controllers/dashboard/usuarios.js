@@ -14,20 +14,17 @@ function fillTable(dataset) {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.map(function (row) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        (row.estado) ? icon = 'check_box' : icon = 'cancel';
+        (row.estado) ? icon = 'assignment_turned_in' : icon = 'assignment_late';
         content += `
             <tr>
                 <td>${row.nombre_usuario}</td>
-                <td>${row.apellido_usuario}</td>
-                <td>${row.email_usuario}</td>
-                <td>${row.nick_usuario}</td>
-                <td>${row.dui}</td>
-                <td>${row.direccion_usuario}</td>
-                <td>${row.tipo_usuario}</td>
+                <td>${row.apellidos_usuario}</td>
+                <td>${row.correo_usuario}</td>
+                <td>${row.alias_usuario}</td>
                 <td><i class="material-icons">${icon}</i></td>
                 <td>
-                    <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
                 </td>
             </tr>
         `;
@@ -90,8 +87,10 @@ function openUpdateDialog(id) {
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
                     document.getElementById('id_usuario').value = response.dataset.id_usuario;
-                    document.getElementById('nombres_usuario').value = response.dataset.nombres_usuario;
+                    document.getElementById('nombre_usuario').value = response.dataset.nombre_usuario;
                     document.getElementById('apellidos_usuario').value = response.dataset.apellidos_usuario;
+                    document.getElementById('correo_usuario').value = response.dataset.correo_usuario;
+                    document.getElementById('alias_usuario').value = response.dataset.alias_usuario;
                     document.getElementById('correo_usuario').value = response.dataset.correo_usuario;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();

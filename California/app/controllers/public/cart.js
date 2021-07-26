@@ -138,7 +138,7 @@ function finishOrder() {
                     request.json().then(function (response) {
                         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                         if (response.status) {
-                            sweetAlert(1, response.message, 'index.php');
+                            sweetAlert(1, response.message, '../../app/reports/public/factura.php');
                         } else {
                             sweetAlert(2, response.exception, null);
                         }

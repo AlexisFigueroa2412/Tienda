@@ -101,9 +101,9 @@ class Categorias extends Validator
 
     public function readProductosCategoria()
     {
-        $sql = 'SELECT nombre_categoria, id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto
-                FROM productos INNER JOIN categorias USING(id_categoria)
-                WHERE id_categoria = ? AND estado_producto = true
+        $sql = 'SELECT id_producto,categoria,nombre_producto, precio_producto, descripcion_producto, cantidad_total, marca_producto, estado_producto, foto
+                FROM public."tbProductos" INNER JOIN public."tbCategorias" USING(id_categoria)
+                WHERE id_categoria = ?
                 ORDER BY nombre_producto';
         $params = array($this->id);
         return Database::getRows($sql, $params);

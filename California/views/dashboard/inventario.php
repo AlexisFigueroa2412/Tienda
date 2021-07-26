@@ -14,26 +14,18 @@ Dashboard_Page::headerTemplate('California','California');
 <section class="Texto">
     <div class="container">
         <div class="row">
-            <div class="col s8 m8 l8">
-                <div class="row">
-                    <form class="col s12">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">search</i>
-                                <!--TextBox Producto-->
-                                <textarea id="icon_prefix2" class="materialize-textarea z-depth-1 rad"></textarea>
-                                <label for="icon_prefix2">Buscar Producto</label>
-                            </div>
-                        </div>
-                    </form>
+            <form method="post" id="search-form">
+                <div class="input-field col s7 m9 l9">
+                    <i class="material-icons prefix">search</i>
+                    <input placeholder="Buscar Categoria por nombre" id="search" type="text" name="search" class="validate" required>
+                    <label for="search">Buscar Categoría</label>                                
                 </div>
-            </div>
-            <div class="col s4 m4 l4">
-                <!--Combobox Tipo del producto-->
-                <label class="Texto">Tipo del Producto</label>
-                <select class="browser-default Texto" id="cmbtipo_producto" name="cmbtipo_producto">
-                
-                </select>
+                <div class="input-field col s4 m2 l2">
+                    <button type="submit" class="btn col s12 waves-effect black">Buscar</button>
+                </div>
+            </form>
+            <div class="input-field col s1 m1 l1">
+                <a href="../../app/reports/dashboard/productos.php" target="_blank"  class="btn waves-effect black tooltiped" data-tooltip="Imprimir reporte"><i class="material-icons">assignment</i></a>
             </div>
         </div>
     </div>

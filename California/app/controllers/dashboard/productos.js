@@ -54,21 +54,22 @@ function fillTable(dataset) {
                         <img src="../../resources/img/productos/${row.foto}">
                     </div>
                     <a href='#' data-target='dropdownmas'
-                        class="dropdown-trigger btn-floating right btn-large waves-effect waves-dark transparent z-depth-0">
+                        class="hide dropdown-trigger btn-floating right btn-large waves-effect waves-dark transparent z-depth-0">
                         <i class="large material-icons black-text hoverable">more_vert</i>
                     </a>
                     <div class="card-content black-text">
                         <span class="card-title black-text">${row.nombre_producto}</span>
                         <p>$${row.precio_producto}</p>
                         <p>Disponibles: ${row.cantidad_total}</p>
-                        <div class="row">
-                            <br>
-                        </div>
+                        <br>
                         <div class="row">
                             <div class="col s4 m4 l4">
-                                <a href="#" onclick="openUpdateDialog(${row.id_producto})" class="btn btn-floating waves-effect black tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>                            </div>
+                                <a href="#" onclick="openUpdateDialog(${row.id_producto})" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Actualizar"><i class="material-icons black-text">mode_edit</i></a>                            </div>
                             <div class="col s4 m4 l4">
-                                <a href="#" onclick="openDeleteDialog(${row.id_producto})" class="btn btn-floating waves-effect black tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                                <a href="#" onclick="openDeleteDialog(${row.id_producto})" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">delete</i></a>
+                            </div>
+                            <div class="col s4 m4 l4">
+                                <a href="../../app/reports/dashboard/producto.php?id=${row.id_producto}" target="_blank" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Eliminar"><i class="material-icons black-text">assignment</i></a>
                             </div>
                         </div>
                     </div>
@@ -85,7 +86,7 @@ function fillTable(dataset) {
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
     M.Tooltip.init(document.querySelectorAll('.tooltipped'));
 }
-/*
+
 // Método manejador de eventos que se ejecuta cuando se envía el formulario de buscar.
 document.getElementById('search-form').addEventListener('submit', function (event) {
     // Se evita recargar la página web después de enviar el formulario.
@@ -93,7 +94,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
     searchRows(API_PRODUCTOS, 'search-form');
 });
-*/
+
 // Función para preparar el formulario al momento de insertar un registro.
 function openCreateDialog() {
     // Se restauran los elementos del formulario.
