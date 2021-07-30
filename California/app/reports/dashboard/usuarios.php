@@ -28,7 +28,7 @@ if ($dataUsuarios = $usuarios->readAll()) {
     foreach ($dataUsuarios as $rowProducto) {
         // Se imprimen las celdas con los datos de los productos.
         $pdf->Cell(10, 20, utf8_decode($rowProducto['id_usuario']), 1, 0);
-        $pdf->Cell(30, 20, $rowProducto['nombre_usuario'], 1, 0);
+        $pdf->Cell(30, 20, utf8_decode($rowProducto['nombre_usuario']), 1, 0);
         $pdf->Cell(40, 20, utf8_decode($rowProducto['apellidos_usuario']), 1, 0);
         $pdf->Cell(65, 20, $rowProducto['correo_usuario'], 1, 0);
         $pdf->Cell(20, 20, utf8_decode($rowProducto['alias_usuario']), 1, 0);

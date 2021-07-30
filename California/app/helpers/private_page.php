@@ -43,7 +43,7 @@ class Dashboard_Page {
                     <!-- Dropdown de los Productos -->
                     <ul id="DropdownUser" class="dropdown-content">
                         <li><a href="clientes.php" class="Texto grey-text text-darken-4">Clientes</a></li>
-                        <li><a href="empleado.php" class="Texto grey-text text-darken-4">Empleados</a></li>
+                        <li><a href="usuarios.php" class="Texto grey-text text-darken-4">Empleados</a></li>
                     </ul>
                     <!--Navbar-->
                     <nav class="navbar-transition cool-navbar z-depth-0 nv"role="navigation">

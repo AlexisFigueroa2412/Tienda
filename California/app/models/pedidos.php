@@ -159,10 +159,19 @@ class Pedidos extends Validator
 
     public function readFact()
     {
-        $sql = 'SELECT id_pedido, CONCAT(nombre_cliente,' ',apellido_cliente) AS cliente, fecha_pedido
+        $sql = 'SELECT id_pedido, CONCAT(nombre_cliente,apellido_cliente) AS cliente, fecha_pedido
         FROM public."tbPedidos"
         INNER JOIN public."tbClientes" USING(id_cliente)
         where id_pedido = (select max(id_pedido) FROM public."tbPedidos")';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function readFacts()
+    {
+        $sql = 'SELECT id_pedido, CONCAT(nombre_cliente, apellido_cliente) AS cliente, fecha_pedido
+        FROM public."tbPedidos"
+        INNER JOIN public."tbClientes" USING(id_cliente)';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -180,8 +189,9 @@ class Pedidos extends Validator
     }
     public function readAll()
     {
-        $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
+        $sql = 'SELECT id_detalle, nombre_producto, cantidad_producto, public."tbDetalle_pedido".precio_producto, id_pedido
         FROM public."tbDetalle_pedido"
+        INNER JOIN  public."tbProductos" USING(id_producto)
         ORDER BY id_detalle';
         $params = null;
         return Database::getRows($sql, $params);

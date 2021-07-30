@@ -18,7 +18,7 @@ Dashboard_Page::headerTemplate('California', 'California');
         <div class="row">
             <form method="post" id="search-form">
 
-                <div class="input-field col s8 m10 l10">
+                <div class="input-field col s7 m9 l9">
                     <i class="material-icons prefix">search</i>
                     <!--TextBox Producto-->
                     <input id="search" type="text" name="search" required />

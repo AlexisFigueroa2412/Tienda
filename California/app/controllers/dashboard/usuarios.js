@@ -14,7 +14,7 @@ function fillTable(dataset) {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.map(function (row) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        (row.estado) ? icon = 'assignment_turned_in' : icon = 'assignment_late';
+        (row.estado) ? icon ='assignment_late' : icon = 'assignment_turned_in';
         content += `
             <tr>
                 <td>${row.nombre_usuario}</td>
