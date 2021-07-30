@@ -121,7 +121,7 @@ class Pedidos extends Validator
         $sql = 'SELECT id_pedido
                 FROM public."tbPedidos"
                 WHERE estado_pedido = ? AND id_cliente = ?';
-        $params = array('0',$this->cliente);
+        $params = array('0', $this->cliente);
         if ($data = Database::getRow($sql, $params)) {
             $this->id_pedido = $data['id_pedido'];
             return true;
@@ -168,6 +168,14 @@ class Pedidos extends Validator
         $params = array('1', $date, $this->id_pedido);
         return Database::executeRow($sql, $params);
     }
+    public function readAll()
+    {
+        $sql = 'SELECT id_detalle, id_producto, cantidad_producto, precio_producto, id_pedido
+        FROM public."tbDetalle_pedido"
+        ORDER BY id_detalle';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
@@ -196,16 +204,16 @@ class Pedidos extends Validator
             $sql1 = 'UPDATE public."tbProductos"
             SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) - ?)
             WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
-            $params1 = array($this->id_detalle, $tomar , $this->id_detalle);
+            $params1 = array($this->id_detalle, $tomar, $this->id_detalle);
             return Database::executeRow($sql1, $params1);
-        //Si el numero de productos se redujo se a;aden al inventario de nuevo
-        }elseif ($this->cantidad < $this->anterior) {
+            //Si el numero de productos se redujo se a;aden al inventario de nuevo
+        } elseif ($this->cantidad < $this->anterior) {
             //se suma la cantidad a enviar
-            $devolver = $this->anterior- $this->cantidad;
+            $devolver = $this->anterior - $this->cantidad;
             $sql = 'UPDATE public."tbProductos"
             SET cantidad_total = ((select cantidad_total from public."tbProductos" where id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?)) + ?)
             WHERE id_producto = (select id_producto from public."tbDetalle_pedido" where id_detalle = ?) ';
-            $params = array($this->id_detalle, $devolver , $this->id_detalle);
+            $params = array($this->id_detalle, $devolver, $this->id_detalle);
             return Database::executeRow($sql, $params);
         }
     }

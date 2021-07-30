@@ -1,6 +1,6 @@
 <?php
 require_once("../../app/helpers/private_page.php");
-Dashboard_Page::headerTemplate('California','California');
+Dashboard_Page::headerTemplate('California', 'California');
 ?>
 <header>
     <div class="container Texto">
@@ -26,6 +26,9 @@ Dashboard_Page::headerTemplate('California','California');
                 </div>
                 <div class="input-field col s4 m2 l2">
                     <button type="submit" class="btn waves-effect black col s12 tooltipped" data-tooltip="Buscar">buscar</button>
+                </div>
+                <div class="input-field col s1 m1 l1">
+                    <a href="../../app/reports/dashboard/usuarios.php" target="_blank" class="btn waves-effect black tooltiped" data-tooltip="Imprimir reporte"><i class="material-icons">assignment</i></a>
                 </div>
 
             </form>
@@ -53,7 +56,7 @@ Dashboard_Page::headerTemplate('California','California');
                     </tbody>
                 </table>
             </div>
-        </div>    
+        </div>
     </div>
 
     <!-- Componente Modal para mostrar una caja de dialogo -->
@@ -120,6 +123,6 @@ Dashboard_Page::headerTemplate('California','California');
 </section>
 
 <?php
-  //Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
-  Dashboard_Page::footerTemplate("usuarios.js");
+//Se imprime la plantilla del pie y se envía el nombre del controlador para la página web
+Dashboard_Page::footerTemplate("usuarios.js");
 ?>

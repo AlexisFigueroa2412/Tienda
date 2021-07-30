@@ -50,6 +50,9 @@ Dashboard_Page::headerTemplate('California','California');
                             <option class="Texto" value="">Entregado</option>                           
                         </select>
                     </div>
+                    <div class="input-field col s1 m1 l1">
+                    <a href="../../app/reports/dashboard/pedidos.php" target="_blank" class="btn waves-effect black tooltiped" data-tooltip="Imprimir reporte"><i class="material-icons">assignment</i></a>
+                </div>
                 </div>
             </form>
         </div>
