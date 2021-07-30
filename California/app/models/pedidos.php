@@ -157,6 +157,16 @@ class Pedidos extends Validator
         return Database::getRows($sql, $params);
     }
 
+    public function readFact()
+    {
+        $sql = 'SELECT id_pedido, CONCAT(nombre_cliente,' ',apellido_cliente) AS cliente, fecha_pedido
+        FROM public."tbPedidos"
+        INNER JOIN public."tbClientes" USING(id_cliente)
+        where id_pedido = (select max(id_pedido) FROM public."tbPedidos")';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
     // Método para finalizar un pedido por parte del cliente.
     public function finishOrder()
     {
