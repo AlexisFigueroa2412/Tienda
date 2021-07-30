@@ -74,6 +74,18 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
+            //Se lee el carrito    
+            case 'readFact':
+                if ($result['dataset'] = $pedido->readFact()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay facturas';
+                    }
+                }
+                break;
              //Se actualiza el detalle   
             case 'updateDetail':
                 //Se envian los datos
