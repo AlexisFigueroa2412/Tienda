@@ -73,7 +73,7 @@ function fillTable(dataset) {
                                 <a href="../../app/reports/dashboard/producto.php?id=${row.id_producto}" target="_blank" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Ver en pdf"><i class="material-icons black-text">assignment</i></a>
                             </div>
                             <div class="col s3 m3 l3">
-                                <a href="../../app/reports/dashboard/producto.php?id=${row.id_producto}" target="_blank" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Ver comentarios en pdf"><i class="material-icons black-text">chat_bubble</i></a>
+                                <a href="../../app/reports/dashboard/comentarios.php?id=${row.id_producto}" target="_blank" class="btn btn-floating waves-effect transparent z-depth-0 tooltipped" data-tooltip="Ver comentarios en pdf"><i class="material-icons black-text">chat_bubble</i></a>
                             </div>
                         </div>
                     </div>

@@ -49,6 +49,7 @@ class Report extends FPDF
     {
         // Se establece el logo.
         $this->Image('../../../resources/multimedia/Logo California Tipog.png', 15, 15, 40);
+        $this->Ln(10);
         // Se ubica el título.
         $this->Cell(20);
         $this->SetFont('Arial', 'B', 15);

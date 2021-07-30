@@ -279,7 +279,18 @@ class Productos extends Validator
     //Comentarios
     public function Coments()
     {
-        $sql = 'SELECT comentario
+        $sql = 'SELECT comentario as prueba
+        FROM public."tbValoracion" 
+	    inner join public."tbClientes" using(id_cliente) 
+                WHERE id_producto = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    //Comentarios
+    public function ComentsReport()
+    {
+        $sql = 'SELECT comentario as prueba, calificacion as val, CONCAT(nombre_cliente, apellido_cliente) AS cliente 
         FROM public."tbValoracion" 
 	    inner join public."tbClientes" using(id_cliente) 
                 WHERE id_producto = ?';
