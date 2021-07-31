@@ -26,7 +26,7 @@ if ($dataUsuarios = $usuarios->readAll()) {
     $pdf->SetFont('Arial', '', 11);
     // Se recorren los registros ($dataUsuarios) fila por fila ($rowProducto).
     foreach ($dataUsuarios as $rowProducto) {
-        // Se imprimen las celdas con los datos de los productos.
+        // Se imprimen las celdas con los datos de los usuarios.
         $pdf->Cell(10, 20, utf8_decode($rowProducto['id_usuario']), 1, 0);
         $pdf->Cell(30, 20, utf8_decode($rowProducto['nombre_usuario']), 1, 0);
         $pdf->Cell(40, 20, utf8_decode($rowProducto['apellidos_usuario']), 1, 0);
