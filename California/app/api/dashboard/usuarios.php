@@ -63,21 +63,29 @@ if (isset($_GET['action'])) {
                         if ($usuario->setCorreo($_POST['correo_usuario'])) {
                             if ($usuario->setAlias($_POST['alias_usuario'])) {         
                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
-                                    if ($usuario->setClave($_POST['clave_usuario'])) {
-                                        if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
-                                            if ($usuario->createRow()) {
-                                                $result['status'] = 1;
-                                                $result['message'] = 'Usuario creado correctamente';
+                                    if ($_POST['clave_usuario'] != $_POST['alias_usuario']) {
+                                        if ($_POST['clave_usuario'] != $_POST['correo_usuario']) {
+                                            if ($usuario->setClave($_POST['clave_usuario'])) {
+                                                if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
+                                                    if ($usuario->createRow()) {
+                                                        $result['status'] = 1;
+                                                        $result['message'] = 'Usuario creado correctamente';
+                                                    } else {
+                                                        $result
+                                                        ['exception'] = Database::getException();
+                                                    }
+                                                } else {
+                                                $result['exception'] = 'EStado incorrecto';
+                                                } 
                                             } else {
-                                                $result
-                                                ['exception'] = Database::getException();
+                                                $result['exception'] = $usuario->getPasswordError();
                                             }
                                         } else {
-                                        $result['exception'] = 'EStado incorrecto';
-                                        } 
+                                            $result['exception'] = 'La contraseña debe de ser distinta a alias que ingresaste';
+                                        }
                                     } else {
-                                        $result['exception'] = $usuario->getPasswordError();
-                                    }
+                                        $result['exception'] = 'La contraseña debe de ser distinta a alias que ingresaste';
+                                    } 
                                 } else {
                                     $result['exception'] = 'Claves diferentes';
                                 } 
@@ -198,15 +206,23 @@ if (isset($_GET['action'])) {
                         if ($usuario->setCorreo($_POST['correo'])) {
                             if ($usuario->setAlias($_POST['alias'])) {
                                 if ($_POST['clave1'] == $_POST['clave2']) {
-                                    if ($usuario->setClave($_POST['clave1'])) {
-                                        if ($usuario->createRow()) {
-                                            $result['status'] = 1;
-                                            $result['message'] = 'Usuario registrado correctamente';
+                                    if ($_POST['clave1'] != $_POST['alias']) {
+                                        if ($_POST['clave1'] != $_POST['correo']) {
+                                            if ($usuario->setClave($_POST['clave1'])) {
+                                                if ($usuario->createRow()) {
+                                                    $result['status'] = 1;
+                                                    $result['message'] = 'Usuario registrado correctamente';
+                                                } else {
+                                                    $result['exception'] = Database::getException();
+                                                }
+                                            } else {
+                                                $result['exception'] = $usuario->getPasswordError();
+                                            }
                                         } else {
-                                            $result['exception'] = Database::getException();
+                                            $result['exception'] = 'La clave debe de ser dista al correo';
                                         }
                                     } else {
-                                        $result['exception'] = $usuario->getPasswordError();
+                                        $result['exception'] = 'La clave debe de ser dinstinta al alias';
                                     }
                                 } else {
                                     $result['exception'] = 'Claves diferentes';

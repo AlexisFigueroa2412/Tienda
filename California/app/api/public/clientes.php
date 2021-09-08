@@ -22,15 +22,23 @@ if (isset($_GET['action'])) {
                                 if ($cliente->setCorreo($_POST['email'])) {
                                     if ($cliente->setTelefono($_POST['telefono'])) {
                                         if ($_POST['clave'] == $_POST['clave2']) {
-                                            if ($cliente->setClave($_POST['clave'])) {
-                                                if ($cliente->register()) {
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Registro exitoso';
+                                            if ($_POST['clave'] != $_POST['email']) {
+                                                if ($_POST['clave'] != $_POST['telefono']) {
+                                                    if ($cliente->setClave($_POST['clave'])) {
+                                                        if ($cliente->register()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Registro exitoso';
+                                                        } else {
+                                                            $result['exception'] = Database::getException();
+                                                        }
+                                                    } else {
+                                                        $result['exception'] = $cliente->getPasswordError();
+                                                    }
                                                 } else {
-                                                    $result['exception'] = Database::getException();
+                                                    $result['exception'] = 'Claves diferentes';
                                                 }
                                             } else {
-                                                $result['exception'] = $cliente->getPasswordError();
+                                                $result['exception'] = 'Claves diferentes';
                                             }
                                         } else {
                                             $result['exception'] = 'Claves diferentes';
@@ -93,15 +101,23 @@ if (isset($_GET['action'])) {
                                 if ($cliente->setCorreo($_POST['email'])) {
                                     if ($cliente->setTelefono($_POST['telefono'])) {
                                         if ($_POST['clave'] == $_POST['clave2']) {
-                                            if ($cliente->setClave($_POST['clave'])) {
-                                                if ($cliente->register()) {
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Registro exitoso';
+                                            if ($_POST['clave'] != $_POST['email']) {
+                                                if ($_POST['clave'] != $_POST['telefono']) {
+                                                    if ($cliente->setClave($_POST['clave'])) {
+                                                        if ($cliente->register()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Registro exitoso';
+                                                        } else {
+                                                            $result['exception'] = Database::getException();
+                                                        }
+                                                    } else {
+                                                        $result['exception'] = $cliente->getPasswordError();
+                                                    }
                                                 } else {
-                                                    $result['exception'] = Database::getException();
+                                                    $result['exception'] = 'Por seguridad no utilíces tu telefono como contraseña';
                                                 }
                                             } else {
-                                                $result['exception'] = $cliente->getPasswordError();
+                                                $result['exception'] = 'Por seguridad no utilíces tu correo como contraseña';
                                             }
                                         } else {
                                             $result['exception'] = 'Claves diferentes';
