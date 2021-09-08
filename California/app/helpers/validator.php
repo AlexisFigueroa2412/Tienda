@@ -44,7 +44,7 @@ class Validator
     public function validateForm($fields)
     {
         foreach ($fields as $index => $value) {
-            $value = trim($value);
+            $value = strip_tags(trim($value));
             $fields[$index] = $value;
         }
         return $fields;
@@ -219,10 +219,34 @@ class Validator
     public function validatePassword($value)
     {
         // Se verifica que la longitud de la contraseña sea de al menos 6 caracteres.
-        if (strlen($value) >= 6) {
-            return true;
+        if (strlen($value) >= 8) {
+            // Se verifica que la longitud de la contraseña sea menor a 500 caracteres.
+            if (strlen($value) <= 500) {
+                // Se verifica que contenga letras minúsculas.
+                if (preg_match('`[a-z]`',$value)) {
+                    // Se verifica que contenga letras mayúsculas.
+                    if (preg_match('`[A-Z]`',$value)) {
+                        // Se verifica que contenga números.
+                        if (preg_match('`[0-9]`',$value)) {
+                            return true;
+                        } else {
+                            $this->passwordError = 'La Clave debe de contener al menos un caracter númerico';
+                            return false;
+                        }
+                    } else {
+                        $this->passwordError = 'La Clave debe de contener al menos una letra mayúscula';
+                        return false;
+                    }
+                } else {
+                    $this->passwordError = 'La Clave debe de contener al menos una letra minúscula';
+                    return false;
+                }
+            } else {
+                $this->passwordError = 'Clave debe ser menor a 500 caracteres';
+                return false;
+            }
         } else {
-            $this->passwordError = 'Clave menor a 6 caracteres';
+            $this->passwordError = 'La Clave debe contener al menos 8 caracteres';
             return false;
         }
     }
