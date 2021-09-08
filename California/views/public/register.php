@@ -24,10 +24,10 @@
 				<form method="post" id="register-form">
 					<input id="nombre" name="nombre" type="text" placeholder="Nombre" class="validate col s6" required>
 					<input id="apellido" name="apellido" type="text" placeholder="Apellidos" class="validate" required>
-					<input id="email" name="email" type="email" placeholder="Email" class="validate" required>
-					<input id="telefono" name="telefono" type="tel" placeholder="Teléfono" class="validate" required>
-					<input id="clave" name="clave" type="password" placeholder="Contraseña" class="validate" required>	
-					<input id="clave2" name="clave2" type="password" placeholder="Confirmar Clave" class="validate" required>	<br>		
+					<input id="email" name="email" type="email" placeholder="Email" autocomplete="off" class="validate" required>
+					<input id="telefono" name="telefono" type="tel" placeholder="Teléfono" autocomplete="off" class="validate" required>
+					<input id="clave" name="clave" type="password" placeholder="Contraseña" autocomplete="off" class="validate" required>	
+					<input id="clave2" name="clave2" type="password" placeholder="Confirmar Clave" autocomplete="off" class="validate" required>	<br>		
 					<button class="btn botonRegistro" type="submit">Registrarse
                 		<i class="material-icons right">person_add</i>
                 	</button><br>			

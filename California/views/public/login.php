@@ -25,10 +25,10 @@
 						<span>Completa tus datos</span>
 						<input type="text" placeholder="Nombre" class="validate col s6"/>
 						<input type="text" placeholder="Apellidos" class="validate"/>
-						<input type="email" placeholder="Email" class="validate"/>
-						<input type="tel" placeholder="Teléfono" class="validate"/>
-						<input type="password" placeholder="Contraseña" class="validate"/>		
-						<input type="text" placeholder="Nombre" class="validate col s6"/>
+						<input type="email" placeholder="Email" autocomplete="off" class="validate"/>
+						<input type="tel" placeholder="Teléfono" autocomplete="off" class="validate"/>
+						<input type="password" placeholder="Contraseña" autocomplete="off" class="validate"/>		
+						<input type="text" placeholder="Nombre" autocomplete="off" class="validate col s6"/>
 						<input type="password" placeholder="Contraseña" class="validate"/>							
 						<a href="#!" class="link modal-trigger" data-target="terminos">Al registrarte estas aceptando los terminos y condiciones</a>
 						<a class="btn black waves-effect waves-light hoverable" href="#!">Registrarme</a>
@@ -38,8 +38,8 @@
 					<form method="post" id="session-form">
 						<h3 class="Titulos black-text">Iniciar Sesion</h3>
 						<span>Ingresa tus credenciales</span>
-						<input type="email" placeholder="Correo Electrónico" id="usuario" name="usuario" class="validate" required/>
-						<input type="password" placeholder="Clave" id="clave" name="clave" class="validate" required/>
+						<input type="email" placeholder="Correo Electrónico" autocomplete="off" id="usuario" name="usuario" class="validate" required/>
+						<input type="password" placeholder="Clave" id="clave" autocomplete="off" name="clave" class="validate" required/>
 						<button type="submit" class="btn black waves-effect tooltipped" data-tooltip="Ingresar">Iniciar Sesión</button>
 						<a class="Texto link" href="index.php">Volver al inicio</a>
 					</form>
