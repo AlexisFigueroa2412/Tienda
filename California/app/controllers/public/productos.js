@@ -21,7 +21,7 @@ function readProductos() {
                     let content = '';
                     response.dataset.map(function (row) {
                         content += `
-                        <div class="col s12 m6 l4">
+                        <div class="col s6 m4 l3">
                             <div class="card hoverable appear-down">
                                 <!--Imagen del producto-->
                                 <div class="card-image">

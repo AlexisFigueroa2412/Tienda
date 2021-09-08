@@ -22,7 +22,7 @@ Public_Page::headerTemplate('california','california');
             <div class="nav-wrapper">
               <form>
                 <div class="input-field">
-                  <input class="black-text" id="search" type="search" required>
+                  <input class="black-text" autocomplete="off" id="search" type="search" required>
                   <label class="label-icon black-text" for="search"><i class="material-icons black-text">search</i></label>
                   <i class="material-icons">close</i>
                 </div>

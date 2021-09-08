@@ -281,10 +281,9 @@ class Productos extends Validator
     {
         $sql = 'SELECT comentario as prueba
         FROM public."tbValoracion" 
-	    inner join public."tbClientes" using(id_cliente) 
                 WHERE id_producto = ?';
         $params = array($this->id);
-        return Database::getRow($sql, $params);
+        return Database::getRows($sql, $params);
     }
 
     //Comentarios
@@ -295,7 +294,7 @@ class Productos extends Validator
 	    inner join public."tbClientes" using(id_cliente) 
                 WHERE id_producto = ?';
         $params = array($this->id);
-        return Database::getRow($sql, $params);
+        return Database::getRows($sql, $params);
     }
     
     //Sirve para verificar si el usuario que comentara, compro antes el producto
@@ -334,15 +333,50 @@ class Productos extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
     /*
     *   Métodos para generar gráficas.
     */
     public function cantidadProductosCategoria()
     {
-        $sql = 'SELECT nombre_categoria, COUNT(id_producto) cantidad
-                FROM public."tbProductos" INNER JOIN categorias USING(id_categoria)
-                GROUP BY nombre_categoria ORDER BY cantidad DESC';
+        $sql = 'SELECT categoria, COUNT(id_producto) cantidad
+        FROM public."tbProductos" INNER JOIN public."tbCategorias" USING(id_categoria)
+        GROUP BY categoria ORDER BY cantidad DESC';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function cantidadPedidosxCliente()
+    {
+        $sql = 'SELECT nombre_cliente, COUNT(id_pedido) cantidad
+        FROM public."tbPedidos" INNER JOIN public."tbClientes" USING(id_cliente)
+        GROUP BY nombre_cliente ORDER BY cantidad DESC 
+        limit 5';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function valoracionesxproducto()
+    {
+        $sql = 'SELECT nombre_producto, COUNT(id_valoracion) cantidad
+        FROM public."tbValoracion" INNER JOIN public."tbProductos" USING(id_producto)
+        GROUP BY nombre_producto ORDER BY cantidad DESC';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+    public function clienteconmascomentarios()
+    {
+        $sql = 'SELECT nombre_cliente, COUNT(id_valoracion) cantidad
+        FROM public."tbValoracion" INNER JOIN public."tbClientes" USING(id_cliente)
+        GROUP BY nombre_cliente ORDER BY cantidad DESC
+        limit 10';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+    public function productomaspedido()
+    {
+        $sql = 'SELECT nombre_producto, COUNT(id_detalle) cantidad
+        FROM public."tbDetalle_pedido" INNER JOIN public."tbProductos" USING(id_producto)
+        GROUP BY nombre_producto ORDER BY cantidad DESC';
         $params = null;
         return Database::getRows($sql, $params);
     }

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que muestra el detalle del producto seleccionado previamente.
     readOneProducto(ID);
     verify(ID);
-    readRow2(ENDPOINT_VALORACION, ID);
+    readRows2(ENDPOINT_VALORACION, ID);
 });
 
 // Función para obtener y mostrar los datos del producto seleccionado.
@@ -98,9 +98,9 @@ function fillTable(dataset) {
         content += `
             <li class="collection-item avatar">
                             <!--Nombre-->
-                <span class="title">${row.nombre_cliente+' '+row.apellido_cliente}</span>
+                <span class="title">${row.cliente}</span>
                             <!--Comentario-->
-                <p>${row.comentario}</p>
+                <p>${row.prueba}</p>
             </li>
         `;
     });

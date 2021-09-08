@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
             // Se inicia el reporte con el encabezado del documento.
             $pdf->startReport('Comentarios del Producto: '.$rowCategoria['nombre_producto']);
             // Se verifica si existen registros (productos) para mostrar, de lo contrario se imprime un mensaje.
-            if ($dataProductos = $categoria->ComentsReport()) {
+            if ($dataProductos = $categoria->Coments()) {
                 // Se establece un color de relleno para los encabezados.
                 $pdf->SetFillColor(225);
                 // Se establece la fuente para los encabezados.

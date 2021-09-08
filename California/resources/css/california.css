@@ -15,6 +15,16 @@
     src: url("glacial-indifference/GlacialIndifference-Italic.otf");
   }
 
+.bg403{
+  background-image: url(../multimedia/403.png);
+  background-size: cover;
+}
+.bg404{
+  background-image: url(../multimedia/404.png);
+  background-position: center center;
+  background-size: cover;
+}
+
 body {
   display: flex;
   min-height: 100vh;
@@ -111,6 +121,14 @@ main {
 
 @media only screen and (max-width : 992px) {
   
+  .bg403{
+    background-image: url(../multimedia/403mb.png);
+    background-position: top right;
+  }
+  .bg403{
+    background-image: url(../multimedia/404mb.png);
+    background-position: center center;
+  }
   .ancho-medio-derecha{
     width: 100%;
     height: auto;
@@ -129,6 +147,7 @@ main {
 }
 
 @media only screen and (max-width : 600px) {
+
   #index-banner .section {
     top: 0;
   }

@@ -52,7 +52,7 @@ function readRows2(apiend, prod) {
                     sweetAlert(4, response.exception, null);
                 }
                 // Se envían los datos a la función del controlador para que llene la tabla en la vista.
-                fillTable2(data);
+                fillTable(data);
             });
         } else {
             console.log(request.status + ' ' + request.statusText);

@@ -235,17 +235,62 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Producto incorrecto';
                 }
                 break;
-            case 'cantidadProductosCategoria':
-                if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
-                    $result['status'] = 1;
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
+                case 'cantidadProductosCategoria':
+                    if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
+                        $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'No hay datos disponibles';
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
                     }
-                }
-                break;
+                    break;
+                case 'cantidadPedidosxCliente':
+                    if ($result['dataset'] = $producto->cantidadPedidosxCliente()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                    }
+                    break;    
+                case 'valoracionesxproducto':
+                    if ($result['dataset'] = $producto->valoracionesxproducto()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                    }
+                    break;
+                case 'clienteconmascomentarios':
+                    if ($result['dataset'] = $producto->clienteconmascomentarios()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                    }
+                    break;  
+                case 'productomaspedido':
+                    if ($result['dataset'] = $producto->productomaspedido()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                    }
+                    break;
+    
             case 'averageOne':
                 if ($producto->setId($_POST['id_producto'])) {
                     if ($result['dataset'] = $producto->averageOne()) {
@@ -263,7 +308,7 @@ if (isset($_GET['action'])) {
                 break;    
             case 'Coments':
                 if ($producto->setId($_POST['id_producto'])) {
-                    if ($result['dataset'] = $producto->Coments()) {
+                    if ($result['dataset'] = $producto->ComentsReport()) {
                         $result['status'] = 1;
                         $rows = count($result['dataset']);
                         if ($rows > 1) {
