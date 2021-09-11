@@ -15,6 +15,14 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_cliente'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'viewSession':
+                if (isset($_SESSION['id_cliente'])) {
+                    $result['status'] = 1;
+                    $result['message'] = $_SESSION['id_cliente'];
+                } else {
+                    $result['exception'] = $_SESSION['id_cliente'];
+                }
+            break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
                         if ($cliente->setNombres($_POST['nombre'])) {
@@ -56,44 +64,37 @@ if (isset($_GET['action'])) {
                             $result['exception'] = 'Nombres incorrectos';
                         }
                 break;
-            case 'logOut':
-                if (session_destroy()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
-                }
-                break;
-                case 'logIn':
-                    $_POST = $cliente->validateForm($_POST);
-                    if ($cliente->checkUser($_POST['usuario'])) {
-                            if ($cliente->checkPassword($_POST['clave'])) {
-                                $_SESSION['id_cliente'] = $cliente->getId();
-                                $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                                $result['status'] = 1;
-                                $result['message'] = 'Autenticación correcta';
-                            } else {
-                                if (Database::getException()) {
-                                    $result['exception'] = Database::getException();
-                                } else {
-                                    $result['exception'] = 'Clave incorrecta';
-                                }
-                            }
-      
+                case 'logOut':
+                    unset($_SESSION['id_cliente'],$_SESSION['correo_cliente'],$_SESSION['tiempopb']);
+                    if (isset($_SESSION['id_cliente']) && isset($_SESSION['correo_cliente']) && isset($_SESSION['tiempopb'])) {
+                        $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
                     } else {
-                        if (Database::getException()) {
-                            $result['exception'] = Database::getException();
-                        } else {
-                            $result['exception'] = 'Alias incorrecto';
-                        }
+                        $result['status'] = 1;
+                        $result['message'] = 'Sesión eliminada correctamente';
                     }
-                    break;
+                break;
+                case 'controlTime':   
+                    if (isset($_SESSION['tiempopb'])) {
+                        $_SESSION['tiempopb'] = time();
+                        $result['status'] = 1;
+                    }else {
+                        $result['exception'] = 'Ocurrió un problema al renovar la sesión';
+                    }
+                break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
         // Se compara la acción a realizar cuando el cliente no ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'viewSession':
+                if (isset($_SESSION['id_cliente'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existe una Sesión';
+                } else {
+                    $result['exception'] = 'No existe una Sesión';
+                }
+            break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
                         if ($cliente->setNombres($_POST['nombre'])) {
@@ -141,6 +142,7 @@ if (isset($_GET['action'])) {
                         if ($cliente->checkPassword($_POST['clave'])) {
                             $_SESSION['id_cliente'] = $cliente->getId();
                             $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                            $_SESSION['tiempopb'] = time();
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta';
                         } else {
