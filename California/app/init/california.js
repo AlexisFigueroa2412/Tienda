@@ -3,7 +3,6 @@
         
     
     document.addEventListener('DOMContentLoaded', function() {
-        
         //Navbar
         var sdnv = document.querySelectorAll('.sidenav');
         var instancesSdnv = M.Sidenav.init(sdnv);
@@ -94,6 +93,7 @@
     }
     
     window.addEventListener('scroll',AnimatedScrollUp);
+
 
     
     

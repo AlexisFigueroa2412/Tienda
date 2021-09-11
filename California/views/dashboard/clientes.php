@@ -1,6 +1,7 @@
 <?php
 include("../../app/helpers/private_page.php");
 Dashboard_Page::headerTemplate('California','california');
+Dashboard_Page::controlTime();
 ?>
 <header>
 	<div class="container">

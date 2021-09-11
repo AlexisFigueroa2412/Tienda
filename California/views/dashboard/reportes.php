@@ -1,6 +1,7 @@
 <?php
 include("../../app/helpers/private_page.php");
 Dashboard_Page::headerTemplate('California','California');
+
 ?>
 <section>
 <div class="container Texto">

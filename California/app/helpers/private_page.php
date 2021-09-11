@@ -18,7 +18,6 @@ class Dashboard_Page {
                 <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"  media="screen,projection"/>
                 <!--Importar css propio-->   
                 <link type="text/css" rel="stylesheet" href="../../resources/css/'.$css.'.css"/>
-
                 <!--Para que sea resposivo-->
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <title>California '.$title.'</title>
@@ -194,7 +193,6 @@ class Dashboard_Page {
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../app/helpers/components.js"></script>
                 <script type="text/javascript" src="../../app/controllers/dashboard/' . $controller . '"></script>
-                <script type="text/javascript" src="../../app/init/california.js"></script> 
                 <script type="text/javascript" src="../../app/init/login.js"></script> 
             ';
             $links = '
@@ -210,6 +208,27 @@ class Dashboard_Page {
         }
         print($content);
     }    
+
+    public static function controlTime()
+    {
+        if (isset($_SESSION['id_usuario'])) {
+            //Comprobamos si esta definida la sesión 'tiempo'.
+            if(isset($_SESSION['tiempopv']) ) {
+                //Calculamos tiempo de vida inactivo.
+                $tiempo_session = time() - $_SESSION['tiempopv'];
+
+                //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+                if($tiempo_session > 300)
+                {
+                    unset($_SESSION['id_usuario'],$_SESSION['correo_cliente'],$_SESSION['tiempopv']);
+                    header('location: login.php');
+                }
+            }else {
+                $_SESSION['tiempopv'] = time();
+            }
+        }
+    }
+
     private static function modals()
     {
         // Se imprime el código HTML de las cajas de dialogo (modals).

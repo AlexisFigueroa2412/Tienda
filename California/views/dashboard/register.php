@@ -27,19 +27,19 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
                                 <label for="apellidos">Apellidos</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="correo" name="correo" type="email" class="validate" required>
+                                <input id="correo" name="correo" type="email" autocomplete="off" lass="validate" required>
                                 <label for="correo">Correo</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="alias" name="alias" type="text" class="validate" required>
+                                <input id="alias" name="alias" type="text" autocomplete="off" class="validate" required>
                                 <label for="alias">Nombre de Usuario</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="clave1" name="clave1" type="password" class="validate" required>
+                                <input id="clave1" name="clave1" type="password" autocomplete="off" class="validate" required>
                                 <label for="clave1">Contraseña</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="clave2" name="clave2" type="password" class="validate" required>
+                                <input id="clave2" name="clave2" type="password" autocomplete="off" class="validate" required>
                                 <label for="clave2">Confirma tu Contraseña</label>
                             </div>
                             <div class="col s12 m12 l12 center">
@@ -97,23 +97,23 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
             <h5 class="Titulos">Registrate</h5>
             <p class="Texto">Ingresa tus datos.</p>
             <div class="input-field col s12">
-                <input id="nombre_registro_mobile" type="text" class="validate">
+                <input id="nombre_registro_mobile" type="text" autocomplete="off" class="validate">
                 <label for="nombre_registro_mobile">Nombre</label>
             </div>
             <div class="input-field col s12">
-                <input id="apellidos_registro_mobile" type="text" class="validate">
+                <input id="apellidos_registro_mobile" type="text" autocomplete="off" class="validate">
                 <label for="apellidos_registro_mobile">Apellidos</label>
             </div>
             <div class="input-field col s12">
-                <input id="email_registro_mobile" type="email" class="validate">
+                <input id="email_registro_mobile" type="email" autocomplete="off" class="validate">
                 <label for="email_registro_mobile">Correo</label>
             </div>
             <div class="input-field col s12">
-                <input id="tel_registro_mobile" type="tel" class="validate">
+                <input id="tel_registro_mobile" type="tel" autocomplete="off" class="validate">
                 <label for="tel_registro_mobile">Teléfono</label>
             </div>
             <div class="input-field col s12">
-                <input id="psw_registro_mobile" type="password" class="validate">
+                <input id="psw_registro_mobile" type="password" autocomplete="off" class="validate">
                 <label for="psw_registro_mobile">Contraseña</label>
             </div>
         </div>
