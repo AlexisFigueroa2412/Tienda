@@ -1,6 +1,7 @@
 <?php
 include("../../app/helpers/public_page.php");
 Public_Page::headerTemplate('california','california');
+Public_Page::controlTime();
 ?>
 <head class="Texto">
     <div class="container">

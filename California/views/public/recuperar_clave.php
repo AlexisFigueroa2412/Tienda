@@ -5,6 +5,18 @@ require_once('../../app/helpers/public_page.php');
 Public_Page::headerTemplate('Cambiar Contraseña','california');
 ?>
 <section>
+<nav>
+	<div class="nav-wrapper black">
+		<div class="col s12 pad-nav">
+			<a href="index.php" class="breadcrumb">Página de Inicio</a>
+			<a href="login.php" class="breadcrumb">Iniciar Sesión</a>
+			<!--Link del producto-->
+			<a href="#!" class="breadcrumb" id="bread"></a>
+		</div>
+	</div>
+</nav>
+</section>
+<section>
 	<div>
 		<br>
 	</div>
@@ -21,7 +33,7 @@ Public_Page::headerTemplate('Cambiar Contraseña','california');
                                 <p class="Textos">Recibirás un código de confirmación en tu correo electrónico</p>
 							</div>
                             <div class="input-field col s12 m12 l12">
-								<input id="correo" name="correo" type="email" class="validate" required>
+								<input id="correo" name="correo" type="email" autocomplete="off" class="validate" required>
 								<label for="correo">Correo Electrónico</label>
 							</div>
 							<div class="col s12 m12 l12 center">
@@ -38,7 +50,7 @@ Public_Page::headerTemplate('Cambiar Contraseña','california');
                                 <p class="Textos">Ingrésa el código de confirmación que enviamos a tu correo electrónico</p>
 							</div>
 							<div class="input-field col s12 m12 l12">
-								<input id="codigo" name="codigo" type="number" class="validate" required>
+								<input disabled id="codigo" name="codigo" type="number" autocomplete="off" class="validate" required>
 								<label for="codigo">Código de Confirmación</label>
 							</div>
 							<div class="col s12 m12 l12 center">
@@ -51,11 +63,11 @@ Public_Page::headerTemplate('Cambiar Contraseña','california');
 					    </form>
 					    <form method="post" id="register-form">
 							<div class="input-field col s12 m12 l12">
-								<input id="clave1" name="clave1" type="password" class="validate" required>
+								<input disabled id="clave1" name="clave1" type="password" autocomplete="off" class="validate" required>
 								<label for="clave1">Contraseña Nueva</label>
 							</div>
 							<div class="input-field col s12 m12 l12">
-								<input id="clave2" name="clave2" type="password" class="validate" required>
+								<input disabled id="clave2" name="clave2" type="password" autocomplete="off" class="validate" required>
 								<label for="clave2">Confirma tu Contraseña Nueva</label>
 							</div>
 							<div class="col s12 m12 l12 center">
