@@ -56,6 +56,17 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
                         </div>
                     </form>
                 </div>
+                <div class="col s12 m12 l12">
+					<div class="divider"></div>
+					<br><br>
+					<h5 class="Titulos">Recordatorio:</h5>
+					<p class="Texto">Acá te dejamos las medidas que debes seguir para Aumentar la SEGURIDAD de tus datos.</p>
+					<p class="Texto">- Tu Correo Electrónico debe de tener el siguiente formato: ejemplo@correo.com</p>
+					<p class="Texto">- Tu Número Telefónico debe de tener el siguiente formato: 0000-0000</p>
+					<p class="Texto">- Tu contraseña debe de contener letras mayúsculas, minúsculas y números.</p>	
+					<p class="Texto">- No utilíces tu alias, correo electrónico o teléfono como contraseña.</p>
+					<p class="Texto">- La contraseña debe de ser mayor o igual a 8 caracteres.</p>
+				</div>
             </div>
         </div>
     </div>

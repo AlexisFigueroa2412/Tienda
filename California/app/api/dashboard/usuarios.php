@@ -277,7 +277,7 @@ if (isset($_GET['action'])) {
                         $result['exception'] = Database::getException();
                     } else {
                         $result['exception'] = 'Existe al menos un usuario registrado';
-                    }
+                   }
                 }
                 break;
             case 'logIn':
