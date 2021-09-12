@@ -43,12 +43,14 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
                                 <label for="clave2">Confirma tu Contraseña</label>
                             </div>
                             <div class="col s12 m12 l12 center">
-                                <a href="!#" class="link black-text modal-trigger" data-target="terminos">Al registrarte estas
+                                <a href="!#" class="link black-text modal-trigger Texto" data-target="terminos">Al registrarte estas
                                     aceptando los terminos y condiciones</a>
                             </div>
                             <div class="col s12 m12 l12 center">
                                 <br>
-                                <button type="submit" class="btn black waves-effect waves-light hoverable">Registrarme</button>                               
+                                <button type="submit" class="btn black waves-effect waves-light hoverable">Registrarme</button> 
+                                <br>
+                                <a href="index.php" class="link black-text Texto" data-target="terminos">Regresar</a>                              
                             </div>
                             <div class="col s12 m12 l12 center">
                                 <br>                             

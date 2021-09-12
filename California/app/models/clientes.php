@@ -14,6 +14,9 @@ class Clientes extends Validator
     private $alias = null;
     private $direccion = null;
     private $clave = null;
+    private $exito = null;
+    private $intentos = null;
+    private $fecha = null;
     private $estado = null; // Valor por defecto en la base de datos: true
 
     /*
@@ -89,6 +92,16 @@ class Clientes extends Validator
         }
     }
 
+    public function setFecha($value)
+    {
+        if ($this->validateDate($value)) {
+            $this->fecha = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setDireccion($value)
     {
         if ($this->validateString($value, 1, 200)) {
@@ -113,6 +126,16 @@ class Clientes extends Validator
     {
         if ($this->validateBoolean($value)) {
             $this->estado = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setExito($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->exito = $value;
             return true;
         } else {
             return false;
@@ -171,16 +194,30 @@ class Clientes extends Validator
     {
         return $this->estado;
     }
+    public function getIntentos()
+    {
+        return $this->intentos;
+    }
 
 
     public function register()
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO public."tbClientes"(
-            id_cliente, nombre_cliente, apellido_cliente, telefono_cliente, correo_cliente, clave_cliente, estado_cliente)
-            VALUES (default, ?, ?, ?, ?, ?, true);';
+        $sql = 'INSERT INTO public."tbClientes"(nombre_cliente, apellido_cliente, telefono_cliente, correo_cliente, clave_cliente, estado_cliente)
+            VALUES ( ?, ?, ?, ?, ?, true);';
         $params = array($this->nombres, $this->apellidos, $this->telefono, $this->correo, $hash);
+        return Database::executeRow($sql, $params);
+    }
+    
+    public function registerSession()
+    {
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        $sql = 'INSERT INTO public."tbSesionesPb"(
+            fecha_sesion, exito, id_cliente)
+            VALUES (?, ?, ?);';
+        $params = array($date, $this->exito, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -200,14 +237,36 @@ class Clientes extends Validator
         }
     }
 
+    public function checkIntentos()
+    {
+        $sesion = false;
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        $sql = 'SELECT count(id_sesion) as intentos
+            FROM public."tbSesionesPb"
+            where exito = ? and fecha_sesion = ?';
+        $params = array($sesion,$date);
+        if ($data = Database::getRow($sql, $params)) {
+            if ($data['intentos'] < 3) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
     public function checkPassword($password)
     {
         $sql = 'SELECT "clave_cliente" FROM "tbClientes" WHERE "id_cliente" = ?';
         $params = array($this->id);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_cliente'])) {
+            $this->exito = true;
             return true;
         } else {
+            $this->exito = false;
             return false;
         }
     }

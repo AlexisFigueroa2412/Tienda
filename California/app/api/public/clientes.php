@@ -139,20 +139,35 @@ if (isset($_GET['action'])) {
             case 'logIn':
                 $_POST = $cliente->validateForm($_POST);
                 if ($cliente->checkUser($_POST['usuario'])) {
+                    if ($cliente->checkIntentos()) {
                         if ($cliente->checkPassword($_POST['clave'])) {
-                            $_SESSION['id_cliente'] = $cliente->getId();
-                            $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                            $_SESSION['tiempopb'] = time();
-                            $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
+                            if ($cliente->registerSession()) {
+                                $_SESSION['id_cliente'] = $cliente->getId();
+                                $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                $_SESSION['tiempopb'] = time();
+                                $result['status'] = 1;
+                                $result['message'] = 'Autenticación correcta';
+                            } else {
+                                $result['exception'] = 'No se pudo registrar la sesión';
+                            }
                         } else {
                             if (Database::getException()) {
                                 $result['exception'] = Database::getException();
                             } else {
-                                $result['exception'] = 'Clave incorrecta';
+                                if ($cliente->registerSession()) {
+                                    $result['exception'] = 'Clave incorrecta';
+                                } else {
+                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                }
                             }
                         }
-  
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                        }
+                    }
                 } else {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
