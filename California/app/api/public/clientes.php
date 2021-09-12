@@ -148,7 +148,11 @@ if (isset($_GET['action'])) {
                                 $result['status'] = 1;
                                 $result['message'] = 'Autenticación correcta';
                             } else {
-                                $result['exception'] = 'No se pudo registrar la sesión';
+                                if (Database::getException()) {
+                                    $result['exception'] = Database::getException();
+                                } else {
+                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                }
                             }
                         } else {
                             if (Database::getException()) {
@@ -157,7 +161,11 @@ if (isset($_GET['action'])) {
                                 if ($cliente->registerSession()) {
                                     $result['exception'] = 'Clave incorrecta';
                                 } else {
-                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No se pudo registrar la sesión';
+                                    }
                                 }
                             }
                         }

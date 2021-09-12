@@ -24,7 +24,7 @@ if (isset($_GET['action'])) {
                 }
             break;
             case 'logOut':
-                unset($_SESSION['id_usuario']);
+                unset($_SESSION['id_usuario'],$_SESSION['alias_usuario'],$_SESSION['tiempopv']);
                     if (isset($_SESSION['id_usuario'])) {
                         $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
                     } else {
@@ -281,33 +281,56 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'logIn':
-                //Se verifica el formulario
-                $_POST = $usuario->validateForm($_POST);
-                //Se verifica que exista el usuario
-                if ($usuario->checkUser($_POST['alias'])) {
-                    if ($usuario->checkPassword($_POST['clave'])) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
-                        //Se guardan los datos del usuario
-                        $_SESSION['id_usuario'] = $usuario->getId();
-                        $_SESSION['alias_usuario'] = $usuario->getAlias();
-                        //Se inicia el tiempo de la sesión
-                        $_SESSION['tiempopv'] = time();
+                case 'logIn':
+                    $_POST = $usuario->validateForm($_POST);
+                    if ($usuario->checkUser($_POST['alias'])) {
+                        if ($usuario->checkIntentos()) {
+                            if ($usuario->checkPassword($_POST['clave'])) {
+                                if ($usuario->registerSession()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Autenticación correcta';
+                                    //Se guardan los datos del usuario
+                                    $_SESSION['id_usuario'] = $usuario->getId();
+                                    $_SESSION['alias_usuario'] = $usuario->getAlias();
+                                    //Se inicia el tiempo de la sesión
+                                    $_SESSION['tiempopv'] = time();
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No se pudo registrar la sesión';
+                                    }
+                                }
+                            } else {
+                                if (Database::getException()) {
+                                    $result['exception'] = Database::getException();
+                                } else {
+                                    if ($usuario->registerSession()) {
+                                        $result['exception'] = 'Clave incorrecta';
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se pudo registrar la sesión';
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                            }
+                        }
                     } else {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Clave incorrecta';
+                            $result['exception'] = 'Alias incorrecto';
                         }
                     }
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'Alias incorrecto';
-                    }
-                }
-                break;
+                    break;
             default:
                 $result['exception'] = 'Acción no disponible fuera de la sesión';
         }

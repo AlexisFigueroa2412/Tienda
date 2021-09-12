@@ -12,6 +12,9 @@ class Usuarios extends Validator
     private $alias = null;
     private $clave = null;
     private $estado = null;
+    private $exito = null;
+    private $intentos = null;
+    private $fecha = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -124,9 +127,32 @@ class Usuarios extends Validator
         return $this->estado;
     }
 
+    public function getIntentos()
+    {
+        return $this->intentos;
+    }
+
     /*
     *   Métodos para gestionar la cuenta del usuario.
     */
+        
+    // Función que nos sirve para guardar el historial de la sesiones
+    public function registerSession()
+    {   // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        // Se guardan las variables necesarias
+        $date = date('Y-m-d');
+        $hora = date('G:H:s');
+        // Se guarda la consulta que nos permitirá registar la sesión
+        $sql = 'INSERT INTO public."tbSesionesPv"(
+            fecha_sesion, exito, id_usuario,hora)
+            VALUES (?, ?, ?, ?);';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($date, $this->exito, $this->id,$hora);
+        //Se retorna el resultado de ejecutar la consulta en el método "executeRow"
+        return Database::executeRow($sql, $params);
+    }
+
     public function checkUser($alias)
     {
         $sql = 'SELECT id_usuario FROM public."tbUsuarios" WHERE alias_usuario = ?';
@@ -140,14 +166,49 @@ class Usuarios extends Validator
         }
     }
 
+    // Función para verificar la cantidad de intentos de sesión realizados
+    public function checkIntentos()
+     {
+        // Se guardan las variables a utilizar(fecha y éxito)
+        $sesion = 'false';
+        // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
+        $sql = 'SELECT count(id_sesion) as intentos
+            FROM public."tbSesionesPv"
+            where exito = ? and fecha_sesion = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($sesion,$date);
+        // Se verifica si la consulta devolvío algún dato
+        if ($data = Database::getRow($sql, $params)) {
+            // Se verifica que los intentos fallidos sean menores a 3
+            if ($data['intentos'] < 3) {
+                return true;
+            } else {
+                return false;
+            }
+         } else {
+            return true;
+         }
+     }
+
+    // Función para verificar la clave del usuario
     public function checkPassword($password)
     {
+        // Se guarda la consulta sql que pedirá la clave del cliente
         $sql = 'SELECT clave_usuario FROM public."tbUsuarios" WHERE id_usuario = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
         $params = array($this->id);
+        // Se guarda el resultado de ejecutar la consulta en el método "getRow"
         $data = Database::getRow($sql, $params);
+        // Se verifica si la contraseña es correcta
+        //Se guarda el éxito de la sesión para registarla
         if (password_verify($password, $data['clave_usuario'])) {
-            return true;
+            $this->exito = 'true';
+           return true;
         } else {
+            $this->exito = 'false';
             return false;
         }
     }
