@@ -97,6 +97,37 @@ if (isset($_GET['action'])) {
             break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
+                // Se sanea el valor del token para evitar datos maliciosos.
+                $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
+                if ($token) {
+                    $secretKey = '6LeVm2QcAAAAAPc3jgpJaSWskO6Vrlme19bj6X3Y';
+                    $ip = $_SERVER['REMOTE_ADDR'];
+
+                    $data = array(
+                        'secret' => $secretKey,
+                        'response' => $token,
+                        'remoteip' => $ip
+                    );
+
+                    $options = array(
+                        'http' => array(
+                            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                            'method'  => 'POST',
+                            'content' => http_build_query($data)
+                        ),
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false
+                        )
+                    );
+
+                    $url = 'https://www.google.com/recaptcha/api/siteverify';
+                    $context  = stream_context_create($options);
+                    $response = file_get_contents($url, false, $context);
+                    $captcha = json_decode($response, true);
+
+                    if ($captcha['success']) {
+                        $_POST = $cliente->validateForm($_POST);
                         if ($cliente->setNombres($_POST['nombre'])) {
                             if ($cliente->setApellidos($_POST['apellido'])) {
                                 if ($cliente->setCorreo($_POST['email'])) {
@@ -135,6 +166,13 @@ if (isset($_GET['action'])) {
                         } else {
                             $result['exception'] = 'Nombres incorrectos';
                         }
+                    } else {
+                        $result['recaptcha'] = 1;
+                        $result['exception'] = 'No eres un humano';
+                    }
+                } else {
+                    $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
+                }
                 break;
             case 'logIn':
                 $_POST = $cliente->validateForm($_POST);
@@ -142,11 +180,19 @@ if (isset($_GET['action'])) {
                     if ($cliente->checkIntentos()) {
                         if ($cliente->checkPassword($_POST['clave'])) {
                             if ($cliente->registerSession()) {
-                                $_SESSION['id_cliente'] = $cliente->getId();
-                                $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                                $_SESSION['tiempopb'] = time();
-                                $result['status'] = 1;
-                                $result['message'] = 'Autenticación correcta';
+                                if ($cliente->unregisterFailedSession()) {
+                                    $_SESSION['id_cliente'] = $cliente->getId();
+                                    $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                    $_SESSION['tiempopb'] = time();
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Autenticación correcta';
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No se pudieron resetar los intentos fallidos';
+                                    }
+                                }
                             } else {
                                 if (Database::getException()) {
                                     $result['exception'] = Database::getException();
@@ -173,7 +219,7 @@ if (isset($_GET['action'])) {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                            $result['exception'] = 'Has excedido el limite de intentos para ingresar sesión. Por seguridad tu cuenta ha sido inhanilitada. Prueba ingresar mañana';
                         }
                     }
                 } else {

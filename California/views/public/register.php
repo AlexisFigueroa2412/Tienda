@@ -23,31 +23,33 @@ Public_Page::headerTemplate('Registro','california');
             <div class="row">
                 <div class="col s12 m12 l12 center">
                     <form method="post" id="register-form">
+                        <!-- Campo oculto para asignar el token del reCAPTCHA -->
+                        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/>
                         <div class="card-content Texto">
                             <h5 class="Titulos">Registrate</h5>
                             <p class="Texto">Ingresa tus datos.</p>
                             <div class="input-field col s12">
-                                <input id="nombre" name="nombre" type="text" class="validate" required>
+                                <input autocomplete="off" id="nombre" name="nombre" type="text" class="validate" required>
                                 <label for="nombre">Nombre</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="apellido" name="apellido" type="text" class="validate" required>
+                                <input autocomplete="off" id="apellido" name="apellido" type="text" class="validate" required>
                                 <label for="apellido">Apellidos</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="email" name="email" type="email" autocomplete="off" class="validate" required>
+                                <input autocomplete="off" id="email" name="email" type="email"  class="validate" required>
                                 <label for="email">Correo</label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="telefono" name="telefono" type="text" autocomplete="off" class="validate" required>
+                                <input autocomplete="off" id="telefono" name="telefono" type="text" class="validate" required>
                                 <label for="telefono">Número de Teléfono</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="clave" name="clave" type="password" autocomplete="off" class="validate" required>
+                                <input autocomplete="off" id="clave" name="clave" type="password" class="validate" required>
                                 <label for="clave">Contraseña</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="clave2" name="clave2" type="password" autocomplete="off" class="validate" required>
+                                <input autocomplete="off" id="clave2" name="clave2" type="password" class="validate" required>
                                 <label for="clave2">Confirma tu Contraseña</label>
                             </div>
                             <div class="col s12 m12 l12 center">
@@ -169,7 +171,9 @@ Public_Page::headerTemplate('Registro','california');
         </div>
     </div>
 </section>
+<!-- Importación del archivo para que funcione el reCAPTCHA. Para más información https://developers.google.com/recaptcha/docs/v3 -->
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LeVm2QcAAAAAE1X1ZaWWBREF2vXsK6RFLhNcnK7"></script>
 <?php
 // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
-Public_Page::footerTemplate('login.js',null);
+Public_Page::footerTemplate('register.js',null);
 ?>

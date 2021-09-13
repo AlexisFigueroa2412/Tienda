@@ -4,7 +4,15 @@ require_once('../../app/helpers/private_page.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
 Dashboard_Page::headerTemplate('Registrar primer usuario','california');
 ?>
-
+<nav>
+	<div class="nav-wrapper black">
+		<div class="col s12 pad-nav">
+			<a href="index.php" class="breadcrumb">Iniciar Sesión</a>
+			<!--Link del producto-->
+			<a href="#!" class="breadcrumb" id="bread"></a>
+		</div>
+	</div>
+</nav>
 <!--Login y registro-->
 <section>
     <div>

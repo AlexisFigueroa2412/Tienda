@@ -4,7 +4,6 @@ require_once('../../app/helpers/private_page.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
 Dashboard_Page::headerTemplate('Iniciar sesión','login');
 ?>
-
 <!--Login y registro-->
 <section>
 	<div class="container z-depth-1 hide-on-small-only" id="container">
@@ -19,8 +18,8 @@ Dashboard_Page::headerTemplate('Iniciar sesión','login');
 			<form method="POST" id="session-form" action="#">
 				<h3 class="Titulos black-text">Iniciar Sesion</h3>
 				<span>Ingresa tus credenciales</span>
-				<input id="alias" name="alias" type="text" placeholder="Usuario" class="validate" required/>
-				<input id="clave" name="clave" type="password" placeholder="Contraseña" class="validate" required/>
+				<input id="alias" name="alias" type="text" placeholder="Usuario" autocomplete="off" class="validate" required/>
+				<input id="clave" name="clave" type="password" placeholder="Contraseña" autocomplete="off" class="validate" required/>
 				<button type="submit" class="btn black waves-effect waves-light hoverable">Iniciar Sesión</button><br>
 				<a class="Texto link" href="index.php">Sitio Público</a>
 			</form>
