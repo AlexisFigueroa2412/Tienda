@@ -153,6 +153,22 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    // Función que nos sirve para guardar el historial de la sesiones
+    public function unregisterFailedSession()
+    {   // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        // Se guardan las variables necesarias
+        $date = date('Y-m-d');
+        $exito = 'false';
+        // Se guarda la consulta que nos permitirá resetear los intentos fallidos
+        $sql = 'DELETE FROM public."tbSesionesPv"
+            WHERE fecha_sesion = ? , exito = ?, id_cliente = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($date, $exito, $this->id);
+        //Se retorna el resultado de ejecutar la consulta en el método "executeRow"
+        return Database::executeRow($sql, $params);
+    }
+
     public function checkUser($alias)
     {
         $sql = 'SELECT id_usuario FROM public."tbUsuarios" WHERE alias_usuario = ?';

@@ -227,6 +227,22 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
+    // Función que nos sirve para guardar el historial de la sesiones
+    public function unregisterFailedSession()
+    {   // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        // Se guardan las variables necesarias
+        $date = date('Y-m-d');
+        $exito = 'false';
+        // Se guarda la consulta que nos permitirá resetear los intentos fallidos
+        $sql = 'DELETE FROM public."tbSesionesPb"
+            WHERE fecha_sesion = ? and exito = ? and id_cliente = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($date, $exito, $this->id);
+        //Se retorna el resultado de ejecutar la consulta en el método "executeRow"
+        return Database::executeRow($sql, $params);
+    }
+
     /*
     *   Métodos para gestionar la cuenta del cliente.
     */
@@ -254,9 +270,9 @@ class Clientes extends Validator
         // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
         $sql = 'SELECT count(id_sesion) as intentos
             FROM public."tbSesionesPb"
-            where exito = ? and fecha_sesion = ?';
+            where exito = ? and fecha_sesion = ? and id_cliente = ?';
         // Se guarda un array con los parámetros solicitados por la consulta
-        $params = array($sesion,$date);
+        $params = array($sesion,$date,$this->id);
         // Se verifica si la consulta devolvío algún dato
         if ($data = Database::getRow($sql, $params)) {
             // Se verifica que los intentos fallidos sean menores a 3

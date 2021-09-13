@@ -281,12 +281,12 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'logIn':
-                case 'logIn':
-                    $_POST = $usuario->validateForm($_POST);
-                    if ($usuario->checkUser($_POST['alias'])) {
-                        if ($usuario->checkIntentos()) {
-                            if ($usuario->checkPassword($_POST['clave'])) {
-                                if ($usuario->registerSession()) {
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->checkUser($_POST['alias'])) {
+                    if ($usuario->checkIntentos()) {
+                        if ($usuario->checkPassword($_POST['clave'])) {
+                            if ($usuario->registerSession()) {
+                                if ($usuario->unregisterFailedSession()) {
                                     $result['status'] = 1;
                                     $result['message'] = 'Autenticación correcta';
                                     //Se guardan los datos del usuario
@@ -305,32 +305,39 @@ if (isset($_GET['action'])) {
                                 if (Database::getException()) {
                                     $result['exception'] = Database::getException();
                                 } else {
-                                    if ($usuario->registerSession()) {
-                                        $result['exception'] = 'Clave incorrecta';
-                                    } else {
-                                        if (Database::getException()) {
-                                            $result['exception'] = Database::getException();
-                                        } else {
-                                            $result['exception'] = 'No se pudo registrar la sesión';
-                                        }
-                                    }
+                                    $result['exception'] = 'No se pudo registrar la sesión';
                                 }
                             }
                         } else {
                             if (Database::getException()) {
                                 $result['exception'] = Database::getException();
                             } else {
-                                $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                                if ($usuario->registerSession()) {
+                                    $result['exception'] = 'Clave incorrecta';
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No se pudo registrar la sesión';
+                                    }
+                                }
                             }
                         }
                     } else {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Alias incorrecto';
+                            $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
                         }
                     }
-                    break;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'Alias incorrecto';
+                    }
+                }
+                break;
             default:
                 $result['exception'] = 'Acción no disponible fuera de la sesión';
         }
