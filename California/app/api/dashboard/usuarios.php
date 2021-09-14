@@ -32,6 +32,32 @@ if (isset($_GET['action'])) {
                         $result['message'] = 'Sesión eliminada correctamente';
                     }
                 break;
+                break;
+                case 'changePassword':
+                    if ($usuario->setId($_SESSION['id_usuario'])) {
+                        $_POST = $usuario->validateForm($_POST);
+                        if ($usuario->checkPassword($_POST['clave_actual'])) {
+                            if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
+                                if ($usuario->setClave($_POST['clave_nueva_1'])) {
+                                    if ($usuario->changePassword()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Contraseña cambiada correctamente';
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    }
+                                } else {
+                                    $result['exception'] = $usuario->getPasswordError();
+                                }
+                            } else {
+                                $result['exception'] = 'Claves nuevas diferentes';
+                            }
+                        } else {
+                            $result['exception'] = 'Clave actual incorrecta';
+                        }
+                    } else {
+                        $result['exception'] = 'Usuario incorrecto';
+                    }
+                    break;
             case 'controlTime':   
                 if (isset($_SESSION['tiempopv'])) {
                     $_SESSION['tiempopv'] = time();
@@ -140,33 +166,7 @@ if (isset($_GET['action'])) {
                     if ($usuario->readOne()) {
                         if ($usuario->setNombres($_POST['nombre_usuario'])) {
                             if ($usuario->setApellidos($_POST['apellido_usuario'])) {
-                                if ($usuario->setCorreo($_POST['email_usuario'])) {
-                                    if($usuario->setDui($_POST['dui'])){
-                                        if($usuario->setDireccion($_POST['direccion_usuario'])){
-                                            if($usuario->setTipo(isset($_POST['tipo_usuario']) ? 1 : 2)){
-                                                if($usuario->setEstado(isset($_POST['estado']) ? 1 : 0)){
-                                                    if ($usuario->updateRow()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Usuario modificado correctamente';
-                                                    } else {
-                                                        $result['exception'] = Database::getException();
-                                                    }
-                                                }
-                                                }else{
-                                                    $result['exception'] = 'Estado incorrecto';
-                                                }
-                                            }else{
-                                                $result['exception'] = 'Tipo de usuario incorrecto';
-                                            }
-                                        }else{
-                                            $result['exception'] = 'Direccion incorrecta';
-                                        }
-                                    }else{
-                                        $result['exception'] = 'DUI incorrecto';
-                                    }
-                                }else {
-                                    $result['exception'] = 'Correo incorrecto';
-                                }
+                               
                             } else {
                                 $result['exception'] = 'Apellidos incorrectos';
                             }
@@ -176,7 +176,9 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Usuario inexistente';
                     }
-                
+                }else {
+                        $result['exception'] = 'Nombres incorrectos';
+                    }
                 break;
             case 'delete':
                 if ($_POST['id_usuario'] != $_SESSION['id_usuario']) {

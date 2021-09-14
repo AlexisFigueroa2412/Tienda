@@ -237,6 +237,13 @@ class Usuarios extends Validator
         $params = array($_SESSION['id_usuario']);
         return Database::getRow($sql, $params);
     }
+    public function changePassword()
+    {
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE tbUsuarios SET clave_usuario = ? WHERE id_usuario = ?';
+        $params = array($hash, $this->id);
+        return Database::executeRow($sql, $params);
+    }
 
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
