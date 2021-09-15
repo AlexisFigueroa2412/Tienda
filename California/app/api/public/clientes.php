@@ -23,6 +23,14 @@ if (isset($_GET['action'])) {
                     $result['exception'] = $_SESSION['id_cliente'];
                 }
             break;
+            /*case 'tiempoActual':
+                if (isset($_SESSION['tiempopb'])) {
+                    $result['status'] = 1;
+                    $result['message'] = $_SESSION['tiempopb'];
+                } else {
+                    $result['exception'] = $_SESSION['tiempopb'];
+                }*/
+            break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
                         if ($cliente->setNombres($_POST['nombre'])) {

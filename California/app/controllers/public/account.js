@@ -90,6 +90,25 @@ window.onblur=window.onmousemove=function() {
                                     //Se reinicia el contador
                                     if(t) clearTimeout(t);
                                     contadorInactividad();
+                                    /*fetch(API + 'tiempoActual', {
+                                        method: 'get'
+                                    }).then(function (request) {
+                                        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+                                        if (request.ok) {
+                                            request.json().then(function (response) {
+                                                // Se comprueba si la sesión se ha cerrado correctamente, de lo contrario se muestra un mensaje con la excepción.
+                                                if (response.status) {
+                                                    sweetAlert(4, response.message, 'index.php');
+                                                } else {
+                                                    sweetAlert(2, response.exception, null);
+                                                }
+                                            });
+                                        } else {
+                                            console.log(request.status + ' ' + request.statusText);
+                                        }
+                                    }).catch(function (error) {
+                                        console.log(error);
+                                    });*/
                                 } else {
                                     sweetAlert(2, response.exception, null);
                                 }
