@@ -162,7 +162,7 @@ class Usuarios extends Validator
         $exito = 'false';
         // Se guarda la consulta que nos permitirá resetear los intentos fallidos
         $sql = 'DELETE FROM public."tbSesionesPv"
-            WHERE fecha_sesion = ? , exito = ?, id_usuario = ?';
+            WHERE fecha_sesion = ? and exito = ? and id_usuario = ?';
         // Se guarda un array con los parámetros solicitados por la consulta
         $params = array($date, $exito, $this->id);
         //Se retorna el resultado de ejecutar la consulta en el método "executeRow"

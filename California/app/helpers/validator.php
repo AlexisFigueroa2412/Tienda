@@ -229,15 +229,15 @@ class Validator
                         // Se verifica que contenga números.
                         if (preg_match('`[0-9]`',$value)) {
                             if(strpos('contraseña',$value) !== false){
-                                if(strpos('password',$value) !== false){
-                                    return true;
-                                }else {
-                                    $this->passwordError = 'Por seguridad, te pedimos que no utilices palabras como "contraseña" o "password"';
-                                return false;
-                                }
-                            }else {
                                 $this->passwordError = 'Por seguridad no utilices palabras como "contraseña" o "password"';
-                            return false;
+                                return false;
+                            }else {
+                                if(strpos('password',$value) !== false){
+                                    $this->passwordError = 'Por seguridad, te pedimos que no utilices palabras como "contraseña" o "password"';
+                                    return false;
+                                }else {
+                                    return true;
+                                }
                             }
                         } else {
                             $this->passwordError = 'La Clave debe de contener al menos un caracter númerico';
