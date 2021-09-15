@@ -137,6 +137,9 @@ class Database
             case '42703':
                 self::$error = 'Nombre de campo desconocido';
                 break;
+            case '42601':
+                self::$error = 'Error en la sintaxis';
+                break;
             case '23505':
                 self::$error = 'Dato duplicado, no se puede guardar';
                 break;
@@ -145,6 +148,18 @@ class Database
                 break;
             case '23503':
                 self::$error = 'Registro ocupado, no se puede eliminar';
+                break;
+            case '220073':
+                self::$error = 'Formato incorrecto de fechas';
+                break;
+            case '23502':
+                self::$error = 'Campo vacío';
+                break;
+            case '42804':
+                self::$error = 'El tipo de dato no coincide';
+                break;
+            case '42P18':
+                self::$error = 'No se pudo determinar el tipo de dato';
                 break;
             default:
                 //self::$error = 'Ocurrió un problema en la base de datos';
