@@ -162,7 +162,7 @@ class Usuarios extends Validator
         $exito = 'false';
         // Se guarda la consulta que nos permitirá resetear los intentos fallidos
         $sql = 'DELETE FROM public."tbSesionesPv"
-            WHERE fecha_sesion = ? , exito = ?, id_cliente = ?';
+            WHERE fecha_sesion = ? , exito = ?, id_usuario = ?';
         // Se guarda un array con los parámetros solicitados por la consulta
         $params = array($date, $exito, $this->id);
         //Se retorna el resultado de ejecutar la consulta en el método "executeRow"
@@ -193,9 +193,9 @@ class Usuarios extends Validator
         // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
         $sql = 'SELECT count(id_sesion) as intentos
             FROM public."tbSesionesPv"
-            where exito = ? and fecha_sesion = ?';
+            where exito = ? and fecha_sesion = ? and id_usuario = ?';
         // Se guarda un array con los parámetros solicitados por la consulta
-        $params = array($sesion,$date);
+        $params = array($sesion,$date, $this->id);
         // Se verifica si la consulta devolvío algún dato
         if ($data = Database::getRow($sql, $params)) {
             // Se verifica que los intentos fallidos sean menores a 3
