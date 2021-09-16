@@ -22,6 +22,7 @@ Dashboard_Page::headerTemplate('Iniciar sesión','login');
 				<input id="clave" name="clave" type="password" placeholder="Contraseña" autocomplete="off" class="validate" required/>
 				<button type="submit" class="btn black waves-effect waves-light hoverable">Iniciar Sesión</button><br>
 				<a class="Texto link" href="index.php">Sitio Público</a>
+				<a class="Texto link" href="restaurar.php">¿Olvido su contraseña?</a>
 			</form>
 		</div>
 		<div class="overlay-container">
