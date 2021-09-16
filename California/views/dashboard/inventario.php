@@ -3,7 +3,7 @@ include("../../app/helpers/private_page.php");
 Dashboard_Page::headerTemplate('California','California');
 Dashboard_Page::controlTime();
 ?>
-?>
+
 
 <head class="Texto">
     <div class="container">

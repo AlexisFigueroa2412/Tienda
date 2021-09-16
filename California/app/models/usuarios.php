@@ -237,6 +237,17 @@ class Usuarios extends Validator
         $params = array($_SESSION['id_usuario']);
         return Database::getRow($sql, $params);
     }
+    public function checkPassword1($password)
+    {
+        $sql = 'SELECT clave_usuario FROM tbUsuarios WHERE id_usuario = ?';
+        $params = array($this->id);
+        $data = Database::getRow($sql, $params);
+        if (password_verify($password, $data['clave_usuario'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function changePassword()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
