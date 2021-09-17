@@ -24,22 +24,23 @@ Dashboard_Page::headerTemplate('California','California');
                 <!--Estableciendo el tamaño de cada div correspondiente-->
                 <!--Creamos la estructura del formulario respectivo-->
                 <div class="row">
-                    <form class="col-md-4">
+                    <form class="col-md-4" method="post" id="user" name="user" enctype="multipart/form-data">
                         <div class="row">
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <input id="usuario" type="text" class="validate">
-                                <label for="usuario">Ingrese su usuario:</label>
+                                <input id="correo" name="correo" type="text" class="validate">
+                                <label for="correo">Ingrese su correo:</label>
                             </div>
                         </div>
                         <div class="row">
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <button class="btn waves-effect black darken-3 white-text" type="submit" name="action">Enviar código
+                                <button class="btn waves-effect black darken-3 white-text" type="submit" name="action" data-tooltip="Guardar">Enviar código
                                     <i class="material-icons right">send</i>
                                 </button>
                             </div>
                         </div>
+					</form>
                         <div class="row">
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12">
@@ -52,30 +53,34 @@ Dashboard_Page::headerTemplate('California','California');
                         <div class="row">
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <input id="usuario" type="text" class="validate">
-                                <label for="usuario">Ingrese el código de confirmación:</label>
+                                <input id="codigoc" type="text" class="validate">
+                                <label for="codigoc">Ingrese el código de confirmación:</label>
+                            </div>
+							<div class="input-field col s12 m6">
+							<button class="btn waves-effect black darken-3 white-text disabled" type="submit" name="action">Comprobar Código
+                                    <i class="material-icons right">send</i>
+                                </button>
                             </div>
                         </div>
                         <div class="row">
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <input id="usuario" type="text" class="validate">
-                                <label for="usuario">Nueva contraseña:</label>
+                                <input id="new" type="text" class="validate">
+                                <label for="new">Nueva contraseña:</label>
                             </div>
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <input id="usuario" type="text" class="validate">
-                                <label for="usuario">Confirmar contraseña:</label>
+                                <input id="confi" type="text" class="validate">
+                                <label for="confi">Confirmar contraseña:</label>
                             </div>
                             <!--Estableciendo el tamaño del que tomará el Input field-->
                             <div class="input-field col s12 m6">
-                                <button class="btn waves-effect black accent-2" type="submit" name="action">Cambiar
+                                <button class="btn waves-effect black accent-2 disabled" type="submit" name="action">Cambiar
                                     contraseña
                                     <i class="material-icons right">edit</i>
                                 </button>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
