@@ -102,7 +102,7 @@ if (isset($_GET['action'])) {
             case 'create':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->setNombres($_POST['nombre_usuario'])) {
-                    if ($usuario->setApellidos($_POST['apellido_usuario'])) {
+                    if ($usuario->setApellidos($_POST['apellidos_usuario'])) {
                         if ($usuario->setCorreo($_POST['correo_usuario'])) {
                             if ($usuario->setAlias($_POST['alias_usuario'])) {         
                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
@@ -110,15 +110,19 @@ if (isset($_GET['action'])) {
                                         if ($_POST['clave_usuario'] != $_POST['correo_usuario']) {
                                             if ($usuario->setClave($_POST['clave_usuario'])) {
                                                 if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
-                                                    if ($usuario->createRow()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Usuario creado correctamente';
+                                                    if($usuario->setFactor(isset($_POST['factor']) ? 1 : 0)){
+                                                        if ($usuario->createRow()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Usuario creado correctamente';
+                                                        } else {
+                                                            $result
+                                                            ['exception'] = Database::getException();
+                                                        }
                                                     } else {
-                                                        $result
-                                                        ['exception'] = Database::getException();
-                                                    }
+                                                    $result['exception'] = 'EStado incorrecto';
+                                                    } 
                                                 } else {
-                                                $result['exception'] = 'EStado incorrecto';
+                                                $result['exception'] = 'Estado incorrecto';
                                                 } 
                                             } else {
                                                 $result['exception'] = $usuario->getPasswordError();
@@ -243,13 +247,17 @@ if (isset($_GET['action'])) {
                                             //Se valida que la clave sea distinta al correo
                                             if ($_POST['clave1'] != $_POST['correo']) {
                                                 if ($usuario->setClave($_POST['clave1'])) {
-                                                    //Se ejecuta la función 
-                                                    if ($usuario->createRow()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Usuario registrado correctamente';
+                                                    if($usuario->setFactor(isset($_POST['factor']) ? 1 : 0)){
+                                                        if ($usuario->createRow()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Usuario creado correctamente';
+                                                           } else {
+                                                            $result
+                                                            ['exception'] = Database::getException();
+                                                        }
                                                     } else {
-                                                        $result['exception'] = Database::getException();
-                                                    }
+                                                    $result['exception'] = 'EStado incorrecto';
+                                                    } 
                                                 } else {
                                                     $result['exception'] = $usuario->getPasswordError();
                                                 }
@@ -269,7 +277,7 @@ if (isset($_GET['action'])) {
                                 $result['exception'] = 'Correo incorrecto';
                             }
                         } else {
-                            $result['exception'] = 'Apellidos incorrectos';
+                               $result['exception'] = 'Apellidos incorrectos';
                         }
                     } else {
                         $result['exception'] = 'Nombres incorrectos';
