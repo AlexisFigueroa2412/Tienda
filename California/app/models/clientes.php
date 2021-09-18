@@ -305,6 +305,7 @@ class Clientes extends Validator
             return false;
         }
     }
+    
 
     public function changePassword()
     {

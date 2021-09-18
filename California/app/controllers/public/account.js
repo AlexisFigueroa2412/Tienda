@@ -45,7 +45,7 @@ function inactividad() {
                         console.log(error);
                     });
                 } else {
-                    if(t) clearTimeout(t);
+                    if (t) clearTimeout(t);
                     contadorInactividad();
                 }
             });
@@ -58,16 +58,16 @@ function inactividad() {
 }
 
 // Variable que maneja el parámetro de cierre del contador
-var t=null;
+var t = null;
 
 // Función que ejecuta el contador 
 function contadorInactividad() {
     //Se inicializa el contador a 5 minutos para ejecutar la función "inactividad" que obliga al cierre de sesión
-    t=setTimeout("inactividad()",300000);
+    t = setTimeout("inactividad()", 300000);
 }
 
 // Se verifica si existe actividad en el sitio
-window.onblur=window.onmousemove=function() {
+window.onblur = window.onmousemove = function () {
     // Al haber actividad se pide verificar si existe un sesión activa
     fetch(API + 'viewSession', {
         method: 'get'
@@ -88,7 +88,7 @@ window.onblur=window.onmousemove=function() {
                                 // Se comprueba si el estado del tiempo se actualizo, de lo contrario se muestra un mensaje con la excepción.
                                 if (response.status) {
                                     //Se reinicia el contador
-                                    if(t) clearTimeout(t);
+                                    if (t) clearTimeout(t);
                                     contadorInactividad();
                                     /*fetch(API + 'tiempoActual', {
                                         method: 'get'
@@ -119,9 +119,9 @@ window.onblur=window.onmousemove=function() {
                     }).catch(function (error) {
                         console.log(error);
                     });
-                    
+
                 } else {
-                    if(t) clearTimeout(t);
+                    if (t) clearTimeout(t);
                     contadorInactividad();
                 }
             });
@@ -132,6 +132,36 @@ window.onblur=window.onmousemove=function() {
         console.log(error);
     });
 }
+// Método manejador de eventos que se ejecuta cuando se envía el formulario de cambiar clave.
+document.getElementById('password-form').addEventListener('submit', function (event) {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+
+    fetch(API + 'changePassword', {
+        method: 'post',
+        body: new FormData(document.getElementById('password-form'))
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                if (response.status) {
+                    // Se cierra la caja de dialogo (modal) del formulario.
+                    let instance = M.Modal.getInstance(document.getElementById('password-modal'));
+                    instance.close();
+                    sweetAlert(1, response.message, null);
+                } else {
+                    sweetAlert(2, response.exception, null);
+                }
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+});
+
 
 // Función para mostrar un mensaje de confirmación al momento de cerrar sesión.
 function logOut() {
@@ -168,4 +198,13 @@ function logOut() {
             sweetAlert(4, 'Puede continuar con la sesión', null);
         }
     });
+
+}
+// Función para mostrar el formulario de cambiar contraseña del usuario que ha iniciado sesión.
+function openPasswordDialog() {
+    // Se restauran los elementos del formulario.
+    
+    // Se abre la caja de dialogo (modal) que contiene el formulario para cambiar contraseña, ubicado en el archivo de las plantillas.
+    let instance = M.Modal.getInstance(document.getElementById('password-modal'));
+    instance.open();
 }

@@ -22,72 +22,97 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = $_SESSION['id_cliente'];
                 }
-            break;
-            /*case 'tiempoActual':
+                break;
+                /*case 'tiempoActual':
                 if (isset($_SESSION['tiempopb'])) {
                     $result['status'] = 1;
                     $result['message'] = $_SESSION['tiempopb'];
                 } else {
                     $result['exception'] = $_SESSION['tiempopb'];
                 }*/
-            break;
+                break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
-                        if ($cliente->setNombres($_POST['nombre'])) {
-                            if ($cliente->setApellidos($_POST['apellido'])) {
-                                if ($cliente->setCorreo($_POST['email'])) {
-                                    if ($cliente->setTelefono($_POST['telefono'])) {
-                                        if ($_POST['clave'] == $_POST['clave2']) {
-                                            if ($_POST['clave'] != $_POST['email']) {
-                                                if ($_POST['clave'] != $_POST['telefono']) {
-                                                    if ($cliente->setClave($_POST['clave'])) {
-                                                        if ($cliente->register()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Registro exitoso';
-                                                        } else {
-                                                            $result['exception'] = Database::getException();
-                                                        }
-                                                    } else {
-                                                        $result['exception'] = $cliente->getPasswordError();
-                                                    }
+                if ($cliente->setNombres($_POST['nombre'])) {
+                    if ($cliente->setApellidos($_POST['apellido'])) {
+                        if ($cliente->setCorreo($_POST['email'])) {
+                            if ($cliente->setTelefono($_POST['telefono'])) {
+                                if ($_POST['clave'] == $_POST['clave2']) {
+                                    if ($_POST['clave'] != $_POST['email']) {
+                                        if ($_POST['clave'] != $_POST['telefono']) {
+                                            if ($cliente->setClave($_POST['clave'])) {
+                                                if ($cliente->register()) {
+                                                    $result['status'] = 1;
+                                                    $result['message'] = 'Registro exitoso';
                                                 } else {
-                                                    $result['exception'] = 'Claves diferentes';
+                                                    $result['exception'] = Database::getException();
                                                 }
                                             } else {
-                                                $result['exception'] = 'Claves diferentes';
+                                                $result['exception'] = $cliente->getPasswordError();
                                             }
                                         } else {
                                             $result['exception'] = 'Claves diferentes';
                                         }
                                     } else {
-                                        $result['exception'] = 'Teléfono incorrecto';
+                                        $result['exception'] = 'Claves diferentes';
                                     }
                                 } else {
-                                    $result['exception'] = 'Correo incorrecto';
+                                    $result['exception'] = 'Claves diferentes';
                                 }
                             } else {
-                                $result['exception'] = 'Apellidos incorrectos';
+                                $result['exception'] = 'Teléfono incorrecto';
                             }
                         } else {
-                            $result['exception'] = 'Nombres incorrectos';
+                            $result['exception'] = 'Correo incorrecto';
                         }
-                break;
-                case 'logOut':
-                    unset($_SESSION['id_cliente'],$_SESSION['correo_cliente'],$_SESSION['tiempopb']);
-                    if (isset($_SESSION['id_cliente']) && isset($_SESSION['correo_cliente']) && isset($_SESSION['tiempopb'])) {
-                        $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
                     } else {
-                        $result['status'] = 1;
-                        $result['message'] = 'Sesión eliminada correctamente';
+                        $result['exception'] = 'Apellidos incorrectos';
                     }
+                } else {
+                    $result['exception'] = 'Nombres incorrectos';
+                }
                 break;
-                case 'controlTime':   
-                    if (isset($_SESSION['tiempopb'])) {
-                        $_SESSION['tiempopb'] = time();
-                        $result['status'] = 1;
-                    }else {
-                        $result['exception'] = 'Ocurrió un problema al renovar la sesión';
+            case 'logOut':
+                unset($_SESSION['id_cliente'], $_SESSION['correo_cliente'], $_SESSION['tiempopb']);
+                if (isset($_SESSION['id_cliente']) && isset($_SESSION['correo_cliente']) && isset($_SESSION['tiempopb'])) {
+                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
+                } else {
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión eliminada correctamente';
+                }
+                break;
+            case 'changePassword':
+                if ($usuario->setId($_SESSION['id_usuario'])) {
+                    $_POST = $usuario->validateForm($_POST);
+                    if ($usuario->checkPassword($_POST['clave_actual'])) {
+                        if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
+                            if ($usuario->setClave($_POST['clave_nueva_1'])) {
+                                if ($usuario->changePassword()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Contraseña cambiada correctamente';
+                                } else {
+                                    $result['exception'] = Database::getException();
+                                }
+                            } else {
+                                $result['exception'] = $usuario->getPasswordError();
+                            }
+                        } else {
+                            $result['exception'] = 'Claves nuevas diferentes';
+                        }
+                    } else {
+                        $result['exception'] = 'Clave actual incorrecta';
                     }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
+                }
+                break;
+            case 'controlTime':
+                if (isset($_SESSION['tiempopb'])) {
+                    $_SESSION['tiempopb'] = time();
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'Ocurrió un problema al renovar la sesión';
+                }
                 break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
@@ -102,7 +127,7 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'No existe una Sesión';
                 }
-            break;
+                break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
                 // Se sanea el valor del token para evitar datos maliciosos.
