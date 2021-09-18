@@ -50,6 +50,17 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
                                 <input id="clave2" name="clave2" type="password" autocomplete="off" class="validate" required>
                                 <label for="clave2">Confirma tu Contraseña</label>
                             </div>
+                            <div class="col s12 m12">
+                                <p>
+                                    <label>
+                                        <input name="factor" id="factor" type="checkbox" class="filled-in"/>
+                                        <span>Usar un segundo factor de autenticación al iniciar sesión</span>
+                                    </label>
+                                </p>
+                            </div>
+                            <div class="col s12">
+                                <br>
+                            </div>
                             <div class="col s12 m12 l12 center">
                                 <a href="!#" class="link black-text modal-trigger Texto" data-target="terminos">Al registrarte estas
                                     aceptando los terminos y condiciones</a>
@@ -58,7 +69,6 @@ Dashboard_Page::headerTemplate('Registrar primer usuario','california');
                                 <br>
                                 <button type="submit" class="btn black waves-effect waves-light hoverable">Registrarme</button> 
                                 <br>
-                                <a href="index.php" class="link black-text Texto" data-target="terminos">Regresar</a>                              
                             </div>
                             <div class="col s12 m12 l12 center">
                                 <br>                             

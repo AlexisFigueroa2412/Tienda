@@ -56,6 +56,19 @@ Public_Page::headerTemplate('Registro','california');
                                 <a href="!#" class="link black-text modal-trigger" data-target="terminos">Al registrarte estas
                                     aceptando los terminos y condiciones</a>
                             </div>
+                            <div class="col s12 m6">
+                                <p>
+                                <div class="switch">
+                                    <span>Segundo Factor de Autenticación:</span>
+                                    <label>
+                                        <i class="material-icons">cancel</i>
+                                        <input id="factor" type="checkbox" name="factor" class="validate" checked />
+                                        <span class="lever"></span>
+                                        <i class="material-icons">check_box</i>
+                                    </label>
+                                </div>
+                                </p>
+                            </div>
                             <div class="col s12 m12 l12 center">
                                 <br>
                                 <button type="submit" class="btn black waves-effect waves-light hoverable">Registrarme</button>                               
