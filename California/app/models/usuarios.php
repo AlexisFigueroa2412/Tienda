@@ -194,7 +194,7 @@ class Usuarios extends Validator
 
     // Función para verificar la cantidad de intentos de sesión realizados
     public function checkIntentos()
-     {
+    {
         // Se guardan las variables a utilizar(fecha y éxito)
         $sesion = 'false';
         // Se define la zona horaria del servidor
@@ -214,11 +214,49 @@ class Usuarios extends Validator
             } else {
                 return false;
             }
-         } else {
+        } else {
             return true;
-         }
-     }
+        }
+    }
 
+    // Función para verificar la cantidad de intentos de sesión realizados
+    public function checkIntervalo()
+    {
+        // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        $deta = date('Y-m-d',strtotime($date."-89 days"));
+        // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
+        $sql = 'SELECT correo_usuario FROM public."tbUsuarios"
+        where id_usuario = ? and cambio_clave between ? and ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($_SESSION['id_usuario'], $date, $deta);
+        // Se verifica si la consulta devolvío algún dato
+        if ($data = Database::getRow($sql, $params)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // Función para verificar la cantidad de intentos de sesión realizados
+    public function checkFactor()
+    {
+        
+        $factor = true;
+        // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
+        $sql = 'SELECT factor FROM public."tbUsuarios"
+        where id_usuario = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($this->id);
+        // Se verifica si la consulta devolvío algún dato
+        $data = Database::getRow($sql, $params);
+        if ($data['factor']) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     // Función para verificar la clave del usuario
     public function checkPassword($password)
     {
@@ -260,9 +298,12 @@ class Usuarios extends Validator
     }
     public function changePassword()
     {
+        // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE public."tbUsuarios" SET clave_usuario = ? WHERE id_usuario = ?';
-        $params = array($hash, $_SESSION['id_usuario']);
+        $sql = 'UPDATE public."tbUsuarios" SET clave_usuario = ?, cambio_clave = ? WHERE id_usuario = ?';
+        $params = array($hash, $date, $_SESSION['id_usuario']);
         return Database::executeRow($sql, $params);
     }
 

@@ -32,21 +32,24 @@ if (isset($_GET['action'])) {
                         $result['message'] = 'Sesión eliminada correctamente';
                     }
                 break;
-                break;
                 case 'changePassword':
                     if ($usuario->setId($_SESSION['id_usuario'])) {
                         $_POST = $usuario->validateForm($_POST);
                         if ($usuario->checkPassword($_POST['clave_actual'])) {
                             if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
-                                if ($usuario->setClave($_POST['clave_nueva_1'])) {
-                                    if ($usuario->changePassword()) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Contraseña cambiada correctamente';
+                                if ($_POST['clave_nueva_1'] != $_POST['clave_actual']) {
+                                    if ($usuario->setClave($_POST['clave_nueva_1'])) {
+                                        if ($usuario->changePassword()) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Contraseña cambiada correctamente';
+                                        } else {
+                                            $result['exception'] = Database::getException();
+                                        }
                                     } else {
-                                        $result['exception'] = Database::getException();
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
-                                    $result['exception'] = $usuario->getPasswordError();
+                                    $result['exception'] = 'Tu Clave debe de ser distinta a la anterior';
                                 }
                             } else {
                                 $result['exception'] = 'Claves nuevas diferentes';
@@ -74,6 +77,18 @@ if (isset($_GET['action'])) {
                         $result['exception'] = Database::getException();
                     } else {
                         $result['exception'] = 'No hay usuarios registrados';
+                    }
+                }
+                break;
+            case 'checkIntervalo':
+                if ($usuario->checkIntervalo()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Autenticación correcta';
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'Autenticación correcta. Por seguridad debes cambiar tu clave de acceso';
                     }
                 }
                 break;
@@ -119,7 +134,7 @@ if (isset($_GET['action'])) {
                                                             ['exception'] = Database::getException();
                                                         }
                                                     } else {
-                                                    $result['exception'] = 'EStado incorrecto';
+                                                    $result['exception'] = 'Estado incorrecto';
                                                     } 
                                                 } else {
                                                 $result['exception'] = 'Estado incorrecto';
@@ -206,150 +221,183 @@ if (isset($_GET['action'])) {
                 break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
-        }
+        } 
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
-        switch ($_GET['action']) {
-            case 'viewSession':
-                if (isset($_SESSION['id_usuario'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existe una Sesión';
-                } else {
-                    $result['exception'] = 'No existe una Sesión';
-                }
-            break;
-            case 'readAll':
-                if ($usuario->readAll()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existe al menos un usuario registrado';
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'No existen usuarios registrados';
-                    }
-                }
-                break;
-            case 'register':
-                //Se verifica que no hayan usuarios antes
-                if (!$usuario->readAll()) {
-                    //Se valida el formulario
-                    $_POST = $usuario->validateForm($_POST);
-                    //Se validan los datos enviados desde el formulario
-                    if ($usuario->setNombres($_POST['nombres'])) {
-                        if ($usuario->setApellidos($_POST['apellidos'])) {
-                            if ($usuario->setCorreo($_POST['correo'])) {
-                                if ($usuario->setAlias($_POST['alias'])) {
-                                    //Se valida que las claves sean iguales
-                                    if ($_POST['clave1'] == $_POST['clave2']) {
-                                        //Se valida que la clave sea distinta al alias del usuario
-                                        if ($_POST['clave1'] != $_POST['alias']) {
-                                            //Se valida que la clave sea distinta al correo
-                                            if ($_POST['clave1'] != $_POST['correo']) {
-                                                if ($usuario->setClave($_POST['clave1'])) {
-                                                    if($usuario->setFactor(isset($_POST['factor']) ? 1 : 0)){
-                                                        if ($usuario->createRow()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Usuario creado correctamente';
-                                                           } else {
-                                                            $result
-                                                            ['exception'] = Database::getException();
-                                                        }
-                                                    } else {
-                                                    $result['exception'] = 'EStado incorrecto';
-                                                    } 
-                                                } else {
-                                                    $result['exception'] = $usuario->getPasswordError();
-                                                }
-                                            } else {
-                                                $result['exception'] = 'La clave debe de ser dista al correo';
-                                            }
-                                        } else {
-                                            $result['exception'] = 'La clave debe de ser dinstinta al alias';
-                                        }
-                                    } else {
-                                        $result['exception'] = 'Claves diferentes';
-                                    }
-                                } else {
-                                    $result['exception'] = 'Alias incorrecto';
-                                }
-                            } else {
-                                $result['exception'] = 'Correo incorrecto';
-                            }
+        if (isset($_SESSION['factorpv'])) {
+            switch ($_GET['action']) {
+                case 'checkFactor':
+                    if ($usuario->setId($_SESSION['factorpv'])) {
+                        if ($usuario->checkFactor()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Segundo factor de autenticacion';
                         } else {
-                               $result['exception'] = 'Apellidos incorrectos';
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'Puedes continuar';
+                            }
                         }
                     } else {
-                        $result['exception'] = 'Nombres incorrectos';
+                        $result['exception'] = 'Hubo un error';
                     }
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'Existe al menos un usuario registrado';
-                   }
-                }
                 break;
-            case 'logIn':
-                $_POST = $usuario->validateForm($_POST);
-                if ($usuario->checkUser($_POST['alias'])) {
-                    if ($usuario->checkIntentos()) {
-                        if ($usuario->checkPassword($_POST['clave'])) {
-                            if ($usuario->registerSession()) {
-                                if ($usuario->unregisterFailedSession()) {
+                default:
+                    $result['exception'] = 'Acción no disponible dentro de la sesión';
+                    //$_SESSION['factor'] = false;
+            }
+        } else {
+            switch ($_GET['action']) {
+                case 'viewSession':
+                    if (isset($_SESSION['id_usuario'])) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existe una Sesión';
+                    } else {
+                        $result['exception'] = 'No existe una Sesión';
+                    }
+                break;
+                case 'readAll':
+                    if ($usuario->readAll()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existe al menos un usuario registrado';
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No existen usuarios registrados';
+                        }
+                    }
+                    break;
+                case 'register':
+                    //Se verifica que no hayan usuarios antes
+                    if (!$usuario->readAll()) {
+                        //Se valida el formulario
+                        $_POST = $usuario->validateForm($_POST);
+                        //Se validan los datos enviados desde el formulario
+                        if ($usuario->setNombres($_POST['nombres'])) {
+                            if ($usuario->setApellidos($_POST['apellidos'])) {
+                                if ($usuario->setCorreo($_POST['correo'])) {
+                                    if ($usuario->setAlias($_POST['alias'])) {
+                                        //Se valida que las claves sean iguales
+                                        if ($_POST['clave1'] == $_POST['clave2']) {
+                                            //Se valida que la clave sea distinta al alias del usuario
+                                            if ($_POST['clave1'] != $_POST['alias']) {
+                                                //Se valida que la clave sea distinta al correo
+                                                if ($_POST['clave1'] != $_POST['correo']) {
+                                                    if ($usuario->setClave($_POST['clave1'])) {
+                                                        if($usuario->setFactor(isset($_POST['factorpv']) ? 1 : 0)){
+                                                            if ($usuario->createRow()) {
+                                                                $result['status'] = 1;
+                                                                $result['message'] = 'Usuario creado correctamente';
+                                                               } else {
+                                                                $result
+                                                                ['exception'] = Database::getException();
+                                                            }
+                                                        } else {
+                                                        $result['exception'] = 'EStado incorrecto';
+                                                        } 
+                                                    } else {
+                                                        $result['exception'] = $usuario->getPasswordError();
+                                                    }
+                                                } else {
+                                                    $result['exception'] = 'La clave debe de ser dista al correo';
+                                                }
+                                            } else {
+                                                $result['exception'] = 'La clave debe de ser dinstinta al alias';
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Claves diferentes';
+                                        }
+                                    } else {
+                                        $result['exception'] = 'Alias incorrecto';
+                                    }
+                                } else {
+                                    $result['exception'] = 'Correo incorrecto';
+                                }
+                            } else {
+                                   $result['exception'] = 'Apellidos incorrectos';
+                            }
+                        } else {
+                            $result['exception'] = 'Nombres incorrectos';
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Existe al menos un usuario registrado';
+                       }
+                    }
+                    break;
+                case 'logIn':
+                    $_POST = $usuario->validateForm($_POST);
+                    if ($usuario->checkUser($_POST['alias'])) {
+                        if ($usuario->checkIntentos()) {
+                            if ($usuario->checkPassword($_POST['clave'])) {
+                                if ($usuario->checkFactor()) {
                                     $result['status'] = 1;
-                                    $result['message'] = 'Autenticación correcta';
-                                    //Se guardan los datos del usuario
-                                    $_SESSION['id_usuario'] = $usuario->getId();
-                                    $_SESSION['alias_usuario'] = $usuario->getAlias();
-                                    //Se inicia el tiempo de la sesión
-                                    $_SESSION['tiempopv'] = time();
+                                    $_SESSION['factor'] = $usuario->getId();
                                 } else {
                                     if (Database::getException()) {
                                         $result['exception'] = Database::getException();
                                     } else {
-                                        $result['exception'] = 'No se pudo registrar la sesión';
+                                        if ($usuario->registerSession()) {
+                                            if ($usuario->unregisterFailedSession()) {
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Autenticación correcta';
+                                                //Se guardan los datos del usuario
+                                                $_SESSION['id_usuario'] = $usuario->getId();
+                                                $_SESSION['alias_usuario'] = $usuario->getAlias();
+                                                //Se inicia el tiempo de la sesión
+                                                $_SESSION['tiempopv'] = time();
+                                            } else {
+                                                if (Database::getException()) {
+                                                    $result['exception'] = Database::getException();
+                                                } else {
+                                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                                }
+                                            }
+                                        } else {
+                                            if (Database::getException()) {
+                                                $result['exception'] = Database::getException();
+                                            } else {
+                                                $result['exception'] = 'No se pudo registrar la sesión';
+                                            }
+                                        }
                                     }
                                 }
                             } else {
                                 if (Database::getException()) {
                                     $result['exception'] = Database::getException();
                                 } else {
-                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                    if ($usuario->registerSession()) {
+                                        $result['exception'] = 'Clave incorrecta';
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se pudo registrar la sesión';
+                                        }
+                                    }
                                 }
                             }
                         } else {
                             if (Database::getException()) {
                                 $result['exception'] = Database::getException();
                             } else {
-                                if ($usuario->registerSession()) {
-                                    $result['exception'] = 'Clave incorrecta';
-                                } else {
-                                    if (Database::getException()) {
-                                        $result['exception'] = Database::getException();
-                                    } else {
-                                        $result['exception'] = 'No se pudo registrar la sesión';
-                                    }
-                                }
+                                $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
                             }
                         }
                     } else {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                            $result['exception'] = 'Alias incorrecto';
                         }
                     }
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'Alias incorrecto';
-                    }
-                }
-                break;
-            default:
-                $result['exception'] = 'Acción no disponible fuera de la sesión';
+                    break;
+                default:
+                    $result['exception'] = 'Acción no disponible fuera de la sesión';
+            }
         }
     }
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.

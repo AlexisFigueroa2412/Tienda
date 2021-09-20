@@ -52,22 +52,20 @@ Public_Page::headerTemplate('Registro','california');
                                 <input autocomplete="off" id="clave2" name="clave2" type="password" class="validate" required>
                                 <label for="clave2">Confirma tu Contraseña</label>
                             </div>
+                            <div class="col s12 m12">
+                                <p>
+                                    <label>
+                                        <input name="factor" id="factor" type="checkbox" class="filled-in"/>
+                                        <span>Usar un segundo factor de autenticación al iniciar sesión</span>
+                                    </label>
+                                </p>
+                            </div>
+                            <div class="col s12">
+                                <br>
+                            </div>
                             <div class="col s12 m12 l12 center">
                                 <a href="!#" class="link black-text modal-trigger" data-target="terminos">Al registrarte estas
                                     aceptando los terminos y condiciones</a>
-                            </div>
-                            <div class="col s12 m6">
-                                <p>
-                                <div class="switch">
-                                    <span>Segundo Factor de Autenticación:</span>
-                                    <label>
-                                        <i class="material-icons">cancel</i>
-                                        <input id="factor" type="checkbox" name="factor" class="validate" checked />
-                                        <span class="lever"></span>
-                                        <i class="material-icons">check_box</i>
-                                    </label>
-                                </div>
-                                </p>
                             </div>
                             <div class="col s12 m12 l12 center">
                                 <br>

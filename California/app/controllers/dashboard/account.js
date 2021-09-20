@@ -207,7 +207,7 @@ document.getElementById('password-form').addEventListener('submit', function (ev
                     // Se cierra la caja de dialogo (modal) del formulario.
                     let instance = M.Modal.getInstance(document.getElementById('password-modal'));
                     instance.close();
-                    sweetAlert(1, response.message, null);
+                    sweetAlert(1, response.message, 'dashboard.php');
                 } else {
                     sweetAlert(2, response.exception, null);
                 }

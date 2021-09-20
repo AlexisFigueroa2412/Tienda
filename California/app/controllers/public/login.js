@@ -15,7 +15,45 @@ document.getElementById('session-form').addEventListener('submit', function (eve
             request.json().then(function (response) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
-                    sweetAlert(1, response.message, 'index.php');
+                    //sweetAlert(1, response.message, 'dashboard.php');
+                    fetch(API_CLIENTES + 'checkFactor', {
+                        method: 'get'
+                    }).then(function (request) {
+                        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+                        if (request.ok) {
+                            request.json().then(function (response) {
+                                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                                if (response.status) {
+                                    sweetAlert(4, response.message, 'factor.php');
+                                } else {
+                                    //sweetAlert(2, 'paso', null);
+                                    fetch(API_CLIENTES + 'checkIntervalo', {
+                                        method: 'get'
+                                    }).then(function (request) {
+                                        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+                                        if (request.ok) {
+                                            request.json().then(function (response) {
+                                                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                                                if (response.status) {
+                                                    sweetAlert(1, response.message, 'index.php');
+                                                } else {
+                                                    sweetAlert(1, response.exception, 'cambiar_clave.php');
+                                                }
+                                            });
+                                        } else {
+                                            console.log(request.status + ' ' + request.statusText);
+                                        }
+                                    }).catch(function (error) {
+                                        console.log(error);
+                                    });
+                                }
+                            });
+                        } else {
+                            console.log(request.status + ' ' + request.statusText);
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
                 } else {
                     sweetAlert(2, response.exception, null);
                 }

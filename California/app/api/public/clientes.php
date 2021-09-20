@@ -23,14 +23,6 @@ if (isset($_GET['action'])) {
                     $result['exception'] = $_SESSION['id_cliente'];
                 }
                 break;
-                /*case 'tiempoActual':
-                if (isset($_SESSION['tiempopb'])) {
-                    $result['status'] = 1;
-                    $result['message'] = $_SESSION['tiempopb'];
-                } else {
-                    $result['exception'] = $_SESSION['tiempopb'];
-                }*/
-                break;
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
                 if ($cliente->setNombres($_POST['nombre'])) {
@@ -41,12 +33,16 @@ if (isset($_GET['action'])) {
                                     if ($_POST['clave'] != $_POST['email']) {
                                         if ($_POST['clave'] != $_POST['telefono']) {
                                             if ($cliente->setClave($_POST['clave'])) {
-                                                if ($cliente->register()) {
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Registro exitoso';
+                                                if($cliente->setFactor(isset($_POST['factor']) ? 1 : 0)){
+                                                    if ($cliente->register()) {
+                                                        $result['status'] = 1;
+                                                        $result['message'] = 'Registro exitoso';
+                                                    } else {
+                                                        $result['exception'] = Database::getException();
+                                                    }
                                                 } else {
-                                                    $result['exception'] = Database::getException();
-                                                }
+                                                $result['exception'] = 'Estado incorrecto';
+                                                } 
                                             } else {
                                                 $result['exception'] = $cliente->getPasswordError();
                                             }
@@ -114,157 +110,206 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Ocurrió un problema al renovar la sesión';
                 }
                 break;
+            case 'checkIntervalo':
+                if ($cliente->checkIntervalo()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Autenticación correcta';
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'Autenticación correcta. Por seguridad debes cambiar tu clave de acceso';
+                    }
+                }
+                break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
-        // Se compara la acción a realizar cuando el cliente no ha iniciado sesión.
-        switch ($_GET['action']) {
-            case 'viewSession':
-                if (isset($_SESSION['id_cliente'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existe una Sesión';
-                } else {
-                    $result['exception'] = 'No existe una Sesión';
-                }
-                break;
-            case 'register':
-                $_POST = $cliente->validateForm($_POST);
-                // Se sanea el valor del token para evitar datos maliciosos.
-                $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
-                if ($token) {
-                    $secretKey = '6LeVm2QcAAAAAPc3jgpJaSWskO6Vrlme19bj6X3Y';
-                    $ip = $_SERVER['REMOTE_ADDR'];
-
-                    $data = array(
-                        'secret' => $secretKey,
-                        'response' => $token,
-                        'remoteip' => $ip
-                    );
-
-                    $options = array(
-                        'http' => array(
-                            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                            'method'  => 'POST',
-                            'content' => http_build_query($data)
-                        ),
-                        'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false
-                        )
-                    );
-
-                    $url = 'https://www.google.com/recaptcha/api/siteverify';
-                    $context  = stream_context_create($options);
-                    $response = file_get_contents($url, false, $context);
-                    $captcha = json_decode($response, true);
-
-                    if ($captcha['success']) {
-                        $_POST = $cliente->validateForm($_POST);
-                        if ($cliente->setNombres($_POST['nombre'])) {
-                            if ($cliente->setApellidos($_POST['apellido'])) {
-                                if ($cliente->setCorreo($_POST['email'])) {
-                                    if ($cliente->setTelefono($_POST['telefono'])) {
-                                        if ($_POST['clave'] == $_POST['clave2']) {
-                                            if ($_POST['clave'] != $_POST['email']) {
-                                                if ($_POST['clave'] != $_POST['telefono']) {
-                                                    if ($cliente->setClave($_POST['clave'])) {
-                                                        if ($cliente->register()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Registro exitoso';
-                                                        } else {
-                                                            $result['exception'] = Database::getException();
-                                                        }
-                                                    } else {
-                                                        $result['exception'] = $cliente->getPasswordError();
-                                                    }
-                                                } else {
-                                                    $result['exception'] = 'Por seguridad no utilíces tu telefono como contraseña';
-                                                }
-                                            } else {
-                                                $result['exception'] = 'Por seguridad no utilíces tu correo como contraseña';
-                                            }
-                                        } else {
-                                            $result['exception'] = 'Claves diferentes';
-                                        }
-                                    } else {
-                                        $result['exception'] = 'Teléfono incorrecto';
-                                    }
-                                } else {
-                                    $result['exception'] = 'Correo incorrecto';
-                                }
-                            } else {
-                                $result['exception'] = 'Apellidos incorrectos';
-                            }
+        if (isset($_SESSION['factorpb'])) {   
+            switch ($_GET['action']) {
+                case 'checkFactor':
+                    if ($cliente->setId($_SESSION['factorpb'])) {
+                        if ($cliente->checkFactor()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Segundo factor de autenticacion';
                         } else {
-                            $result['exception'] = 'Nombres incorrectos';
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'Puedes continuar';
+                            }
                         }
                     } else {
-                        $result['recaptcha'] = 1;
-                        $result['exception'] = 'No eres un humano';
+                        $result['exception'] = 'Hubo un error';
                     }
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
-                }
                 break;
-            case 'logIn':
-                $_POST = $cliente->validateForm($_POST);
-                if ($cliente->checkUser($_POST['usuario'])) {
-                    if ($cliente->checkIntentos()) {
-                        if ($cliente->checkPassword($_POST['clave'])) {
-                            if ($cliente->registerSession()) {
-                                if ($cliente->unregisterFailedSession()) {
-                                    $_SESSION['id_cliente'] = $cliente->getId();
-                                    $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                                    $_SESSION['tiempopb'] = time();
+                default:
+                $result['exception'] = 'Acción no disponible dentro de la sesión';
+                //$_SESSION['factor'] = false;
+            }
+        } else {
+            // Se compara la acción a realizar cuando el cliente no ha iniciado sesión.
+            switch ($_GET['action']) {
+                case 'viewSession':
+                    if (isset($_SESSION['id_cliente'])) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existe una Sesión';
+                    } else {
+                        $result['exception'] = 'No existe una Sesión';
+                    }
+                    break;
+                case 'register':
+                    $_POST = $cliente->validateForm($_POST);
+                    // Se sanea el valor del token para evitar datos maliciosos.
+                    $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
+                    if ($token) {
+                        $secretKey = '6LeVm2QcAAAAAPc3jgpJaSWskO6Vrlme19bj6X3Y';
+                        $ip = $_SERVER['REMOTE_ADDR'];
+
+                        $data = array(
+                            'secret' => $secretKey,
+                            'response' => $token,
+                            'remoteip' => $ip
+                        );
+
+                        $options = array(
+                            'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data)
+                            ),
+                            'ssl' => array(
+                                'verify_peer' => false,
+                                'verify_peer_name' => false
+                            )
+                        );
+
+                        $url = 'https://www.google.com/recaptcha/api/siteverify';
+                        $context  = stream_context_create($options);
+                        $response = file_get_contents($url, false, $context);
+                        $captcha = json_decode($response, true);
+
+                        if ($captcha['success']) {
+                            $_POST = $cliente->validateForm($_POST);
+                            if ($cliente->setNombres($_POST['nombre'])) {
+                                if ($cliente->setApellidos($_POST['apellido'])) {
+                                    if ($cliente->setCorreo($_POST['email'])) {
+                                        if ($cliente->setTelefono($_POST['telefono'])) {
+                                            if ($_POST['clave'] == $_POST['clave2']) {
+                                                if ($_POST['clave'] != $_POST['email']) {
+                                                    if ($_POST['clave'] != $_POST['telefono']) {
+                                                        if ($cliente->setClave($_POST['clave'])) {
+                                                            if($cliente->setFactor(isset($_POST['factorpv']) ? 1 : 0)){
+                                                                if ($cliente->register()) {
+                                                                    $result['status'] = 1;
+                                                                    $result['message'] = 'Registro exitoso';
+                                                                } else {
+                                                                    $result['exception'] = Database::getException();
+                                                                }
+                                                            } else {
+                                                            $result['exception'] = 'EStado incorrecto';
+                                                            } 
+                                                        } else {
+                                                            $result['exception'] = $cliente->getPasswordError();
+                                                        }
+                                                    } else {
+                                                        $result['exception'] = 'Por seguridad no utilíces tu telefono como contraseña';
+                                                    }
+                                                } else {
+                                                    $result['exception'] = 'Por seguridad no utilíces tu correo como contraseña';
+                                                }
+                                            } else {
+                                                $result['exception'] = 'Claves diferentes';
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Teléfono incorrecto';
+                                        }
+                                    } else {
+                                        $result['exception'] = 'Correo incorrecto';
+                                    }
+                                } else {
+                                    $result['exception'] = 'Apellidos incorrectos';
+                                }
+                            } else {
+                                $result['exception'] = 'Nombres incorrectos';
+                            }
+                        } else {
+                            $result['recaptcha'] = 1;
+                            $result['exception'] = 'No eres un humano';
+                        }
+                    } else {
+                        $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
+                    }
+                    break;
+                case 'logIn':
+                    $_POST = $cliente->validateForm($_POST);
+                    if ($cliente->checkUser($_POST['usuario'])) {
+                        if ($cliente->checkIntentos()) {
+                            if ($cliente->checkPassword($_POST['clave'])) {
+                                if ($cliente->checkFactor()) {
                                     $result['status'] = 1;
-                                    $result['message'] = 'Autenticación correcta';
+                                    $_SESSION['factorpb'] = $cliente->getId();
                                 } else {
                                     if (Database::getException()) {
                                         $result['exception'] = Database::getException();
                                     } else {
-                                        $result['exception'] = 'No se pudieron resetar los intentos fallidos';
+                                        if ($cliente->registerSession()) {
+                                            if ($cliente->unregisterFailedSession()) {
+                                                $_SESSION['id_cliente'] = $cliente->getId();
+                                                $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                                $_SESSION['tiempopb'] = time();
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Autenticación correcta';
+                                            } else {
+                                                if (Database::getException()) {
+                                                    $result['exception'] = Database::getException();
+                                                } else {
+                                                    $result['exception'] = 'No se pudieron resetar los intentos fallidos';
+                                                }
+                                            }
+                                        } else {
+                                            if (Database::getException()) {
+                                                $result['exception'] = Database::getException();
+                                            } else {
+                                                $result['exception'] = 'No se pudo registrar la sesión';
+                                            }
+                                        }
                                     }
                                 }
                             } else {
                                 if (Database::getException()) {
                                     $result['exception'] = Database::getException();
                                 } else {
-                                    $result['exception'] = 'No se pudo registrar la sesión';
+                                    if ($cliente->registerSession()) {
+                                        $result['exception'] = 'Clave incorrecta';
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se pudo registrar la sesión';
+                                        }
+                                    }
                                 }
                             }
                         } else {
                             if (Database::getException()) {
                                 $result['exception'] = Database::getException();
                             } else {
-                                if ($cliente->registerSession()) {
-                                    $result['exception'] = 'Clave incorrecta';
-                                } else {
-                                    if (Database::getException()) {
-                                        $result['exception'] = Database::getException();
-                                    } else {
-                                        $result['exception'] = 'No se pudo registrar la sesión';
-                                    }
-                                }
+                                $result['exception'] = 'Has excedido el limite de intentos para ingresar sesión. Por seguridad tu cuenta ha sido inhanilitada. Prueba ingresar mañana';
                             }
                         }
                     } else {
                         if (Database::getException()) {
                             $result['exception'] = Database::getException();
                         } else {
-                            $result['exception'] = 'Has excedido el limite de intentos para ingresar sesión. Por seguridad tu cuenta ha sido inhanilitada. Prueba ingresar mañana';
+                            $result['exception'] = 'Alias incorrecto';
                         }
                     }
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
-                    } else {
-                        $result['exception'] = 'Alias incorrecto';
-                    }
-                }
-                break;
-            default:
-                $result['exception'] = 'Acción no disponible fuera de la sesión';
+                    break;
+                default:
+                    $result['exception'] = 'Acción no disponible fuera de la sesión';
+            }
         }
     }
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.

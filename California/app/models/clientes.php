@@ -18,6 +18,7 @@ class Clientes extends Validator
     private $intentos = null;
     private $fecha = null;
     private $estado = null; // Valor por defecto en la base de datos: true
+    private $factor = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -142,6 +143,15 @@ class Clientes extends Validator
         }
     }
 
+    public function setFactor($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->factor = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -202,11 +212,16 @@ class Clientes extends Validator
 
     public function register()
     {
+        // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        //Se asigna un estado(1 = activo, 0= inactivo)
+        $estado = true;
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO public."tbClientes"(nombre_cliente, apellido_cliente, telefono_cliente, correo_cliente, clave_cliente, estado_cliente)
-            VALUES ( ?, ?, ?, ?, ?, true);';
-        $params = array($this->nombres, $this->apellidos, $this->telefono, $this->correo, $hash);
+        $sql = 'INSERT INTO public."tbClientes"(nombre_cliente, apellido_cliente, telefono_cliente, correo_cliente, clave_cliente, estado_cliente, cambio_clave, factor)
+            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);';
+        $params = array($this->nombres, $this->apellidos, $this->telefono, $this->correo, $hash, $estado, $date, $this->factor);
         return Database::executeRow($sql, $params);
     }
     
@@ -286,6 +301,45 @@ class Clientes extends Validator
         }
     }
 
+    // Función para verificar la cantidad de intentos de sesión realizados
+    public function checkIntervalo()
+    {
+        // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
+        $deta = date('Y-m-d',strtotime($date."-89 days"));
+        // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
+        $sql = 'SELECT correo_cliente FROM public."tbClientes"
+        where id_cliente = ? and cambio_clave between ? and ? ';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($_SESSION['id_cliente'], $deta, $date);
+        // Se verifica si la consulta devolvío algún dato
+        if ($data = Database::getRow($sql, $params)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Función para verificar la cantidad de intentos de sesión realizados
+    public function checkFactor()
+    {
+        
+        $factor = true;
+        // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
+        $sql = 'SELECT factor FROM public."tbClientes"
+        where id_cliente = ?';
+        // Se guarda un array con los parámetros solicitados por la consulta
+        $params = array($this->id);
+        // Se verifica si la consulta devolvío algún dato
+        $data = Database::getRow($sql, $params);
+        if ($data['factor']) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Función para verificar la clave del cliente
     public function checkPassword($password)
     {
@@ -309,9 +363,12 @@ class Clientes extends Validator
 
     public function changePassword()
     {
+       // Se define la zona horaria del servidor
+        date_default_timezone_set('America/El_Salvador');
+        $date = date('Y-m-d');
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE tbClientes SET clave_cliente = ? WHERE id_cliente = ?';
-        $params = array($hash, $this->id);
+        $sql = 'UPDATE public."tbClientes" SET clave_cliente = ? and cambio_clave = ? WHERE id_cliente = ?';
+        $params = array($hash, $date, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -335,20 +392,6 @@ class Clientes extends Validator
                 ORDER BY apellido_cliente';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
-    }
-
-    
-
-    
-    
-    public function createRow()
-    {
-        // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
-        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO tbClientes(nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, clave_cliente)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $this->nacimiento, $this->direccion, $hash);
-        return Database::executeRow($sql, $params);
     }
 
     public function readAll()
