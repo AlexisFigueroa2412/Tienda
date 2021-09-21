@@ -377,14 +377,14 @@ class Usuarios extends Validator
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
         //Se asigna un estado(1 = activo, 0= inactivo)
         $estado = true;
-        //$time_now = time();
-        //$unDiaEnSegundos= (24*60*60)*91;
-        //$fechadess = $time_now + $unDiaEnSegundos;
+        $time_now = time();
+        $unDiaEnSegundos= (24*60*60)*91;
+        $fechadess = $time_now + $unDiaEnSegundos;
         //Se asigna la consulta sql
-        $sql = 'INSERT INTO public."tbUsuarios"(nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, clave_usuario, estado_usuario, cambio_clave, factor)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO public."tbUsuarios"(nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, estado_usuario,clave_usuario,fecha_accion)
+                VALUES(?, ?, ?, ?, ?, ?, ?)';
         //Se asignan los parámetros de la consulta sql
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $hash, $estado, $date, $this->factor);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $estado,$hash,date("Y-m-d H:i:s",$fechadess));
         //Se retorna el resultado de la ejecución ambas
         return Database::executeRow($sql, $params);
     }
