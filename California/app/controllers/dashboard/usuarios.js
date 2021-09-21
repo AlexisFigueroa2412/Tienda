@@ -92,6 +92,10 @@ function openUpdateDialog(id) {
                     document.getElementById('correo_usuario').value = response.dataset.correo_usuario;
                     document.getElementById('alias_usuario').value = response.dataset.alias_usuario;
                     document.getElementById('correo_usuario').value = response.dataset.correo_usuario;
+                    if (response.dataset.factor) {
+                        document.getElementById('factor').setAttribute("checked", "checked");
+                    }
+                    document.getElementById('estado_usuario').value = response.dataset.estado_usuario;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {

@@ -184,8 +184,26 @@ if (isset($_GET['action'])) {
                 if ($usuario->setId($_POST['id_usuario'])) {
                     if ($usuario->readOne()) {
                         if ($usuario->setNombres($_POST['nombre_usuario'])) {
-                            if ($usuario->setApellidos($_POST['apellido_usuario'])) {
-                               
+                            if ($usuario->setApellidos($_POST['apellidos_usuario'])) {
+                                if ($usuario->setCorreo($_POST['correo_usuario'])) {
+                                    if($usuario->setEstado(isset($_POST['estado_usuario']) ? 1 : 0)){
+                                        if($usuario->setFactor(isset($_POST['factor']) ? 1 : 0)){
+                                            if ($usuario->updateRow()) {
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Usuario actualizado correctamente';
+                                            } else {
+                                                $result
+                                                ['exception'] = Database::getException();
+                                            }
+                                        } else {
+                                        $result['exception'] = 'Estado incorrecto';
+                                        } 
+                                    } else {
+                                    $result['exception'] = 'Estado incorrecto';
+                                    } 
+                                } else {
+                                    $result['exception'] = 'Correo incorrecto';
+                                }
                             } else {
                                 $result['exception'] = 'Apellidos incorrectos';
                             }
@@ -240,6 +258,29 @@ if (isset($_GET['action'])) {
                         }
                     } else {
                         $result['exception'] = 'Hubo un error';
+                    }
+                break;
+                case 'sendCode':
+                    if ($usuario->createCode()) {
+                        if ($usuario->readEmail()) {
+                            $_SESSION['correo'] = $usuario->getId();
+                            $_SESSION['id_usuario'] = $_SESSION['factorpv'];
+                            $result['status'] = 1;
+                            $result['message'] = 'Segundo factor de autenticacion';
+
+                        } else {
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'No se pudo recuperar el correo electrónico';
+                            }
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No se pudo enviar el código de seguridad';
+                        }
                     }
                 break;
                 default:
@@ -335,7 +376,7 @@ if (isset($_GET['action'])) {
                             if ($usuario->checkPassword($_POST['clave'])) {
                                 if ($usuario->checkFactor()) {
                                     $result['status'] = 1;
-                                    $_SESSION['factor'] = $usuario->getId();
+                                    $_SESSION['factorpv'] = $usuario->getId();
                                 } else {
                                     if (Database::getException()) {
                                         $result['exception'] = Database::getException();

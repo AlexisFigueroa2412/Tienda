@@ -110,7 +110,7 @@ class Dashboard_Page {
                 header('location: dashboard.php');
             }
         } else {
-            if (isset($_SESSION['factor'])) {
+            if (isset($_SESSION['factorpv'])) {
                 if ($filename != 'factor.php') {
                     header('location: factor.php');
                 } else {

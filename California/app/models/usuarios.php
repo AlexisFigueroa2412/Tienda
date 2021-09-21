@@ -228,11 +228,13 @@ class Usuarios extends Validator
         $deta = date('Y-m-d',strtotime($date."-89 days"));
         // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
         $sql = 'SELECT correo_usuario FROM public."tbUsuarios"
-        where id_usuario = ? and cambio_clave between ? and ?';
+        where id_usuario = ? and cambio_clave >= ?';
         // Se guarda un array con los parámetros solicitados por la consulta
-        $params = array($_SESSION['id_usuario'], $date, $deta);
+        $params = array($_SESSION['id_usuario'], $deta);
         // Se verifica si la consulta devolvío algún dato
-        if ($data = Database::getRow($sql, $params)) {
+        $data = Database::getRow($sql, $params);
+        //var_dump($data['correo_usuario']);
+        if (isset($data['correo_usuario'])) {
             return true;
         } else {
             return false;
@@ -285,6 +287,19 @@ class Usuarios extends Validator
         $params = array($_SESSION['id_usuario']);
         return Database::getRow($sql, $params);
     }
+
+    public function readEmail()
+    {
+        $sql = 'SELECT correo_usuario FROM public."tbUsuarios" WHERE id_usuario = ?';
+        $params = array($_SESSION['factorpv']);
+        if ($data = Database::getRow($sql, $params)) {
+            $this->correo = $data['correo_usuario'];
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function checkPassword1($password)
     {
         $sql = 'SELECT clave_usuario FROM tbUsuarios WHERE id_usuario = ?';
@@ -339,7 +354,7 @@ class Usuarios extends Validator
 
     public function readAll()
     {
-        $sql = 'SELECT id_usuario, nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, clave_usuario, estado_usuario
+        $sql = 'SELECT id_usuario, nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, estado_usuario
                 FROM public."tbUsuarios"
                 ORDER BY nombre_usuario';
         $params = null;
@@ -348,7 +363,7 @@ class Usuarios extends Validator
 
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, nombre_usuario, apellidos_usuario, correo_usuario
+        $sql = 'SELECT id_usuario, nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, factor, estado_usuario
                 FROM public."tbUsuarios"
                 WHERE id_usuario = ?';
         $params = array($this->id);
@@ -358,9 +373,20 @@ class Usuarios extends Validator
     public function updateRow()
     {
         $sql = 'UPDATE public."tbUsuarios"
-                SET nombre_usuario = ?, apellidos_usuario = ?, correo_usuario = ?, estado_usuario = ? 
+                SET nombre_usuario = ?, apellidos_usuario = ?, correo_usuario = ?, estado_usuario = ?, factor = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->dui. $this->direccion, $this->tipo, $this->estado, $this->id);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->estado, $this->factor, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function createCode()
+    {
+        $codigo = mt_rand (100000, 999999);
+
+        $sql = 'UPDATE public."tbUsuarios"
+                SET codigo = ? 
+                WHERE id_usuario = ?';
+        $params = array($codigo, $_SESSION['factorpv']);
         return Database::executeRow($sql, $params);
     }
 

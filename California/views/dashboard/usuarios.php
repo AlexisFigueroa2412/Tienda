@@ -99,7 +99,7 @@ Dashboard_Page::headerTemplate('California', 'California');
                         <input id="confirmar_clave" type="password" name="confirmar_clave" class="validate" required />
                         <label for="confirmar_clave">Confirmar clave</label>
                     </div>
-                    <div class="col s12 m6">
+                    <div class="col s12 m12 center-align">
                         <p>
                         <div class="switch">
                             <span>Estado:</span>
@@ -110,6 +110,14 @@ Dashboard_Page::headerTemplate('California', 'California');
                                 <i class="material-icons">check_box</i>
                             </label>
                         </div>
+                        </p>
+                    </div>
+                    <div class="col s12 m12 center-align">
+                        <p>
+                            <label>
+                                <input name="factor" id="factor" type="checkbox" class="filled-in"/>
+                                <span>Usar un segundo factor de autenticación al iniciar sesión</span>
+                            </label>
                         </p>
                     </div>
                 </div>

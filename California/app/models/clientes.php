@@ -310,11 +310,13 @@ class Clientes extends Validator
         $deta = date('Y-m-d',strtotime($date."-89 days"));
         // Se guarda la consulta sql que pedirá la cantidad de sesiones fallidas
         $sql = 'SELECT correo_cliente FROM public."tbClientes"
-        where id_cliente = ? and cambio_clave between ? and ? ';
+        where id_cliente = ? and cambio_clave >= ?';
         // Se guarda un array con los parámetros solicitados por la consulta
-        $params = array($_SESSION['id_cliente'], $deta, $date);
+        $params = array($_SESSION['id_cliente'], $deta);
         // Se verifica si la consulta devolvío algún dato
-        if ($data = Database::getRow($sql, $params)) {
+        $data = Database::getRow($sql, $params);
+        //var_dump($data['correo_usuario']);
+        if (isset($data['correo_cliente'])) {
             return true;
         } else {
             return false;

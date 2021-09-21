@@ -15,23 +15,9 @@ Dashboard_Page::headerTemplate('Login','california');
                     <div class="card-content Texto">
 						<h5 class="Titulos">Iniciar</h5>
 						<p class="Texto">Ingresa los datos necesarios.</p>
-                        <form method="post" id="register-form">
-                            <div class="col s12 m12 l12 center">
-								<br>
-                                <p class="Textos">Recibirás un código de confirmación en tu correo electrónico</p>
-							</div>
-                            <div class="input-field col s12 m12 l12">
-								<input id="correo" name="correo" type="email" class="validate" required>
-								<label for="correo">Correo Electrónico</label>
-							</div>
-							<div class="col s12 m12 l12 center">
-								<br>
-								<button type="submit" class="btn black waves-effect waves-light hoverable">Enviar Código</button>
-							</div>
-							<div class="col s12 m12 l12 center">
-								<br>
-							</div>
-					    </form>
+						<br>
+                        <p class="Textos">Recibirás un código de confirmación en tu correo electrónico</p>
+						<div id="spn"></div>
                         <form method="post" id="verify-form">
                             <div class="col s12 m12 l12 center">
 								<br>
@@ -49,35 +35,7 @@ Dashboard_Page::headerTemplate('Login','california');
 								<br>
 							</div>
 					    </form>
-					    <form method="post" id="register-form">
-							<div class="input-field col s12 m12 l12">
-								<input id="clave1" name="clave1" type="password" class="validate" required>
-								<label for="clave1">Contraseña Nueva</label>
-							</div>
-							<div class="input-field col s12 m12 l12">
-								<input id="clave2" name="clave2" type="password" class="validate" required>
-								<label for="clave2">Confirma tu Contraseña Nueva</label>
-							</div>
-							<div class="col s12 m12 l12 center">
-								<br>
-								<button type="submit"  disabled class="btn black waves-effect waves-light hoverable">Actualizar
-									Contraseña</button>
-							</div>
-							<div class="col s12 m12 l12 center">
-								<br>
-							</div>
-					    </form>
                     </div>
-				</div>
-				<div class="col s12 m12 l12">
-					<div class="divider"></div>
-					<br><br>
-					<h5 class="Titulos">Recordatorio:</h5>
-					<p class="Texto">Acá te dejamos las medidas que debes seguir para Aumentar la SEGURIDAD de tus datos.</p>
-					<p class="Texto">- Tu contraseña debe de contener letras mayúsculas, minúsculas y números.</p>	
-					<p class="Texto">- No utilíces tu alias, correo electrónico o teléfono como contraseña.</p>
-					<p class="Texto">- La contraseña debe de ser mayor o igual a 8 caracteres.</p>
-								
 				</div>
 			</div>
 		</div>
@@ -85,5 +43,5 @@ Dashboard_Page::headerTemplate('Login','california');
 </section>
 <?php
 // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
-Dashboard_Page::footerTemplate('register.js',null);
+Dashboard_Page::footerTemplate('factor.js',null);
 ?>
