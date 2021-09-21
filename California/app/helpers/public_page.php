@@ -294,6 +294,7 @@ class Public_Page
                 }
             }
         }
+        self::modals();
     }
 
     /*
@@ -461,7 +462,7 @@ class Public_Page
         print('
 
             <!-- Componente Modal para mostrar el formulario de cambiar contraseña -->
-            <div id="password-modal" class="modal">
+            <div id="password-modal1" class="modal">
                 <div class="modal-content">
                     <h4 class="center-align">Cambiar contraseña</h4>
                     <form method="post" id="password-form">
