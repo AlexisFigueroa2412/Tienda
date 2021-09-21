@@ -369,8 +369,10 @@ class Clientes extends Validator
         date_default_timezone_set('America/El_Salvador');
         $date = date('Y-m-d');
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+
         $sql = 'UPDATE public."tbClientes" SET clave_cliente = ? and cambio_clave = ? WHERE id_cliente = ?';
         $params = array($hash, $date, $this->id);
+
         return Database::executeRow($sql, $params);
     }
 

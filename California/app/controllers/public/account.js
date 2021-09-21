@@ -132,6 +132,16 @@ window.onblur = window.onmousemove = function () {
         console.log(error);
     });
 }
+
+// Función para mostrar el formulario de cambiar contraseña del usuario que ha iniciado sesión.
+function openPasswordDialog() {
+    // Se restauran los elementos del formulario.
+    document.getElementById('password-form').reset();
+    // Se abre la caja de dialogo (modal) que contiene el formulario para cambiar contraseña, ubicado en el archivo de las plantillas.
+    let instance = M.Modal.getInstance(document.getElementById('password-modal1'));
+    instance.open();
+}
+
 // Método manejador de eventos que se ejecuta cuando se envía el formulario de cambiar clave.
 document.getElementById('password-form').addEventListener('submit', function (event) {
     // Se evita recargar la página web después de enviar el formulario.
@@ -147,7 +157,7 @@ document.getElementById('password-form').addEventListener('submit', function (ev
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se cierra la caja de dialogo (modal) del formulario.
-                    let instance = M.Modal.getInstance(document.getElementById('password-modal'));
+                    let instance = M.Modal.getInstance(document.getElementById('password-modal1'));
                     instance.close();
                     sweetAlert(1, response.message, null);
                 } else {
@@ -199,12 +209,4 @@ function logOut() {
         }
     });
 
-}
-// Función para mostrar el formulario de cambiar contraseña del usuario que ha iniciado sesión.
-function openPasswordDialog() {
-    // Se restauran los elementos del formulario.
-    
-    // Se abre la caja de dialogo (modal) que contiene el formulario para cambiar contraseña, ubicado en el archivo de las plantillas.
-    let instance = M.Modal.getInstance(document.getElementById('password-modal'));
-    instance.open();
 }

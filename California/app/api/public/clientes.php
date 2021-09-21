@@ -78,19 +78,19 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'changePassword':
-                if ($usuario->setId($_SESSION['id_usuario'])) {
-                    $_POST = $usuario->validateForm($_POST);
-                    if ($usuario->checkPassword($_POST['clave_actual'])) {
+                if ($cliente->setId($_SESSION['id_cliente'])) {
+                    $_POST = $cliente->validateForm($_POST);
+                    if ($cliente->checkPassword($_POST['clave_actual'])) {
                         if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
-                            if ($usuario->setClave($_POST['clave_nueva_1'])) {
-                                if ($usuario->changePassword()) {
+                            if ($cliente->setClave($_POST['clave_nueva_1'])) {
+                                if ($cliente->changePassword()) {
                                     $result['status'] = 1;
                                     $result['message'] = 'Contraseña cambiada correctamente';
                                 } else {
                                     $result['exception'] = Database::getException();
                                 }
                             } else {
-                                $result['exception'] = $usuario->getPasswordError();
+                                $result['exception'] = $cliente->getPasswordError();
                             }
                         } else {
                             $result['exception'] = 'Claves nuevas diferentes';
