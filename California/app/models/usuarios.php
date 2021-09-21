@@ -16,6 +16,7 @@ class Usuarios extends Validator
     private $intentos = null;
     private $fecha = null;
     private $factor = null;
+    private $code = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -94,6 +95,16 @@ class Usuarios extends Validator
     {
         if ($this->validateBoolean($value)) {
             $this->factor = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setCode($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->code = $value;
             return true;
         } else {
             return false;
@@ -288,16 +299,39 @@ class Usuarios extends Validator
         return Database::getRow($sql, $params);
     }
 
-    public function readEmail()
+    public function readEmail($ide)
     {
-        $sql = 'SELECT correo_usuario FROM public."tbUsuarios" WHERE id_usuario = ?';
-        $params = array($_SESSION['factorpv']);
-        if ($data = Database::getRow($sql, $params)) {
-            $this->correo = $data['correo_usuario'];
+        $sql = 'SELECT correo_usuario, alias_usuario, codigo FROM public."tbUsuarios" WHERE id_usuario = ?';
+        $params = array($ide);
+        return Database::getRow($sql, $params);
+    }
+
+    public function readCode($idc)
+    {
+        $sql = 'SELECT codigo FROM public."tbUsuarios" WHERE id_usuario = ?';
+        $params = array($idc);
+        $data = Database::getRow($sql, $params);
+        if ($data['codigo'] >100000) {
             return true;
         } else {
             return false;
         }
+        
+    }
+
+    public function checkCode()
+    {
+        $sql = 'SELECT alias_usuario FROM public."tbUsuarios" WHERE id_usuario = ? and codigo = ?';
+        $params = array($this->id,$this->code);
+        if ($data = Database::getRow($sql, $params)) {
+            $this->alias = $data['alias_usuario'];
+            $this->exito = 'true';
+            return true;
+        } else {
+            $this->exito = 'false';
+            return false;
+        }
+        
     }
 
     public function checkPassword1($password)
@@ -386,7 +420,18 @@ class Usuarios extends Validator
         $sql = 'UPDATE public."tbUsuarios"
                 SET codigo = ? 
                 WHERE id_usuario = ?';
-        $params = array($codigo, $_SESSION['factorpv']);
+        $params = array($codigo, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function resetCode()
+    {
+        $codigo = null;
+
+        $sql = 'UPDATE public."tbUsuarios"
+                SET codigo = ? 
+                WHERE id_usuario = ?';
+        $params = array($codigo, $this->id);
         return Database::executeRow($sql, $params);
     }
 

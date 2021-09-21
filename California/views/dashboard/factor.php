@@ -18,7 +18,7 @@ Dashboard_Page::headerTemplate('Login','california');
 						<br>
                         <p class="Textos">Recibirás un código de confirmación en tu correo electrónico</p>
 						<div id="spn"></div>
-                        <form method="post" id="verify-form">
+                        <form method="post" id="code-form">
                             <div class="col s12 m12 l12 center">
 								<br>
                                 <p class="Textos">Ingrésa el código de confirmación que enviamos a tu correo electrónico</p>
@@ -29,12 +29,16 @@ Dashboard_Page::headerTemplate('Login','california');
 							</div>
 							<div class="col s12 m12 l12 center">
 								<br>
-								<button type="submit" disabled class="btn black waves-effect waves-light hoverable">Verificar Código</button>
+								<button type="submit" class="btn black waves-effect waves-light hoverable">Verificar Código</button>
 							</div>
 							<div class="col s12 m12 l12 center">
 								<br>
 							</div>
 					    </form>
+						<div class="col s12 m12 l12 center">
+							<br>
+							<a href="" onclick="res(1)" class="btn-flat waves-effect waves-light hoverable">Cancelar</a>
+						</div>
                     </div>
 				</div>
 			</div>
