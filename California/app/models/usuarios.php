@@ -16,7 +16,11 @@ class Usuarios extends Validator
     private $intentos = null;
     private $fecha = null;
     private $factor = null;
+<<<<<<< Updated upstream
     private $code = null;
+=======
+    private $fecha_accion = null;
+>>>>>>> Stashed changes
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -100,11 +104,18 @@ class Usuarios extends Validator
             return false;
         }
     }
+<<<<<<< Updated upstream
 
     public function setCode($value)
     {
         if ($this->validateNaturalNumber($value)) {
             $this->code = $value;
+=======
+    public function setFechaAccion($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->fecha_accion = $value;
+>>>>>>> Stashed changes
             return true;
         } else {
             return false;
@@ -151,6 +162,10 @@ class Usuarios extends Validator
     public function getIntentos()
     {
         return $this->intentos;
+    }
+    public function getFecha_accion()
+    {
+        return $this->fecha_accion;
     }
 
     /*
@@ -376,17 +391,30 @@ class Usuarios extends Validator
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
         //Se asigna un estado(1 = activo, 0= inactivo)
+        $date = date('Y-m-d');
         $estado = true;
         $time_now = time();
         $unDiaEnSegundos= (24*60*60)*91;
         $fechadess = $time_now + $unDiaEnSegundos;
         //Se asigna la consulta sql
-        $sql = 'INSERT INTO public."tbUsuarios"(nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, estado_usuario,clave_usuario,fecha_accion)
-                VALUES(?, ?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO public."tbUsuarios"(nombre_usuario, apellidos_usuario, correo_usuario, alias_usuario, clave_usuario, estado_usuario, cambio_clave, factor,fecha_accion)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
         //Se asignan los parámetros de la consulta sql
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $estado,$hash,date("Y-m-d H:i:s",$fechadess));
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $hash, $estado, $date, $this->factor,date("Y-m-d H:i:s",$fechadess));
         //Se retorna el resultado de la ejecución ambas
         return Database::executeRow($sql, $params);
+    }
+
+    public function readFechaAccion(){
+        $sql = 'SELECT fecha_accion FROM public."tbUsuarios" WHERE id_usuario = ?';
+
+        $params = array($this->alias);
+        if ($data = Database::getRow($sql,$params)){
+            $this->fecha_accion = $data['fecha_accion'];
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function readAll()
