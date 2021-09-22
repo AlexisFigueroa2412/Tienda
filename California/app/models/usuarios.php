@@ -16,11 +16,8 @@ class Usuarios extends Validator
     private $intentos = null;
     private $fecha = null;
     private $factor = null;
-<<<<<<< Updated upstream
     private $code = null;
-=======
     private $fecha_accion = null;
->>>>>>> Stashed changes
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -104,22 +101,22 @@ class Usuarios extends Validator
             return false;
         }
     }
-<<<<<<< Updated upstream
+    
 
     public function setCode($value)
     {
-        if ($this->validateNaturalNumber($value)) {
-            $this->code = $value;
-=======
-    public function setFechaAccion($value)
-    {
+    
         if ($this->validateBoolean($value)) {
             $this->fecha_accion = $value;
->>>>>>> Stashed changes
             return true;
         } else {
             return false;
         }
+    }
+    public function setFechaFuncion($value)
+    {
+        $this->fecha_accion = $value;
+        return true;
     }
     /*
     *   Métodos para obtener valores de los atributos.
@@ -163,7 +160,7 @@ class Usuarios extends Validator
     {
         return $this->intentos;
     }
-    public function getFecha_accion()
+    public function getFechaAccion()
     {
         return $this->fecha_accion;
     }
