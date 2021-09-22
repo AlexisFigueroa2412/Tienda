@@ -113,7 +113,7 @@ class Usuarios extends Validator
             return false;
         }
     }
-    public function setFechaFuncion($value)
+    public function setFechaAccion($value)
     {
         $this->fecha_accion = $value;
         return true;
@@ -405,9 +405,22 @@ class Usuarios extends Validator
     public function readFechaAccion(){
         $sql = 'SELECT fecha_accion FROM public."tbUsuarios" WHERE id_usuario = ?';
 
-        $params = array($this->alias);
+        $params = array($this->id);
         if ($data = Database::getRow($sql,$params)){
             $this->fecha_accion = $data['fecha_accion'];
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    
+    public function leerId(){
+        $sql = 'SELECT id_usuario FROM public."tbUsuarios" WHERE alias_usuario = ?';
+
+        $params = array($this->alias);
+        if ($data = Database::getRow($sql,$params)){
+            $this->id = $data['id_usuario'];
             return true;
         }else{
             return false;
