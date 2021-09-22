@@ -440,7 +440,7 @@ if (isset($_GET['action'])) {
                                                 //Se valida que la clave sea distinta al correo
                                                 if ($_POST['clave1'] != $_POST['correo']) {
                                                     if ($usuario->setClave($_POST['clave1'])) {
-                                                        if ($usuario->setFactor(isset($_POST['factorpv']) ? 1 : 0)) {
+                                                        if ($usuario->setFactor(isset($_POST['factor']) ? 1 : 0)) {
                                                             if ($usuario->createRow()) {
                                                                 $result['status'] = 1;
                                                                 $result['message'] = 'Usuario creado correctamente';

@@ -107,7 +107,7 @@ class Usuarios extends Validator
     {
     
         if ($this->validateBoolean($value)) {
-            $this->fecha_accion = $value;
+            $this->code = $value;
             return true;
         } else {
             return false;
