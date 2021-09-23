@@ -1,6 +1,6 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
-const ENDPOINT_USUARIOS = '../../app/mailers/usuario.php';
+const API_CLIENTES = '../../app/api/public/clientes.php?action=';
+const ENDPOINT_CLIENTES = '../../app/mailers/cliente.php';
 
 //Se activa el contador para Cerrar Sesión en caso de inactividad
 document.addEventListener('DOMContentLoaded', function () {
@@ -39,7 +39,7 @@ function reset() {
 function codigo() {
     // Se evita recargar la página web después de enviar el formulario.
     //event.preventDefault();
-    fetch(API_USUARIOS + 'sendCode', {
+    fetch(API_CLIENTES + 'sendCode', {
         method: 'get'
     }).then(function (request) {
         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
@@ -56,12 +56,12 @@ function codigo() {
                     `;
                     document.getElementById('spn').innerHTML = content;
                     //Guardamos el id el usuario
-                    let idu = response.dataset.id_usuario;
+                    let idu = response.dataset.id_cliente;
                     // Se define un objeto con los datos del registro seleccionado.
                     const data = new FormData();
                     data.append('id', idu);
                     //Enviamos el correo
-                    fetch(ENDPOINT_USUARIOS, {
+                    fetch(ENDPOINT_CLIENTES, {
                         method: 'post',
                         body: data
                     }).then(function (request) {
@@ -105,7 +105,7 @@ document.getElementById('code-form').addEventListener('submit', function (event)
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    fetch(API_USUARIOS + 'logCode', {
+    fetch(API_CLIENTES + 'logCode', {
         method: 'post',
         body: new FormData(document.getElementById('code-form'))
     }).then(function (request) {
@@ -115,7 +115,7 @@ document.getElementById('code-form').addEventListener('submit', function (event)
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     //sweetAlert(1, response.message, 'dashboard.php');
-                    fetch(API_USUARIOS + 'checkFactor', {
+                    fetch(API_CLIENTES + 'checkFactor', {
                         method: 'get'
                     }).then(function (request) {
                         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
@@ -126,7 +126,7 @@ document.getElementById('code-form').addEventListener('submit', function (event)
                                     sweetAlert(4, response.message, 'factor.php');
                                 } else {
                                     //sweetAlert(2, response.exception, 'dashboard.php');
-                                    fetch(API_USUARIOS + 'checkIntervalo', {
+                                    fetch(API_CLIENTES + 'checkIntervalo', {
                                         method: 'get'
                                     }).then(function (request) {
                                         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
@@ -167,7 +167,7 @@ document.getElementById('code-form').addEventListener('submit', function (event)
 function res(a) {
     // Se evita recargar la página web después de enviar el formulario.
     //event.preventDefault();
-    fetch(API_USUARIOS + 'resetCode', {
+    fetch(API_CLIENTES + 'resetCode', {
         method: 'get'
     }).then(function (request) {
         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.

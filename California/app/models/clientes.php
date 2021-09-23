@@ -19,6 +19,7 @@ class Clientes extends Validator
     private $fecha = null;
     private $estado = null; // Valor por defecto en la base de datos: true
     private $factor = null;
+    private $code = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -152,6 +153,16 @@ class Clientes extends Validator
             return false;
         }
     }
+
+    public function setCode($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->code = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -263,7 +274,7 @@ class Clientes extends Validator
     */
     public function checkUser($correo)
     {
-        $sql = 'SELECT "id_cliente" FROM "tbClientes" WHERE "correo_cliente" = ?';
+        $sql = 'SELECT "id_cliente" FROM public."tbClientes" WHERE "correo_cliente" = ?';
         $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
             $this->id = $data['id_cliente'];
@@ -362,6 +373,62 @@ class Clientes extends Validator
         }
     }
     
+    public function readEmail($ide)
+    {
+        $sql = 'SELECT correo_cliente, codigo FROM public."tbClientes" WHERE id_cliente = ?';
+        $params = array($ide);
+        return Database::getRow($sql, $params);
+    }
+
+    public function createCode()
+    {
+        $codigo = mt_rand (100000, 999999);
+
+        $sql = 'UPDATE public."tbClientes"
+                SET codigo = ? 
+                WHERE id_cliente = ?';
+        $params = array($codigo, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function resetCode()
+    {
+        $codigo = null;
+
+        $sql = 'UPDATE public."tbClientes"
+                SET codigo = ? 
+                WHERE id_cliente = ?';
+        $params = array($codigo, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function readCode($idc)
+    {
+        $sql = 'SELECT codigo FROM public."tbClientes" WHERE id_cliente = ?';
+        $params = array($idc);
+        $data = Database::getRow($sql, $params);
+        if ($data['codigo'] >100000) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
+    public function checkCode()
+    {
+        $sql = 'SELECT correo_cliente FROM public."tbClientes" WHERE id_cliente = ? and codigo = ?';
+        $params = array($this->id,$this->code);
+        if ($data = Database::getRow($sql, $params)) {
+            $this->correo = $data['correo_cliente'];
+            $this->exito = 'true';
+            return true;
+        } else {
+            $this->exito = 'false';
+            return false;
+        }
+        
+    }
 
     public function changePassword()
     {
@@ -378,8 +445,8 @@ class Clientes extends Validator
 
     public function editProfile()
     {
-        $sql = 'UPDATE tbClientes
-                SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
+        $sql = 'UPDATE public."tbClientes"
+                SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, telefono_cliente = ?
                 WHERE id_cliente = ?';
         $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
@@ -390,8 +457,8 @@ class Clientes extends Validator
     */
     public function searchRows($value)
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM tbClientes
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente
+                FROM public."tbClientes"
                 WHERE apellido_cliente ILIKE ? OR nombre_cliente ILIKE ?
                 ORDER BY apellido_cliente';
         $params = array("%$value%", "%$value%");
@@ -400,8 +467,8 @@ class Clientes extends Validator
 
     public function readAll()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM tbClientes
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente
+                FROM public."tbClientes"
                 ORDER BY apellido_cliente';
         $params = null;
         return Database::getRows($sql, $params);
@@ -409,8 +476,8 @@ class Clientes extends Validator
 
     public function readOne()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM tbClientes
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, telefono_cliente
+                FROM public."tbClientes"
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -418,7 +485,7 @@ class Clientes extends Validator
 
     public function updateState()
     {
-        $sql = 'UPDATE tbClientes
+        $sql = 'UPDATE public."tbClientes"
                 SET estado_cliente = ?
                 WHERE id_cliente = ?';
         $params = array($this->id);
@@ -427,7 +494,7 @@ class Clientes extends Validator
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tbClientes
+        $sql = 'DELETE FROM public."tbClientes"
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
