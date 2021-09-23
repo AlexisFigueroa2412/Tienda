@@ -33,6 +33,16 @@ class Validator
     {
         return $this->imageError;
     }
+    
+    public function validateText($value)
+    {
+        // Se verifica el contenido y la longitud de acuerdo con la base de datos.
+        if ($value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /*
     *   Método para sanear todos los campos de un formulario (quitar los espacios en blanco al principio y al final).

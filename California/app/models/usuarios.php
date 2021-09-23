@@ -101,12 +101,10 @@ class Usuarios extends Validator
             return false;
         }
     }
-    
 
     public function setCode($value)
     {
-    
-        if ($this->validateBoolean($value)) {
+        if ($this->validateNaturalNumber($value)) {
             $this->code = $value;
             return true;
         } else {
@@ -115,9 +113,14 @@ class Usuarios extends Validator
     }
     public function setFechaAccion($value)
     {
-        $this->fecha_accion = $value;
-        return true;
+        if ($this->validateBoolean($value)) {
+            $this->fecha_accion = $value;
+            return true;
+        } else {
+            return false;
+        }
     }
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -160,7 +163,7 @@ class Usuarios extends Validator
     {
         return $this->intentos;
     }
-    public function getFechaAccion()
+    public function getFecha_accion()
     {
         return $this->fecha_accion;
     }
@@ -357,6 +360,15 @@ class Usuarios extends Validator
             return false;
         }
     }
+    public function updatePass()
+    {
+        // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE public."tbUsuarios" set clave_usuario = ? , estado_usuario = true where correo_usuario = ?';
+        // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base        
+        $params = array($hash , $this->correo);
+        return Database::executeRow($sql, $params);
+    }
     public function changePassword()
     {
         // Se define la zona horaria del servidor
@@ -405,22 +417,9 @@ class Usuarios extends Validator
     public function readFechaAccion(){
         $sql = 'SELECT fecha_accion FROM public."tbUsuarios" WHERE id_usuario = ?';
 
-        $params = array($this->id);
-        if ($data = Database::getRow($sql,$params)){
-            $this->fecha_accion = $data['fecha_accion'];
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    
-    public function leerId(){
-        $sql = 'SELECT id_usuario FROM public."tbUsuarios" WHERE alias_usuario = ?';
-
         $params = array($this->alias);
         if ($data = Database::getRow($sql,$params)){
-            $this->id = $data['id_usuario'];
+            $this->fecha_accion = $data['fecha_accion'];
             return true;
         }else{
             return false;

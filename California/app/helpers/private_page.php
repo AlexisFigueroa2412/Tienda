@@ -31,7 +31,7 @@ class Dashboard_Page {
         // Se comprueba si existe una sesión de administrador para mostrar el menú de opciones, de lo contrario se muestra un menú vacío.
         if (isset($_SESSION['id_usuario'])) {
             // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para no iniciar sesión otra vez, de lo contrario se direcciona a main.php
-            if ($filename != 'index.php' && $filename != 'register.php' && $filename != 'factor.php' && $filename != 'restaurar.php') {
+            if ($filename != 'index.php' && $filename != 'register.php' && $filename != 'factor.php' && $filename != 'restaurar.php' && $filename !='clave.php') {
                 // Se llama al método que contiene el código de las cajas de dialogo (modals).
                 self::modals();
                 // Se imprime el código HTML para el encabezado del documento con el menú de opciones.
@@ -119,7 +119,7 @@ class Dashboard_Page {
                 
             } else {
                 // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
-                if ($filename != 'index.php' && $filename != 'register.php') {
+                if ($filename != 'index.php' && $filename != 'register.php' && $filename !='restaurar.php' && $filename !='clave.php') {
                     header('location: index.php');
                 } else {
                     // Se imprime el código HTML para el encabezado del documento con un menú vacío cuando sea iniciar sesión o registrar el primer usuario.
@@ -210,7 +210,7 @@ class Dashboard_Page {
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../app/helpers/components.js"></script>
                 <script type="text/javascript" src="../../app/controllers/dashboard/' . $controller . '"></script>
-                <script type="text/javascript" src="../../app/init/login.js"></script> 
+                
             ';
             $links = '
                 <h5 class="white-text Titulos">California</h5>
