@@ -411,6 +411,7 @@ if (isset($_GET['action'])) {
                                             //$usuario->obtenerUsuario($_SESSION['mail']);
                                             // Ejecutamos funcion para actualizar el codigo de recuperacion del usuario en la base de datos
                                             $email->actualizarCodigo($code);
+                                            unset($_SESSION['mail']);
                                         } else {
                                             // En caso que el correo no se envie mostramos el error
                                             $result['exception'] = $_SESSION['error'];
@@ -439,6 +440,7 @@ if (isset($_GET['action'])) {
                                         $result['status'] = 1;
                                         // Colocamos el mensaje de exito 
                                         $result['message'] = 'El código ingresado es correcto';
+                                        unset($_SESSION['mail']);
                                     } else {
                                         // En caso que el correo no se envie mostramos el error
                                         $result['exception'] = 'El código ingresado no es correcto';
@@ -459,6 +461,7 @@ if (isset($_GET['action'])) {
                                     if ($cliente->updatePass()) {
                                         $result['status'] = 1;
                                         $result['message'] = 'Clave actualizada correctamente';
+                                        unset($_SESSION['mail']);
                                     } else {
                                         $result['exception'] = Database::getException();
                                     }
