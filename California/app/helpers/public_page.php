@@ -304,11 +304,11 @@ class Public_Page
     *
     *   Retorno: ninguno.
     */
-    public static function footerTemplate($controller, $js)
+    public static function footerTemplate($controller)
     {
         // Se imprime el código HTML para el pie del documento.
         $filename = basename($_SERVER['PHP_SELF']);
-        if ($filename != 'login.php' && $filename != 'register.php' && $filename != 'recuperar_clave.php') {
+        if ($filename != 'login.php' && $filename != 'register.php' && $filename != 'recuperar_clave.php' && $filename != 'restaurar.php') {
             $scripts = '
                 <!--JavaScript at end of body for optimized loading-->
                 <script type="text/javascript" src="../../resources/js/materialize.js"></script> 

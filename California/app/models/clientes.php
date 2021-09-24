@@ -208,7 +208,15 @@ class Clientes extends Validator
     {
         return $this->intentos;
     }
-
+    public function updatePass()
+    {
+        // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE public."tbClientes" set clave_cliente = ? , estado_cliente = true where correo_cliente = ?';
+        // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base        
+        $params = array($hash , $this->correo);
+        return Database::executeRow($sql, $params);
+    }
 
     public function register()
     {
