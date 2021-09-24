@@ -37,7 +37,7 @@ Public_Page::headerTemplate('Iniciar sesión','login');
 				<button type="submit" class="btn black waves-effect tooltipped" data-tooltip="Ingresar">Iniciar
 					Sesión</button>
 				<br>
-				<a class="Texto link blue-text" href="recuperar_clave.php">Olvidé mi contraseña</a>
+				<a class="Texto link blue-text" href="restaurar.php">Olvidé mi contraseña</a>
 				<a class="Texto link" href="index.php"><i class="material-icons right">home</i>Volver al inicio</a>
 			</form>
 		</div>
