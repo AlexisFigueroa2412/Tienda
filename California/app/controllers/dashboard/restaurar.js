@@ -25,7 +25,7 @@ function enviarCorreo(){
     if (accion == 0) {
         // Validamos si el campo de correo esta vacio
         if (document.getElementById("correo").value == '') {
-            // Enviamos el mensaje de validacion
+            // Enviamos el mensaje de validacion indicando que el correo esta vacio, y debe de escribir alguno.
             sweetAlert(4, 'Ingrese el correo electrónico', null);
         } else {
             // Realizamos peticion a la API enviando el nombre del caso el tipo de metodo y el formulario

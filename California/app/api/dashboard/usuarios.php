@@ -9,9 +9,8 @@ date_default_timezone_set('America/El_Salvador');
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
-    // Se instancia la clase correspondiente.
+    // Se instancian las clases correspondientes.
     $usuario = new Usuarios;
-    //se instancia a la clase correspondiente. uwu oni chan
     $email = new Correo;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'error' => 0, 'message' => null, 'exception' => null);

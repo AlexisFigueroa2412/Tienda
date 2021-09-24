@@ -26,7 +26,7 @@ Public_Page::headerTemplate('California','California');
                         <button onclick="enviarCorreo()" class="button"><span>Enviar código</span></button>
                     </div> 
                     <div class="container white-text">
-                        <center><br><a href="index.php">¿Desea regresar al login?</a><br><br></center>
+                        <center><br><a href="index.php">Regresar al Inició de sesión</a><br><br></center>
                     </div>
                 </div>
             </div>

@@ -39,6 +39,16 @@ Public_Page::headerTemplate('California','California');
                 <button onclick="cambiarClave()" class="button2"><i class="material-icons">cached</i>.. Actualizar clave</button>
             </div>
         </div>
+        <div class="col s12 m12 l12">
+					<div class="divider"></div>
+					<br><br>
+					<h5 class="Titulos">Recordatorio:</h5>
+					<p class="Texto">Acá te dejamos las medidas que debes seguir para Aumentar la SEGURIDAD de tus datos.</p>
+					<p class="Texto">- Tu contraseña debe de contener letras mayúsculas, minúsculas y números.</p>	
+					<p class="Texto">- No utilíces tu alias, correo electrónico o teléfono como contraseña.</p>
+					<p class="Texto">- La contraseña debe de ser mayor o igual a 8 caracteres.</p>
+								
+				</div>
     
     <?php
 // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.

@@ -8,7 +8,7 @@ require_once('../../helpers/correo.php');
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
-    // Se instancia la clase correspondiente.
+    // Se instancian las clases correspondientes.
     $cliente = new Clientes;
     $email = new Correo;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
