@@ -16,7 +16,7 @@ function cambiarClave() {
             } else {
                 
                     // Realizamos peticion a la API de clientes con el caso changePass y method post para dar acceso al valor de los campos del form
-                    fetch(API_USUARIOS + 'changePassword', {
+                    fetch(API_USUARIOS + 'restorePassword', {
                         method: 'post',
                         body: new FormData(document.getElementById('session-form'))       
                     }).then(function (request) {

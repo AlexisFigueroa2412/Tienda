@@ -84,15 +84,19 @@ if (isset($_GET['action'])) {
                     $_POST = $cliente->validateForm($_POST);
                     if ($cliente->checkPassword($_POST['clave_actual'])) {
                         if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
-                            if ($cliente->setClave($_POST['clave_nueva_1'])) {
-                                if ($cliente->changePassword()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Contraseña cambiada correctamente';
+                            if ($_POST['clave_nueva_1'] != $_POST['clave_actual']) {
+                                if ($cliente->setClave($_POST['clave_nueva_1'])) {
+                                    if ($cliente->changePassword()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Contraseña cambiada correctamente';
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    }
                                 } else {
-                                    $result['exception'] = Database::getException();
+                                    $result['exception'] = $cliente->getPasswordError();
                                 }
                             } else {
-                                $result['exception'] = $cliente->getPasswordError();
+                                $result['exception'] = 'Claves nuevas diferentes';
                             }
                         } else {
                             $result['exception'] = 'Claves nuevas diferentes';
@@ -140,6 +144,143 @@ if (isset($_GET['action'])) {
                                 $result['exception'] = Database::getException();
                             } else {
                                 $result['exception'] = 'Puedes continuar';
+                            }
+                        }
+                    } else {
+                        $result['exception'] = 'Hubo un error';
+                    }
+                break;
+                case 'logCode':
+                    $_POST = $cliente->validateForm($_POST);
+                    if ($cliente->setId($_SESSION['factorpb'])) {
+                        if ($cliente->checkIntentos()) {
+                            if ($cliente->setCode($_POST['codigo'])) {
+                                if ($cliente->checkCode()) {
+                                    if ($cliente->registerSession()) {
+                                        if ($cliente->unregisterFailedSession()) {
+                                            if ($cliente->resetCode()) {
+                                                //Se guardan los datos del usuario
+                                                $_SESSION['id_cliente'] = $cliente->getId();
+                                                $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                                //Se inicia el tiempo de la sesión
+                                                $_SESSION['tiempopb'] = time();
+                                                unset($_SESSION['factorpb']);
+                                                if (isset($_SESSION['factorpb'])) {
+                                                    $result['exception'] = 'Autenticación correcta---';
+                                                } else {
+                                                    $result['status'] = 1;
+                                                    $result['message'] = 'Autenticación correcta';
+                                                }
+                                            } else {
+                                                if (Database::getException()) {
+                                                    $result['exception'] = Database::getException();
+                                                } else {
+                                                    $result['exception'] = 'No se resetear el código';
+                                                }
+                                            }
+                                        } else {
+                                            if (Database::getException()) {
+                                                $result['exception'] = Database::getException();
+                                            } else {
+                                                $result['exception'] = 'No se pudo registrar la sesión';
+                                            }
+                                        }
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se pudo registrar la sesión';
+                                        }
+                                    }
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        if ($cliente->registerSession()) {
+                                            $result['exception'] = 'Clave incorrecta';
+                                        } else {
+                                            if (Database::getException()) {
+                                                $result['exception'] = Database::getException();
+                                            } else {
+                                                $result['exception'] = 'No se pudo registrar la sesión';
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                $result['exception'] = 'Los códigos están compuestos unicamente por números';
+                            }
+                        } else {
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'Has excedido el limite de intentos. Prueba ingresar mañana';
+                            }
+                        }
+                    } else {
+                        $result['exception'] = 'Usuario incorrecto';
+                    }
+                    break;
+                case 'sendCode':
+                    if ($cliente->readCode($_SESSION['factorpb'])) {
+                        if ($cliente->setId($_SESSION['factorpb'])) {
+                            if ($result['dataset'] = $cliente->readOne()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Ya hay un código en tu correo';
+                            } else {
+                                if (Database::getException()) {
+                                    $result['exception'] = Database::getException();
+                                } else {
+                                    $result['exception'] = 'Usuario inexistente 1';
+                                }
+                            }
+                        } else {
+                            $result['exception'] = 'Usuario incorrecto';
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            if ($cliente->setId($_SESSION['factorpb'])) {
+                                if ($cliente->createCode()) {
+                                    if ($result['dataset'] = $cliente->readOne()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Generamos tu código';
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'Usuario inexistente 2';
+                                        }
+                                    }
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['exception'] = 'No se pudo enviar el código de seguridad';
+                                    }
+                                }
+                            } else {
+                                $result['exception'] = 'Usuario incorrecto';
+                            }
+                        }
+                    }
+                break;
+                case 'resetCode':
+                    if ($cliente->setId($_SESSION['factorpb'])) {
+                        if ($cliente->resetCode()) {
+                            unset($_SESSION['factorpb']);
+                            if (isset($_SESSION['factorpb'])) {
+                                $result['exception'] = 'Error al volver';
+                            } else {
+                                $result['status'] = 1;
+                                $result['message'] = 'El tiempo de espera se agotó. Por favor vuelve a iniciar sesión';
+                            }
+                        } else {
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                $result['exception'] = 'No se pudo resetear';
                             }
                         }
                     } else {
@@ -202,7 +343,7 @@ if (isset($_GET['action'])) {
                                                 if ($_POST['clave'] != $_POST['email']) {
                                                     if ($_POST['clave'] != $_POST['telefono']) {
                                                         if ($cliente->setClave($_POST['clave'])) {
-                                                            if($cliente->setFactor(isset($_POST['factorpv']) ? 1 : 0)){
+                                                            if($cliente->setFactor(isset($_POST['factor']) ? 1 : 0)){
                                                                 if ($cliente->register()) {
                                                                     $result['status'] = 1;
                                                                     $result['message'] = 'Registro exitoso';

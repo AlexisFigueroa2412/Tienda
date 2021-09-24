@@ -16,9 +16,9 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = '123';
+        $database = '01';
         $username = 'postgres';
-        $password = 'Daniel27carcamo';
+        $password = 'newpassword';
 
         // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.
         self::$connection = new PDO('pgsql:host='.$server.';dbname='.$database.';port=5432', $username, $password);
@@ -131,19 +131,19 @@ class Database
     {
         // Se compara el código del error para establecer un error personalizado.
         switch ($code) {
-            case '7':
+            /*case '7':
                 self::$error = 'Existe un problema al conectar con el servidor';
                 break;
             case '42703':
                 self::$error = 'Nombre de campo desconocido';
                 break;
-            /*case '42601':
+            case '42601':
                 self::$error = 'Error en la sintaxis';
                 break;*/
             case '23505':
                 self::$error = 'Dato duplicado, no se puede guardar';
                 break;
-            case '42P01':
+            /*case '42P01':
                 self::$error = 'Nombre de tabla desconocido';
                 break;
             case '23503':
@@ -160,7 +160,7 @@ class Database
                 break;
             case '42P18':
                 self::$error = 'No se pudo determinar el tipo de dato';
-                break;
+                break;*/
             default:
                 //self::$error = 'Ocurrió un problema en la base de datos';
                 self::$error = $message;
