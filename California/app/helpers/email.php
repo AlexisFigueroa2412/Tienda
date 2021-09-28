@@ -82,14 +82,14 @@ class Correo extends Validator
         try {
             // Colocamos el correo que enviara el mensaje
             $sender = "From: californiaskateboardingsv@gmail.com";
-            // Ejecutamos la funcion mail para enviar el mensaje.
+            // Ejecutamos la funcion mail para enviar el mensaje
             if(mail($this->correo, $this->asunto, $this->mensaje, $sender)) {
-                // En caso se ejecute se retorna el dato de tipo boolean, true.
+                // En caso se ejecute se retorna el valor true
                 return true;
             } else {
                 // En caso que ocurra un error se muestra el mensaje 
                 $_SESSION['error'] = "Error al enviar el correo electrónico";
-                // El retorno es false.
+                // El retorno es falso
                 return false;
             }        
         } catch (Exception $e) {
@@ -98,20 +98,20 @@ class Correo extends Validator
         }       
     }
 
-    // Metodo para validar que el correo existe en la base de datos.
+    // Metodo para actualizar el codigo de confirmacion de un usuario
     public function validarCorreo()
     {
-        // Declaramos la consulta para verificar que el correo existe en la base.
+        // Declaramos la sentencia que enviaremos a la base con el parametro del nombre de la tabla (dinamico)
         $sql = 'SELECT correo_usuario from public."tbUsuarios" where correo_usuario = ?';
-        // Enviamos el parametro del correo.
+        // Enviamos los parametros
         $params = array($this->correo);
         return Database::getRow($sql, $params);
     }
 
-    // Metodo para validar el codigo enviado.
+    // Metodo para actualizar el codigo de confirmacion de un usuario
     public function validarCodigo()
     {
-        // Declaramos la consulta que nos indica un correo con el codigo especificado.
+        // Declaramos la sentencia que enviaremos a la base con el parametro del nombre de la tabla (dinamico)
         $sql = 'SELECT correo_usuario from public."tbUsuarios" where codigo = ? and correo_usuario = ?';
         // Enviamos los parametros
         $params = array($this->codigo,$_SESSION['mail']);
@@ -129,8 +129,13 @@ class Correo extends Validator
     }
 
 
+    public function validarCodigo2($table)
+    {
+        // Declaramos la sentencia que enviaremos a la base con el parametro del nombre de la tabla (dinamico)
+        $sql = "SELECT correo_usuario from $table where codigo = ? and correo_usuario = ?";
+        // Enviamos los parametros
+        $params = array($this->codigo,$_SESSION['correo_usuario']);
+        return Database::getRow($sql, $params);
+    }
 }
 ?>
-
-
-

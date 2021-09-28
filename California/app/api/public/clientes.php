@@ -392,7 +392,7 @@ if (isset($_GET['action'])) {
                         // Concatenamos el codigo generado dentro del mensaje a enviar
                         $message = "Has solicitado recuperar tu contraseña por medio de correo electrónico, su código de seguridad es: $code";
                         // Colocamos el asunto del correo a enviar
-                        $asunto = "Recuperación de contraseña GamebridgeStore";
+                        $asunto = "Recuperación de contraseña California";
                         // Validmos el formato del mensaje que se enviara en el correo
                         if ($email->setMensaje($message)) {
                             // Validamos si el correo ingresado tiene formato correcto
@@ -411,7 +411,6 @@ if (isset($_GET['action'])) {
                                             //$usuario->obtenerUsuario($_SESSION['mail']);
                                             // Ejecutamos funcion para actualizar el codigo de recuperacion del usuario en la base de datos
                                             $email->actualizarCodigo($code);
-                                            unset($_SESSION['mail']);
                                         } else {
                                             // En caso que el correo no se envie mostramos el error
                                             $result['exception'] = $_SESSION['error'];
@@ -440,7 +439,6 @@ if (isset($_GET['action'])) {
                                         $result['status'] = 1;
                                         // Colocamos el mensaje de exito 
                                         $result['message'] = 'El código ingresado es correcto';
-                                        unset($_SESSION['mail']);
                                     } else {
                                         // En caso que el correo no se envie mostramos el error
                                         $result['exception'] = 'El código ingresado no es correcto';
@@ -461,7 +459,6 @@ if (isset($_GET['action'])) {
                                     if ($cliente->updatePass()) {
                                         $result['status'] = 1;
                                         $result['message'] = 'Clave actualizada correctamente';
-                                        unset($_SESSION['mail']);
                                     } else {
                                         $result['exception'] = Database::getException();
                                     }
